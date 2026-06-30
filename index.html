@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Катедра по немски език — анализ 2025/2026</title>
+<style>
+:root{
+ --navy:#14233A; --mid:#2E5496; --gold:#C9971C; --goldbg:#FBF3DF;
+ --light:#F4F6FA; --card:#FFFFFF; --text:#23303F; --muted:#64748B; --line:#E2E8F0;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{font-family:"Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif;background:#0b1320;color:var(--text);overflow:hidden}
+.deck{position:fixed;inset:0}
+.slide{position:absolute;inset:0;display:none;flex-direction:column;padding:4.2vh 5vw 7vh;background:var(--light);overflow:auto}
+.slide.active{display:flex;animation:fade .4s ease}
+@keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+h1,h2,.title{font-family:Georgia,"Times New Roman",serif}
+.eyebrow{color:var(--gold);font-weight:700;letter-spacing:.12em;text-transform:uppercase;font-size:clamp(.8rem,1.4vw,1.05rem)}
+.shead{display:flex;align-items:center;gap:18px;margin-bottom:2.6vh}
+.snum{flex:0 0 auto;width:64px;height:64px;border-radius:50%;background:var(--mid);color:#fff;display:flex;align-items:center;justify-content:center;font-family:Georgia,serif;font-weight:700;font-size:1.7rem}
+.snum.q{background:var(--navy)}
+.shead h2{font-size:clamp(1.5rem,3.2vw,2.5rem);color:var(--navy);line-height:1.1}
+.lead{color:var(--muted);font-size:clamp(.95rem,1.5vw,1.15rem);margin:-1vh 0 2.4vh 82px}
+.grid{display:grid;gap:20px}
+.g3{grid-template-columns:repeat(3,1fr)}
+.g2{grid-template-columns:repeat(2,1fr)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:22px 22px;box-shadow:0 6px 18px rgba(20,35,58,.08)}
+.card h3{color:var(--navy);font-size:clamp(1.05rem,1.7vw,1.3rem);margin-bottom:10px;display:flex;align-items:center;gap:10px}
+.card.acc h3{color:var(--gold)}
+.card ul{list-style:none}
+.card li{position:relative;padding-left:20px;margin:9px 0;font-size:clamp(.92rem,1.35vw,1.08rem);line-height:1.4}
+.card li::before{content:"";position:absolute;left:0;top:.62em;width:8px;height:8px;border-radius:50%;background:var(--mid)}
+.card.acc li::before{background:var(--gold)}
+.card p{font-size:clamp(.92rem,1.35vw,1.06rem);line-height:1.5}
+.dot{flex:0 0 auto;width:42px;height:42px;border-radius:50%;background:var(--mid);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700}
+.dot.gold{background:var(--gold)}
+/* title slide */
+.title-slide{background:linear-gradient(135deg,#14233A 0%,#1c3358 100%);color:#fff;justify-content:center}
+.title-slide .eyebrow{color:#E9C46A}
+.title-slide h1{font-size:clamp(2.4rem,6vw,4.4rem);line-height:1.05;margin:14px 0}
+.title-slide .sub{color:#CADCFC;font-size:clamp(1.1rem,2.2vw,1.6rem)}
+.title-slide .tags{color:#8FA6C9;font-style:italic;margin-top:26px;font-size:clamp(.9rem,1.5vw,1.1rem)}
+.blob{position:absolute;border-radius:50%;background:rgba(255,255,255,.05)}
+/* stats */
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.stat{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px 20px;display:flex;align-items:center;gap:16px;box-shadow:0 6px 18px rgba(20,35,58,.08)}
+.stat .num{font-family:Georgia,serif;font-weight:700;color:var(--gold);font-size:clamp(2rem,4.6vw,3.1rem);line-height:1}
+.stat .lbl{font-size:clamp(.85rem,1.25vw,1rem);font-weight:600;color:var(--navy)}
+.note{margin-top:2.4vh;font-style:italic;color:var(--text);text-align:center;font-size:clamp(.95rem,1.5vw,1.15rem)}
+/* timeline */
+.tl{position:relative;margin-left:8px;padding-left:34px}
+.tl::before{content:"";position:absolute;left:13px;top:6px;bottom:6px;width:4px;background:var(--mid);border-radius:2px}
+.tlrow{position:relative;margin-bottom:20px}
+.tlrow .mon{position:absolute;left:-34px;top:0;width:54px;height:54px;border-radius:50%;background:var(--navy);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.95rem;box-shadow:0 0 0 5px var(--light)}
+.tlcards{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-left:42px}
+.tlcard{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px 16px;box-shadow:0 5px 14px rgba(20,35,58,.07)}
+.tlcard.pride{background:var(--goldbg);border-color:var(--gold)}
+.tlcard h4{color:var(--navy);font-size:1rem;margin-bottom:7px}
+.tlcard p{font-size:.92rem;line-height:1.4;color:var(--text)}
+.tlcard .star{color:var(--gold)}
+.vienna{grid-column:1/-1;background:var(--goldbg);border:1.5px solid var(--gold);border-radius:14px;padding:16px 18px}
+.vienna h4{color:var(--navy);font-size:1.08rem;margin-bottom:7px}
+.vienna p{font-size:.94rem;line-height:1.45}
+.full{grid-column:1/-1}
+/* closing */
+.closing{background:linear-gradient(135deg,#14233A 0%,#1c3358 100%);color:#fff;justify-content:center}
+.closing .eyebrow{color:#E9C46A}
+.closing h2{font-size:clamp(1.8rem,4.5vw,3.2rem);color:#fff;margin:10px 0;line-height:1.12}
+.closing .sub{color:#CADCFC;font-size:clamp(1.1rem,2.4vw,1.7rem)}
+.closing .foot{color:#8FA6C9;font-style:italic;margin-top:30px;font-size:1rem}
+/* chrome */
+.bar{position:fixed;left:0;top:0;height:5px;background:var(--gold);width:0;z-index:50;transition:width .3s}
+.nav{position:fixed;right:22px;bottom:18px;display:flex;gap:10px;z-index:50}
+.nav button{width:46px;height:46px;border:none;border-radius:50%;background:var(--navy);color:#fff;font-size:1.3rem;cursor:pointer;box-shadow:0 4px 12px rgba(0,0,0,.25)}
+.nav button:hover{background:var(--mid)}
+.counter{position:fixed;left:22px;bottom:24px;color:var(--navy);font-weight:700;background:#fff;border:1px solid var(--line);padding:6px 12px;border-radius:20px;font-size:.9rem;z-index:50}
+.dots{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);display:flex;gap:8px;z-index:50}
+.dots i{width:9px;height:9px;border-radius:50%;background:#cbd5e1;cursor:pointer;transition:.2s}
+.dots i.on{background:var(--gold);transform:scale(1.25)}
+.title-slide .counter,.title-slide ~ .counter{}
+@media(max-width:820px){.g3,.g2,.stats{grid-template-columns:1fr}.tlcards{grid-template-columns:1fr}.lead{margin-left:0}}
+</style>
+</head>
+<body>
+<div class="bar" id="bar"></div>
+<div class="deck" id="deck">
+
+<!-- 1 TITLE -->
+<section class="slide title-slide">
+ <div class="blob" style="width:420px;height:420px;right:-120px;top:-120px"></div>
+ <div class="blob" style="width:300px;height:300px;right:60px;bottom:-90px"></div>
+ <div class="eyebrow">ЕГ „Пейо Яворов“ — гр. Силистра</div>
+ <h1>Катедра по<br>немски език</h1>
+ <div class="sub">Обобщен анализ на работата · учебна 2025/2026 година</div>
+ <div class="tags">Тенденции · значими резултати · добри практики · професионални изводи · насоки за развитие</div>
+</section>
+
+<!-- 2 SIX QUESTIONS -->
+<section class="slide">
+ <div class="shead"><div class="snum q">?</div><h2>Шест въпроса, на които отговаряме</h2></div>
+ <div class="grid g3" style="grid-auto-rows:1fr">
+  <div class="card"><h3><span class="dot gold">1</span>Какви резултати постигнахме?</h3><p>Общата картина — тенденции, силни страни, затруднения.</p></div>
+  <div class="card"><h3><span class="dot gold">2</span>Какво научихме от тях?</h3><p>Професионалните изводи на ниво катедра.</p></div>
+  <div class="card"><h3><span class="dot gold">3</span>Кои практики работят?</h3><p>Ефективните педагогически решения.</p></div>
+  <div class="card"><h3><span class="dot gold">4</span>С какво се гордеем?</h3><p>Най-значимите постижения на учители и ученици.</p></div>
+  <div class="card"><h3><span class="dot gold">5</span>Как се развихме?</h3><p>Квалификация, наставничество, обмен на практики.</p></div>
+  <div class="card"><h3><span class="dot gold">6</span>Какво ще е различно?</h3><p>Приоритети и инициативи за следващата година.</p></div>
+ </div>
+</section>
+
+<!-- 3 OVERVIEW -->
+<section class="slide">
+ <div class="shead"><div class="snum">1</div><h2>Обща картина на резултатите</h2></div>
+ <div class="grid g3" style="grid-auto-rows:1fr">
+  <div class="card"><h3>Тенденции</h3><ul>
+   <li>Горен етап (9.–12. клас): възходящ или стабилен успех</li>
+   <li>8. клас (входящ, интензивен): спад и затруднения</li>
+   <li>12. клас: лек спад в самия край на обучението</li></ul></div>
+  <div class="card"><h3>Най-силни страни</h3><ul>
+   <li>Рецептивни умения — четене и слушане с разбиране</li>
+   <li>Проектни и дигитални умения (платформи, презентации)</li>
+   <li>Силно мотивирано ядро с изяви и сертификати</li></ul></div>
+  <div class="card acc"><h3>Най-сериозни затруднения</h3><ul>
+   <li>Продуктивни умения — устна спонтанна реч и писане</li>
+   <li>Активна лексика и граматическа точност</li>
+   <li>Свръхзависимост от ИИ и телефоните</li></ul></div>
+ </div>
+</section>
+
+<!-- 4 CONCLUSIONS -->
+<section class="slide">
+ <div class="shead"><div class="snum">2</div><h2>Основни професионални изводи</h2></div>
+ <div class="grid g2" style="grid-auto-rows:1fr">
+  <div class="card"><h3>Парадоксът на изкуствения интелект</h3><p>Дигиталните инструменти повишават качеството на продуктите, но маскират реалните знания и подкопават самостоятелното мислене — оценяването става необективно.</p></div>
+  <div class="card"><h3>Разбирането ≠ продукция</h3><p>Силните рецептивни умения не водят автоматично до говорене и писане. Двете изискват отделна, целенасочена тренировка.</p></div>
+  <div class="card"><h3>Решаваща е ангажираността</h3><p>Резултатите зависят преди всичко от нагласата и отговорността на ученика, а не от трудността на учебното съдържание.</p></div>
+  <div class="card"><h3>Където има подход и ресурс — има напредък</h3><p>Целенасочената подготовка по формат и допълнителните часове дават измерим резултат.</p></div>
+ </div>
+</section>
+
+<!-- 5 PRACTICES -->
+<section class="slide">
+ <div class="shead"><div class="snum">3</div><h2>Добри практики на катедрата</h2></div>
+ <div class="grid g2" style="grid-auto-rows:1fr">
+  <div class="card"><h3>✔ Проектно-базирано обучение</h3><p>Дигитални продукти с Canva и Google Classroom — висока ангажираност и отлични резултати в горните класове.</p></div>
+  <div class="card"><h3>✔ Action research (PEP / DLL 2)</h3><p>Изкуственият интелект като диагностичен инструмент, а не заместител: ръкописно писане и цветно маркиране на грешки.</p></div>
+  <div class="card"><h3>✔ Подготовка по формат (DSD / НВО)</h3><p>Измерим напредък — 9. клас: 16 дипломи DSD I; НВО 10. клас: среден 90,59 (отличен).</p></div>
+  <div class="card"><h3>✔ Наставничество и открити уроци</h3><p>Методическа подкрепа на новоназначен учител с документиране и обратна връзка.</p></div>
+ </div>
+</section>
+
+<!-- 6 ACHIEVEMENTS highlights -->
+<section class="slide">
+ <div class="shead"><div class="snum">4</div><h2>Постижения — повод за гордост</h2></div>
+ <div class="stats">
+  <div class="stat"><div class="num">23</div><div class="lbl">дипломи DSD (18× DSD I · 5× DSD II)</div></div>
+  <div class="stat"><div class="num">6</div><div class="lbl">медала „Интелектика“ (национално)</div></div>
+  <div class="stat"><div class="num">2.</div><div class="lbl">място — нац. театрален фестивал, Русе</div></div>
+  <div class="stat"><div class="num">90,59</div><div class="lbl">среден резултат НВО — 10. клас (отличен)</div></div>
+  <div class="stat"><div class="num">2</div><div class="lbl">престижни стипендии (Deutschland Plus · Виадрина)</div></div>
+  <div class="stat"><div class="num">25</div><div class="lbl">ученици на програма във Виена (28.06–04.07)</div></div>
+ </div>
+ <div class="note">Най-силни сме в сертифицирането (DSD), езиковите състезания и творческо-сценичните формати. Постиженията идват от мотивираното ядро ученици — знак за реален потенциал при по-широка ангажираност.</div>
+</section>
+
+<!-- 7 TIMELINE -->
+<section class="slide">
+ <div class="shead"><div class="snum">4</div><h2>Времева ос на изявите · 2025/2026</h2></div>
+ <div class="tl">
+  <div class="tlrow"><div class="mon">Дек.</div><div class="tlcards">
+    <div class="tlcard"><h4>Състезание „Клет“ — училищен кръг</h4><p>19 участници (8.–11. клас) → 3 класирани за национален кръг: Озан Якуб (8б), Теодор Узунов (10в), Тихомир Георгиев (11б). Класирането на националния кръг е непубликувано.</p></div>
+  </div></div>
+  <div class="tlrow"><div class="mon">Ян.</div><div class="tlcards">
+    <div class="tlcard"><h4>Олимпиада по немски (МОН) — общински кръг · 07.01</h4><p>16 участници (8.–12. клас) → 3 класирани за областен кръг: Озан Якуб (8б) — 56,5 т., Стефан Янакиев (9б) — 45 т., Елвира Симеонова (12б) — 81 т.</p></div>
+  </div></div>
+  <div class="tlrow"><div class="mon">Фев.</div><div class="tlcards">
+    <div class="tlcard"><h4>Олимпиада — областен кръг · 08.02</h4><p>3-ма класирани (от общинския кръг). Точките от областния кръг не са известни — без класиране за национален.</p></div>
+    <div class="tlcard"><h4>Deutscholympiade (Гьоте, B2) · 06.02</h4><p>Училищен кръг — 5 участници; двама ученици с по 39 от 52 т.; не се класират за национален кръг.</p></div>
+    <div class="tlcard"><h4>DSD II — връчени дипломи</h4><p>5 дипломи DSD II (ниво B2/C1) през февруари.</p></div>
+    <div class="tlcard pride full"><h4><span class="star">★</span> Стипендия „Deutschland Plus“ (PAD)</h4><p>Ирена Илиева (9б) — сред 12-те избрани в страната. 3 седмици: обучение във Friedrich-Ebert-Gymnasium, Бон + екскурзия до Берлин. Придружител: г-жа Росица Стефанова (втора поредна година).</p></div>
+  </div></div>
+  <div class="tlrow"><div class="mon">Апр.</div><div class="tlcards">
+    <div class="tlcard pride"><h4><span class="star">★</span> Април — национални прояви</h4><p>Театрален фестивал на немски, Русе (23–25.04): 10 уч. (9б) → <b>2. място</b> (от 9 училища).<br>„Интелектика“ (24–26.04) — <b>6 медала</b>: 7–8 кл. — Озан Якуб (I, купа+злато), Вяра Гълчавова (II), Божидар Брезоев (III); 9–10 кл. — Стефан Янакиев (II), Теодор Узунов (III); 11–12 кл. — Тихомир Георгиев (III).</p></div>
+    <div class="tlcard pride"><h4><span class="star">★</span> „Balkan liest vor!“ — четене на глас</h4><p>Регионален кръг за <b>Североизточна България</b> (Шумен, 22.04). Озан Якуб (8б) — <b>2. място</b>; без класиране за национален кръг.</p></div>
+  </div></div>
+  <div class="tlrow"><div class="mon">Юни</div><div class="tlcards">
+    <div class="tlcard"><h4>Изпити и резултати</h4><p>НВО 10. клас (B1): 4 уч., среден 90,59 (отличен) — Атанасов 95, Динева 93,4, Узунов 93,1, Ангелов 80,9. DSD I (B1): 18 дипломи — 16 от 9. клас (64%) и 2 от 10. клас.</p></div>
+    <div class="tlcard pride"><h4><span class="star">★</span> Стипендия Schnupperstudium 2026</h4><p>BIDS/DAAD, Европейски университет „Виадрина“ — Франкфурт на Одер (08–13.06): Тихомир Георгиев (11б); покрити пътни разходи, нощувки и храна.</p></div>
+    <div class="tlcard pride"><h4><span class="star">★</span> Езиков лагер „Немски език на морето“</h4><p>Китен (01–05.06) — международен (Унгария, Сърбия, Румъния, Босна и Херцеговина — България домакин); подготовка за DSD II; ученици от 10. и 11. клас.</p></div>
+    <div class="vienna"><h4>★ Пътуване до Виена — „Младежта на Европа опознава Виена“ (28.06–04.07.2026)</h4><p>25 ученици от 9., 10. и 11. клас · 1 седмица · частично финансирана от Министерството на културата на Австрия. Посещения: Kaiserappartements und Sisi Museum, Österreichische Galerie Belvedere, Parlament, Technisches Museum, Konzert im Börse Palais, Museum Hundertwasser, Kunsthistorisches Museum, Secession, Albertina, Naturhistorisches Museum und Stephansdom.</p></div>
+  </div></div>
+ </div>
+</section>
+
+<!-- 8 TEACHER DEV -->
+<section class="slide">
+ <div class="shead"><div class="snum">5</div><h2>Развитие като професионална общност</h2></div>
+ <div class="grid g3" style="grid-auto-rows:1fr">
+  <div class="card"><h3>Наставничество на нов колега</h3><p>Яница Владева — новоназначена в катедрата; с наставник през I срок. Над 10 документирани открити урока (скица + формуляр за обсъждане), последвани от самостоятелни уроци с обратна връзка.</p></div>
+  <div class="card"><h3>DSD GOLD — курс „DSD I“ (2026)</h3><p>Blended-learning, международен курс (с колеги от Северна Македония, Черна гора и Косово); подготовка за преподаване и оценяване по DSD I, с изпитен сертификат.</p></div>
+  <div class="card"><h3>DSD семинари и калибриране</h3><p>Централен DSD I-семинар, София (12–13.10.2026) — с изнасяне на собствен доклад пред колеги от цяла България на тема „Кооперативни форми на работа“; задължителни калибрирания на проверители и предконференции по DSD I и DSD II.</p></div>
+  <div class="card"><h3>Тематични семинари</h3><p>DFU-семинар (преподаване на учебен предмет на немски език), Китен (07–10.06.2026); обучителна седмица в Studienhaus Wiesneck край Фрайбург, Германия (13–19.06.2026) — методика, дидактика и странознание (тема „Wohnen“), за учители в DSD-училища.</p></div>
+  <div class="card"><h3>Action research — DLL 2 (Гьоте)</h3><p>Практико-проучвателен проект (PEP) за отговорно използване на ИИ — нова, документирана практика в обучението.</p></div>
+  <div class="card"><h3>Обучения по оценяване (SK Bewertungstraining)</h3><p>Онлайн семинари на ZfA по писмена комуникация (Schriftliche Kommunikation): „SK im DSD II: Bewertungstraining“ (08.10.2025, 240 мин) и аналогичен „SK im DSD I: Bewertungstraining“ (декември 2025) — работа с критериите за оценяване и калибриране на проверката на писмени работи.</p></div>
+ </div>
+ <div class="note">Катедрата работи като учеща се общност — експериментира, документира и споделя.</div>
+</section>
+
+<!-- 9 PRIORITIES -->
+<section class="slide">
+ <div class="shead"><div class="snum">6</div><h2>Приоритети за следващата година</h2></div>
+ <div class="grid g2" style="grid-auto-rows:1fr">
+  <div class="card"><h3><span class="dot gold">1</span>Автентично оценяване</h3><p>Устойчиви на ИИ задачи — акцент върху устната реч и самостоятелното писане.</p></div>
+  <div class="card"><h3><span class="dot gold">2</span>Системна лексика</h3><p>Кратки седмични изпитвания за редовно учене на думи.</p></div>
+  <div class="card"><h3><span class="dot gold">3</span>Диференциран подход</h3><p>Ангажиране на 8. клас; задържане на мотивацията след DSD изпита.</p></div>
+  <div class="card"><h3><span class="dot gold">4</span>Проекти и партньорства</h3><p>Erasmus+ акредитация; BIDS/Виадрина, Deutschland Plus, PASCH.</p></div>
+  <div class="card"><h3><span class="dot gold">5</span>Състезания</h3><p>„Интелектика“, „Balkan liest vor!“, „Seitenweise“, Jugend debattiert.</p></div>
+  <div class="card"><h3><span class="dot gold">6</span>Родители и екип</h3><p>По-тясно сътрудничество; продължаване на наставничеството и обмена на уроци.</p></div>
+ </div>
+</section>
+
+<!-- 10 CLOSING -->
+<section class="slide closing">
+ <div class="blob" style="width:360px;height:360px;left:-120px;bottom:-120px"></div>
+ <div class="eyebrow">Накратко</div>
+ <h2>Силни в разбирането и сертифицирането.</h2>
+ <div class="sub">Следващата стъпка е автентичната, самостоятелна продукция — устна и писмена.</div>
+ <div class="foot">Катедра по немски език · ЕГ „Пейо Яворов“, гр. Силистра · 2025/2026</div>
+</section>
+
+</div>
+
+<div class="counter" id="counter">1 / 10</div>
+<div class="dots" id="dots"></div>
+<div class="nav"><button id="prev" aria-label="Назад">‹</button><button id="fs" aria-label="Цял екран" style="font-size:1rem">⛶</button><button id="next" aria-label="Напред">›</button></div>
+
+<script>
+const slides=[...document.querySelectorAll('.slide')];
+let i=0;
+const dots=document.getElementById('dots');
+slides.forEach((_,k)=>{const d=document.createElement('i');d.onclick=()=>go(k);dots.appendChild(d);});
+function go(n){
+ i=Math.max(0,Math.min(slides.length-1,n));
+ slides.forEach((s,k)=>s.classList.toggle('active',k===i));
+ [...dots.children].forEach((d,k)=>d.classList.toggle('on',k===i));
+ document.getElementById('counter').textContent=(i+1)+' / '+slides.length;
+ document.getElementById('bar').style.width=((i)/(slides.length-1)*100)+'%';
+ const cur=slides[i]; cur.scrollTop=0;
+}
+function next(){go(i+1)} function prev(){go(i-1)}
+document.getElementById('next').onclick=next;
+document.getElementById('prev').onclick=prev;
+document.getElementById('fs').onclick=()=>{if(!document.fullscreenElement)document.documentElement.requestFullscreen();else document.exitFullscreen();};
+addEventListener('keydown',e=>{
+ if(e.key==='ArrowRight'||e.key==='PageDown'){next();e.preventDefault();}
+ else if(e.key==='ArrowLeft'||e.key==='PageUp'){prev();e.preventDefault();}
+ else if(e.key===' '){ // space scrolls scrollable slide, else next
+   const cur=slides[i]; if(cur.scrollHeight-cur.clientHeight-cur.scrollTop>20){cur.scrollBy({top:cur.clientHeight*0.85,behavior:'smooth'});}else next(); e.preventDefault();
+ } else if(e.key==='Home'){go(0)} else if(e.key==='End'){go(slides.length-1)}
+});
+go(0);
+</script>
+</body>
+</html>
