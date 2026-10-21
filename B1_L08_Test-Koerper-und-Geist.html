@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Test 8 · Rund um Körper und Geist</title>
+<style>
+:root{
+  --blau:#0b6e8f; --blau-hell:#e6f3f8; --ink:#222; --grau:#666; --linie:#d5dde2;
+  --ok:#1b7f3b; --ok-bg:#e6f5ea; --bad:#b3261e; --bad-bg:#fdecea;
+  --lk:#6a1b9a; --lk-bg:#f5ecfa; --gelb:#fff6dc; --orange:#e3730f; --orange-bg:#fff1e3;
+  --der:#1f5fbf; --die:#c0392b; --das:#1b7f3b;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:120px}
+body{margin:0;font-family:'Segoe UI',Arial,sans-serif;color:var(--ink);background:#f4f7f9;line-height:1.5;font-size:17px}
+header{background:var(--blau);color:#fff;padding:14px 20px 0;position:sticky;top:0;z-index:10;box-shadow:0 2px 6px rgba(0,0,0,.15)}
+.hrow{display:flex;gap:16px;align-items:center;justify-content:space-between;flex-wrap:wrap;max-width:1100px;margin:0 auto}
+header h1{margin:0;font-size:22px}
+header .meta{font-size:14px;opacity:.9}
+.lk-toggle{background:transparent;border:2px solid #fff;color:#fff;border-radius:20px;padding:5px 12px;cursor:pointer;font-size:14px}
+body.lk-on .lk-toggle{background:#fff;color:var(--lk)}
+nav{max-width:1100px;margin:10px auto 0;display:flex;gap:4px;overflow-x:auto;padding-bottom:8px}
+nav a{color:#fff;text-decoration:none;font-size:14px;padding:5px 11px;border-radius:14px;background:rgba(255,255,255,.14);white-space:nowrap}
+nav a:hover{background:rgba(255,255,255,.3)}
+nav a.lkonly{display:none} body.lk-on nav a.lkonly{display:inline-block;background:rgba(255,255,255,.35)}
+main{max-width:1100px;margin:16px auto;padding:0 16px 80px}
+h2.sec{font-size:21px;color:var(--blau);margin:34px 0 6px;border-bottom:2px solid var(--blau);padding-bottom:4px}
+h2.sec small{font-weight:400;color:var(--grau);font-size:14px;margin-left:8px}
+.card{background:#fff;border:1px solid var(--linie);border-radius:10px;padding:16px 20px;margin:14px 0}
+.task-head{display:flex;gap:10px;align-items:flex-start;margin-bottom:6px}
+.badge{background:var(--blau);color:#fff;border-radius:6px;padding:2px 8px;font-weight:700;font-size:14px;white-space:nowrap;margin-top:2px}
+.badge.ub{background:#5d7a8a}
+.task-head h3{font-size:17px;margin:0}
+.src{font-size:13px;color:var(--grau);margin-left:auto;white-space:nowrap}
+.hint{font-size:14px;color:var(--grau)}
+.bank{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0}
+.bank span{background:var(--blau-hell);border-radius:5px;padding:2px 9px;font-size:15px}
+input.gap{font-size:16px;padding:3px 7px;border:none;border-bottom:2px solid #99a9b3;background:#f8fafb;font-family:inherit;min-width:120px;border-radius:4px 4px 0 0}
+input.gap.wide{width:100%;margin-top:4px}
+input.gap:focus{outline:none;border-bottom-color:var(--blau);background:var(--blau-hell)}
+select.sel{font-size:16px;padding:3px 6px;border:1.5px solid var(--linie);border-radius:6px;font-family:inherit}
+.ok{border-color:var(--ok)!important;background:var(--ok-bg)!important}
+.bad{border-color:var(--bad)!important;background:var(--bad-bg)!important}
+.ch{display:inline-flex;gap:6px;margin-left:8px}
+.ch button{border:1.5px solid var(--linie);background:#fff;border-radius:6px;padding:3px 11px;cursor:pointer;font-size:15px;font-family:inherit}
+.ch button.on{border-color:var(--blau);background:var(--blau-hell);font-weight:600}
+ol.items{padding-left:22px;margin:6px 0} ol.items li{margin:9px 0}
+.btns{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px;align-items:center}
+.btns button{border:none;border-radius:7px;padding:7px 14px;font-size:14px;cursor:pointer;font-weight:600;font-family:inherit}
+.b-check{background:var(--blau);color:#fff} .b-sol{background:#f0c24b;color:#3a2c00} .b-reset{background:#e3e8ec}
+.score{font-weight:700;color:var(--blau)}
+.sol{display:none;background:var(--gelb);border:1px solid #e9d690;border-radius:8px;padding:10px 14px;margin-top:10px;font-size:16px}
+.sol.show{display:block}
+.lk{display:none;background:var(--lk-bg);border-left:4px solid var(--lk);border-radius:6px;padding:10px 14px;margin:10px 0;font-size:15px}
+body.lk-on .lk{display:block}
+.lk b.t{color:var(--lk)}
+.gram{background:var(--orange-bg);border:1.5px solid var(--orange);border-radius:10px;padding:14px 18px;margin:12px 0}
+.gram h4{margin:0 0 6px;color:var(--orange);font-size:17px}
+.gram table{border-collapse:collapse;margin:8px 0;font-size:16px}
+.gram td,.gram th{border:1px solid #f0c9a5;padding:5px 10px;text-align:left;vertical-align:top}
+.gram th{background:#fde3cb}
+.hl{color:var(--orange);font-weight:700}
+.bg{color:#555;font-style:italic}
+.redemittel{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media(max-width:760px){.redemittel{grid-template-columns:1fr}}
+.redemittel div{background:var(--blau-hell);border-radius:8px;padding:10px 14px}
+.redemittel h4{margin:0 0 4px;color:var(--blau)}
+.redemittel ul{margin:0;padding-left:18px}
+.situ{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:10px 0}
+@media(max-width:760px){.situ{grid-template-columns:1fr}}
+.situ div{border:2px solid var(--blau);border-radius:8px;padding:10px 14px}
+.situ b{color:var(--blau)}
+.web{border:1px solid var(--linie);border-radius:8px;padding:12px 16px;background:#fafbfc}
+.web h4{color:var(--blau);margin:6px 0 4px;font-family:Georgia,serif;font-size:18px}
+table.ablauf{width:100%;border-collapse:collapse;font-size:15px}
+table.ablauf td,table.ablauf th{border-bottom:1px solid var(--linie);padding:7px 8px;vertical-align:top;text-align:left}
+table.ablauf th{background:var(--lk-bg);color:var(--lk)}
+table.ablauf td:first-child{white-space:nowrap;font-weight:600}
+table.ablauf tr.pause td{background:#f1f1f1;color:#777;font-style:italic}
+/* Wortschatz */
+.vt-tools{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:8px 0}
+.vt-tools input{flex:1;min-width:200px;font-size:16px;padding:6px 10px;border:1.5px solid var(--linie);border-radius:8px}
+.vt-tools button,.fc-tools button{border:1.5px solid var(--blau);background:#fff;color:var(--blau);border-radius:8px;padding:6px 12px;cursor:pointer;font-size:14px;font-weight:600;font-family:inherit}
+.vt-tools button.on{background:var(--blau);color:#fff}
+table.vt{width:100%;border-collapse:collapse;font-size:16px}
+table.vt td{border-bottom:1px solid var(--linie);padding:6px 8px;vertical-align:top}
+table.vt tr.cat td{background:var(--blau-hell);color:var(--blau);font-weight:700;padding-top:10px}
+table.vt td.de{font-weight:600;width:30%}
+table.vt td.de small{display:block;font-weight:400;color:var(--grau);font-size:13px}
+table.vt td.ex{width:42%}
+table.vt td.bgc{width:28%}
+body.hide-bg table.vt td.bgc span{background:#dfe5e9;color:transparent;border-radius:4px;cursor:pointer;padding:0 4px}
+body.hide-bg table.vt td.bgc span.peek{background:none;color:inherit}
+.art-der{color:var(--der)} .art-die{color:var(--die)} .art-das{color:var(--das)}
+.fc{max-width:560px;margin:10px auto;text-align:center}
+.fc-card{border:2px solid var(--blau);border-radius:14px;min-height:170px;display:flex;align-items:center;justify-content:center;flex-direction:column;font-size:24px;padding:20px;cursor:pointer;background:#fff;user-select:none}
+.fc-card .small{font-size:15px;color:var(--grau);margin-top:8px}
+.fc-tools{display:flex;gap:8px;justify-content:center;margin-top:10px;flex-wrap:wrap}
+.artq{text-align:center}
+.artq .word{font-size:26px;font-weight:700;margin:10px 0}
+.artq button.a{font-size:18px;padding:8px 22px;margin:4px;border-radius:8px;border:2px solid;cursor:pointer;background:#fff;font-weight:700;font-family:inherit}
+.artq button.a.der{border-color:var(--der);color:var(--der)} .artq button.a.die{border-color:var(--die);color:var(--die)} .artq button.a.das{border-color:var(--das);color:var(--das)}
+.tabs{display:flex;gap:6px;margin:6px 0 10px;flex-wrap:wrap}
+.tabs button{border:none;background:#e3e8ec;padding:7px 14px;border-radius:8px 8px 0 0;cursor:pointer;font-size:15px;font-weight:600;font-family:inherit}
+.tabs button.on{background:var(--blau);color:#fff}
+.pane{display:none} .pane.on{display:block}
+.dialog p{margin:6px 0}
+.dialog .s1::before{content:"○ ";color:var(--grau)} .dialog .s2::before{content:"● ";color:var(--blau)}
+.quote{background:#eef1f4;border-radius:8px;padding:10px 14px;font-style:italic}
+.hw{background:#eef7ee;border:1.5px solid var(--ok);border-radius:10px;padding:12px 18px}
+.big{font-size:20px}
+:root{--tz1:#c2185b;--tz2:#1565c0;--tz3:#00838f;--tz4:#e65100;--tz5:#2e7d32;--tz6:#6a1b9a}
+.tz{display:inline-block;border-radius:12px;padding:1px 9px;font-size:13px;font-weight:700;color:#fff;white-space:nowrap;vertical-align:middle;margin-left:6px}
+.tz1{background:var(--tz1)}.tz2{background:var(--tz2)}.tz3{background:var(--tz3)}.tz4{background:var(--tz4)}.tz5{background:var(--tz5)}.tz6{background:var(--tz6)}
+.dot{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:5px;border:1px solid #fff}
+.ziele{background:#fff;border:2px solid var(--blau);border-radius:12px;padding:16px 20px;margin:14px 0 6px}
+.gz{font-size:18px;margin-bottom:12px}.gz-label{display:inline-block;background:var(--blau);color:#fff;border-radius:6px;padding:2px 10px;font-weight:700;margin-right:8px;font-size:15px}
+.tz-list{display:grid;grid-template-columns:1fr 1fr;gap:8px}@media(max-width:760px){.tz-list{grid-template-columns:1fr}}
+.tzc{display:block;text-decoration:none;color:var(--ink);border-left:6px solid;border-radius:6px;padding:7px 12px;background:#f7f9fa;font-size:15px}
+.tzc.tz1{border-color:var(--tz1)}.tzc.tz2{border-color:var(--tz2)}.tzc.tz3{border-color:var(--tz3)}.tzc.tz4{border-color:var(--tz4)}.tzc.tz5{border-color:var(--tz5)}.tzc.tz6{border-color:var(--tz6)}
+.tzc b{margin-right:4px}.tzc:hover{background:#eef3f6}
+.tzc.tz1 b{color:var(--tz1)}.tzc.tz2 b{color:var(--tz2)}.tzc.tz3 b{color:var(--tz3)}.tzc.tz4 b{color:var(--tz4)}.tzc.tz5 b{color:var(--tz5)}.tzc.tz6 b{color:var(--tz6)}
+h2.ph{display:flex;align-items:center;gap:10px;border-bottom-width:3px}
+h2.ph .phn{background:var(--blau);color:#fff;border-radius:50%;width:32px;height:32px;display:inline-flex;align-items:center;justify-content:center;font-size:17px}
+h2.tz1b{color:var(--tz1);border-color:var(--tz1)}h2.tz1b .phn{background:var(--tz1)}
+h2.tz2b{color:var(--tz2);border-color:var(--tz2)}h2.tz2b .phn{background:var(--tz2)}
+h2.tz3b{color:var(--tz3);border-color:var(--tz3)}h2.tz3b .phn{background:var(--tz3)}
+h2.tz4b{color:var(--tz4);border-color:var(--tz4)}h2.tz4b .phn{background:var(--tz4)}
+h2.tz5b{color:var(--tz5);border-color:var(--tz5)}h2.tz5b .phn{background:var(--tz5)}
+h2.tz6b{color:var(--tz6);border-color:var(--tz6)}h2.tz6b .phn{background:var(--tz6)}
+.card.c-tz1{border-left:5px solid var(--tz1)}.card.c-tz2{border-left:5px solid var(--tz2)}.card.c-tz3{border-left:5px solid var(--tz3)}.card.c-tz4{border-left:5px solid var(--tz4)}.card.c-tz5{border-left:5px solid var(--tz5)}.card.c-tz6{border-left:5px solid var(--tz6)}
+.gallery{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:8px 0 12px}
+@media(max-width:760px){.gallery{grid-template-columns:repeat(2,1fr)}}
+.gallery figure{margin:0;position:relative}.gallery figure.wide{grid-column:span 2}
+.gallery img{width:100%;height:170px;object-fit:cover;border-radius:6px;display:block;cursor:zoom-in}
+.gallery figcaption{position:absolute;left:6px;top:6px;background:#fff;border-radius:4px;padding:0 8px;font-weight:700}
+.split{display:flex;gap:18px;align-items:flex-start}.split>div{flex:1}
+img.side{max-width:300px;width:34%;border-radius:8px}
+@media(max-width:760px){.split{flex-direction:column}img.side{width:100%}}
+.webhead{display:flex;gap:14px;align-items:flex-start}
+.audio{display:flex;align-items:center;gap:10px;background:#eef6f8;border:1px solid #cfe3ea;border-radius:8px;padding:6px 12px;margin:8px 0;flex-wrap:wrap}
+.audio .al{font-weight:700;color:var(--blau);font-size:14px;min-width:120px}
+.audio audio{height:36px;flex:1;min-width:240px}
+.audio .miss{color:var(--bad);font-size:14px}
+table.szenen{border-collapse:collapse;width:100%;margin:8px 0}table.szenen td,table.szenen th{padding:5px 8px;border-bottom:1px solid var(--linie);text-align:left}
+table.refl{width:100%;border-collapse:collapse}table.refl td{border-bottom:1px solid var(--linie);padding:8px}
+.faces button{font-size:24px;background:none;border:2px solid transparent;border-radius:50%;cursor:pointer;opacity:.45;padding:2px 5px}
+.faces button.on{opacity:1;border-color:var(--blau)}
+#zoom{position:fixed;inset:0;background:rgba(0,0,0,.8);display:none;align-items:center;justify-content:center;z-index:50;cursor:zoom-out}
+#zoom img{max-width:92vw;max-height:92vh;border-radius:8px}
+.filled{background:#fff3c4!important;border-color:#e0b400!important}
+.ch button.filled{background:#fff3c4!important;border-color:#e0b400!important}
+.rowkey{border:none;background:none;cursor:pointer;font-size:15px;opacity:.55;margin:0 6px 0 0;padding:0 3px;vertical-align:baseline}
+.rowkey:hover{opacity:1}.rowkey.used{opacity:.12}
+
+.colloc li{display:flex;align-items:center;gap:6px}.colloc .nn{min-width:230px}.colloc input.gap{flex:1;min-width:0}
+.colloc .nn{min-width:200px}
+.bank .chip{cursor:grab;border:1.5px solid #9cc6d6;background:#fff;box-shadow:0 1px 2px rgba(0,0,0,.08);user-select:none;transition:opacity .15s}
+.bank .chip:hover{background:var(--blau-hell)}
+
+.bank .chip.picked{background:var(--blau);color:#fff;border-color:var(--blau)}
+.bank .chip.used{opacity:.35}
+.bank .chip.dragging{opacity:.5}
+.card.picking input.gap{outline:2px dashed var(--blau);outline-offset:1px;cursor:copy}
+input.gap.drop{background:var(--blau-hell)!important;border-bottom-color:var(--blau)!important}
+.card.with-info{display:grid;grid-template-columns:minmax(0,1fr) 270px;column-gap:18px}
+.card.with-info>*{grid-column:1}
+.card.with-info>.infobox{grid-column:2;grid-row:1 / span 30;align-self:start;position:sticky;top:130px}
+@media(max-width:860px){.card.with-info{display:block}.card.with-info>.infobox{position:static;margin-top:10px}}
+.infobox{background:#fbfcfd;border:1.5px solid var(--blau);border-radius:10px;padding:10px 12px;font-size:15px}
+.ib-head{display:flex;justify-content:space-between;align-items:center;font-weight:700;color:var(--blau);margin-bottom:6px}
+.ib-close{border:none;background:none;cursor:pointer;font-size:15px;color:var(--grau)}
+.ib-item{border-top:1px solid var(--linie);padding:7px 0}
+.ib-item:first-child{border-top:none;background:var(--blau-hell);margin:0 -12px;padding:7px 12px}
+.ib-forms div{display:flex;justify-content:space-between;gap:8px}
+.ib-forms span{color:var(--grau);font-size:13px}
+.ib-forms b{text-align:right}
+.ib-bg{margin-top:3px;color:#333}
+.s1d{color:#333}.s2d{display:inline-block;margin-top:3px}
+mark{background:#fff0a8;padding:0 2px}
+.ch.odd button{margin:2px}
+table.steig{border-collapse:collapse;width:100%;margin:6px 0;font-size:16px}
+table.steig th,table.steig td{border:1px solid #f0c9a5;padding:5px 9px;text-align:left}
+table.steig th{background:#fde3cb}
+table.steig th.sub{background:#fff;color:var(--orange);font-weight:700;border-left:none;border-right:none;padding-top:10px}
+table.steig td.note{font-size:14px;color:#555;background:#fffaf4}
+table.steig td b{color:var(--orange)}
+table.steig.ex th,table.steig.ex td{border-color:var(--linie)}
+table.steig.ex th{background:var(--blau-hell);color:var(--blau)}
+table.steig.ex input.gap{min-width:120px;width:140px}
+.orig{color:#666;font-size:15px}
+.bank .chip.used{opacity:.35}
+.lk details{margin-top:8px}.lk summary{cursor:pointer;color:var(--lk);font-weight:700}
+.transcript{max-height:360px;overflow:auto;background:#fff;border:1px solid #e3d3ee;border-radius:6px;padding:8px 12px;margin-top:6px}
+.transcript p{margin:3px 0}.transcript p.th{font-weight:700;color:var(--lk);margin-top:8px}
+.gallery figure{display:flex;flex-direction:column}
+.figkey{margin-top:5px;border:none;background:#f0c24b;color:#3a2c00;border-radius:6px;padding:3px 8px;font-size:13px;font-weight:600;cursor:pointer;align-self:flex-start;font-family:inherit}
+.figm{display:none;background:var(--gelb);border:1px solid #e9d690;border-radius:6px;padding:6px 9px;margin-top:5px;font-size:14px;line-height:1.4}
+.figm.show{display:block}
+.workarea{display:grid;grid-template-columns:minmax(0,1fr) 240px;gap:18px;align-items:start}
+.wa-side{position:sticky;top:130px}
+.side-bank{flex-direction:column;align-items:stretch;background:#f5f9fb;border:1.5px solid #9cc6d6;border-radius:10px;padding:10px;margin:0}
+.side-bank .sb-title{font-weight:700;color:var(--blau);font-size:14px;margin-bottom:2px}
+.side-bank .chip{text-align:center}
+@media(max-width:760px){.workarea{grid-template-columns:1fr}.wa-side{position:static;order:-1}}
+input.gap.converted{animation:conv .9s ease}
+@keyframes conv{0%{background:#c8f0d2}100%{background:#f8fafb}}
+.wdict{margin-top:14px;border:1.5px solid #9cc6d6;border-radius:10px;background:#f7fbfc}
+.wdict summary{cursor:pointer;padding:9px 14px;font-weight:700;color:var(--blau);list-style:none}
+.wdict summary::-webkit-details-marker{display:none}
+.wdict summary::after{content:" ▸";font-size:13px}.wdict[open] summary::after{content:" ▾"}
+.wdict[open] summary{border-bottom:1px solid #cfe3ea}
+.wdict .hint,.wdict table{margin:8px 14px}.wdict table{width:calc(100% - 28px)}
+.wd-all{border:1.5px solid var(--blau);background:#fff;color:var(--blau);border-radius:6px;padding:2px 9px;font-size:13px;cursor:pointer;margin-left:6px;font-family:inherit}
+.wdict.showbg td.bgc span{background:none!important;color:inherit!important}
+
+.wa-side img.sideimg{width:100%;max-width:none!important;margin-top:10px;border-radius:8px}
+.wa-side .infobox{margin-top:10px}
+.side-bank .chip{white-space:normal}
+td.de .pl{font-weight:600}td.de .plnote{font-weight:400;color:var(--grau);font-size:14px}
+.card.gutgesagt{background:#fff8ec;border:2px solid #e3a95c}
+.gg-phrases{display:flex;gap:14px;flex-wrap:wrap;margin:10px 0 4px}
+.gg-phrases span{background:#fff;border:1.5px solid #e3a95c;border-radius:20px;padding:6px 16px;font-size:19px;font-weight:700;color:#7a3a00}
+.figkey.mini{padding:0 6px;font-size:13px;margin:0 0 0 4px;vertical-align:middle;align-self:auto}
+.redemittel li .figm{margin:4px 0 6px;font-size:15px}
+
+/* --- Tests --- */
+.ch.mc{display:flex;flex-direction:column;align-items:flex-start;gap:5px;margin:6px 0 2px}
+.ch.mc button{text-align:left;white-space:normal}
+textarea.write{width:100%;min-height:200px;font:inherit;font-size:17px;line-height:1.5;padding:10px 12px;border-radius:8px;border:1.5px solid #c5ccd6;box-sizing:border-box;margin-top:6px}
+.task-head .pts{margin-left:auto;white-space:nowrap;font-weight:700;color:#0d6e8c;background:#e6f2f7;border-radius:12px;padding:2px 10px;font-size:14px;align-self:flex-start}
+.totalbox{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.totalbox .total{font-weight:700;background:#fff;color:#0d6e8c;border-radius:14px;padding:3px 12px}
+.finish{text-align:center}
+.finish button{font-size:18px;padding:10px 22px;border-radius:10px;border:0;background:#0d6e8c;color:#fff;cursor:pointer;margin:4px}
+.finish button.sec{background:#e3e7ec;color:#333}
+#totalRes{font-size:18px;margin-top:10px}
+.textbox{background:#fff;border:1px solid #d5dbe3;border-radius:10px;padding:12px 16px;line-height:1.55;margin:8px 0}
+.textbox h4{margin:0 0 6px;color:#0d6e8c}
+details.tr{margin-top:10px;border:1px dashed #9cb3c4;border-radius:8px;padding:6px 12px;background:#fafcfd}
+details.tr summary{cursor:pointer;color:#0d6e8c;font-weight:600}
+.matchtab td{padding:6px 8px;vertical-align:top}
+</style>
+</head>
+<body class="hide-bg">
+<header>
+  <div class="hrow">
+    <div>
+      <h1>Test 8 · Rund um Körper und Geist</h1>
+      <div class="meta">Netzwerk neu B1 · Kapitel 8 · Testheft S. 36–39 · Selbsttest · Pharos II</div>
+    </div>
+    <div class="totalbox"><span class="total" id="totalTop">– P.</span></div>
+  </div>
+</header>
+<main>
+<div class="card">
+  <p style="margin:0">So arbeiten Sie: Lösen Sie die Aufgaben. Mit <b>✔ Prüfen</b> sehen Sie, was richtig ist (grün) und was falsch ist (rot), und Ihre Punkte. <b>🔑 Lösung</b> zeigt die richtigen Antworten – Sie können auch Satz für Satz mit 🔑 aufdecken. Wörter aus dem Kasten <b>rechts</b> können Sie in die Lücken ziehen (oder antippen und dann die Lücke antippen). Beim Schreiben vergleichen Sie Ihren Text mit der <b>💡 Musterlösung</b>. Das Transkript zum Hören öffnen Sie erst <b>nach</b> der Aufgabe.</p>
+</div>
+<div class="card task" data-max="5">
+  <div class="task-head"><span class="badge">A1</span><h3>Sie hören nun fünf kurze Texte. Sie hören diese Texte nur einmal. Entscheiden Sie beim Hören, ob die Aussagen 1–5 richtig (+) oder falsch (–) sind.</h3><span class="src">Hören · TH S. 36 · ZD</span></div>
+  <div class="audio" data-src="audio/NWn_B1_TH_Audio_010.mp3" data-label="Track 10"></div>
+  <ol class="items">
+    <li>Die Sprecherin verbindet Lieder mit Erlebnissen aus ihrer Vergangenheit. <span class="ch" data-a="+ richtig"><button>+ richtig</button><button>– falsch</button></span></li>
+    <li>Die Sprecherin denkt, dass Musik das Kaufverhalten beeinflusst. <span class="ch" data-a="+ richtig"><button>+ richtig</button><button>– falsch</button></span></li>
+    <li>Der Sprecher hört bei der Arbeit gern laute Musik. <span class="ch" data-a="– falsch"><button>+ richtig</button><button>– falsch</button></span></li>
+    <li>Der Sprecher ist in der Chorprobe manchmal gestresst. <span class="ch" data-a="– falsch"><button>+ richtig</button><button>– falsch</button></span></li>
+    <li>Die Sprecherin kennt eine Methode, wie man durch Musik Patienten helfen kann. <span class="ch" data-a="+ richtig"><button>+ richtig</button><button>– falsch</button></span></li>
+  </ol>
+  <div class="sol">1. + · 2. + · 3. – · 4. – · 5. +</div>
+  <details class="tr"><summary>Transkript (erst nach der Aufgabe öffnen)</summary><div class="transcript">
+    <p>Wir beschäftigen uns heute mit dem Thema Musik und Emotionen. Wir haben in den letzten Tagen 70 Personen die Frage gestellt: „Welche Rolle spielt Musik in Ihrem Leben und was macht Musik mit Ihnen?“ Hören Sie dazu einige Stellungnahmen.</p>
+    <p><b>1</b> Musik hat mich schon immer begleitet. Ich spiele Klavier, seit ich fünf bin. Und ich verbinde Musik mit bestimmten Situationen, d. h., ich höre plötzlich irgendwo ein Lied und es erinnert mich z. B. an einen Abend am Strand mit meinem Mann. Da werde ich dann ganz sentimental. Das passiert mir immer wieder. Ein Leben ohne Musik kann ich mir nicht vorstellen.</p>
+    <p><b>2</b> Musik – überall und immer hört man Musik – egal, ob ich in einen Laden oder in eine Kneipe gehe, egal ob beim Friseur oder im Fitnessstudio. Mich stört, dass ich gezwungen bin, die Musik zu hören, die andere auswählen. Vor allem Geschäfte wählen Musik bewusst aus, um mich dazu zu bringen, mehr zu kaufen. Das ist kein gutes Gefühl.</p>
+    <p><b>3</b> Ich bin Erzieher und arbeite da ganz bewusst mit Musik. Wenn die Kinder aufgeregt sind, dann spiele ich leise, ruhige Musik, damit die Kinder zur Ruhe kommen. Manchmal, wenn ich merke, dass ein Kind traurig in den Kindergarten kommt, dann spiele ich lautere, lustige Musik und alle tanzen oder singen dazu. Das wirkt jedes Mal!</p>
+    <p><b>4</b> Ich singe in einem Chor. Ich hätte nie gedacht, dass mir das so viel Spaß macht. Selbst wenn ich vor der Chorprobe Stress bei der Arbeit hatte, gehe ich danach immer mit guter Laune nach Hause. Das liegt bestimmt auch daran, dass unsere Herzen beim Singen im gleichen Rhythmus schlagen. Das habe ich vor Kurzem mal irgendwo gelesen. Toll, oder?</p>
+    <p><b>5</b> Als Ärztin habe ich immer wieder mit Menschen zu tun, die durch eine Krankheit ihre Sprache verloren haben. Es gibt eine Gruppe von Ärzten in Boston, die sich damit beschäftigt, wie Patienten durch Singen das Sprechen wieder lernen können. Sie lernen zuerst, Wörter zu singen, dann singen sie mit diesen Wörtern kurze Sätze und irgendwann längere. Beim Singen klopfen sie mit den Händen den Rhythmus. Irgendwann können sie die Sätze sprechen. Faszinierend!</p>
+  </div></details>
+</div>
+
+<div class="card task" data-max="5">
+  <div class="task-head"><span class="badge">A2</span><h3>Hören Sie fünf Sätze aus verschiedenen Situationen im Krankenhaus. Markieren Sie die passende Reaktion.</h3><span class="src">Hören · TH S. 36</span></div>
+  <div class="audio" data-src="audio/NWn_B1_TH_Audio_011.mp3" data-label="Track 11"></div>
+  <p class="hint">Beispiel: 0. → <b>a) Ja, mir ist manchmal noch schwindelig.</b></p>
+  <ol class="items">
+    <li><span class="ch mc" data-a="b"><button data-v="a">a) Danke, aber du brauchst mir nicht zu helfen.</button><button data-v="b">b) Ja, das wäre sehr nett.</button></span></li>
+    <li><span class="ch mc" data-a="b"><button data-v="a">a) Nein, danke, das ist nicht nötig.</button><button data-v="b">b) Ich brauche Hilfe beim Anziehen.</button></span></li>
+    <li><span class="ch mc" data-a="a"><button data-v="a">a) Ich kann Ihnen nur raten, im Bett zu bleiben.</button><button data-v="b">b) Gern, vielen Dank.</button></span></li>
+    <li><span class="ch mc" data-a="a"><button data-v="a">a) Am Nachmittag zwischen 14 und 17 Uhr.</button><button data-v="b">b) Dafür zahlen Sie zwei Euro pro Tag.</button></span></li>
+    <li><span class="ch mc" data-a="b"><button data-v="a">a) Im Notfall drücken Sie den Alarmknopf.</button><button data-v="b">b) Gern. Mehr Getränke finden Sie auch in der Stationsküche.</button></span></li>
+  </ol>
+  <div class="sol">1. b · 2. b · 3. a · 4. a · 5. b</div>
+  <details class="tr"><summary>Transkript (erst nach der Aufgabe öffnen)</summary><div class="transcript">
+    <p><b>0</b> Seien Sie bitte vorsichtig!</p><p><b>1</b> Kann ich Ihnen helfen?</p><p><b>2</b> Was kann ich für Sie tun?</p><p><b>3</b> Ich möchte gern mit meinem Mann in die Cafeteria gehen. Geht das?</p><p><b>4</b> Wann sind die Besuchszeiten?</p><p><b>5</b> Könnte ich eine Flasche Mineralwasser bekommen?</p>
+  </div></details>
+</div>
+
+<div class="card task" data-max="5">
+  <div class="task-head"><span class="badge">A3</span><h3>Ein Morgen wie jeder andere. Ergänzen Sie das richtige Pronomen.</h3><span class="src">Grammatik · TH S. 36</span></div>
+  <p>0. Morgens dusche ich <input class="gap" value="mich" readonly style="min-width:80px">.</p>
+  <ol class="items">
+    <li>Ich wasche <input class="gap" data-a="mir" style="min-width:80px"> aber nicht jeden Tag die Haare.</li>
+    <li>Ich ziehe <input class="gap" data-a="mich" style="min-width:80px"> noch vor dem Frühstück an.</li>
+    <li>Nach dem Frühstück putze ich <input class="gap" data-a="mir" style="min-width:80px"> die Zähne.</li>
+    <li>Dann kämme ich <input class="gap" data-a="mich" style="min-width:80px">.</li>
+    <li>Zum Schluss ziehe ich <input class="gap" data-a="mir" style="min-width:80px"> die Schuhe und die Jacke an und gehe los.</li>
+  </ol>
+  <div class="bank reuse"><span>mich</span><span>mir</span></div>
+  <div class="sol">1. mir · 2. mich · 3. mir · 4. mich · 5. mir</div>
+</div>
+
+<div class="card task" data-max="5">
+  <div class="task-head"><span class="badge">A4</span><h3>Formulieren Sie die Antworten mit <i>brauchen + zu</i>.</h3><span class="src">Grammatik · TH S. 37</span></div>
+  <div class="dialog">
+    <p class="s1">Mama, ich habe Kopfschmerzen und Husten.</p>
+    <p class="s2">(0) <input class="gap" value="Du brauchst nicht in die Schule zu gehen." readonly style="min-width:420px"> <span class="hint">(nicht in die Schule gehen)</span></p>
+    <p class="s1">Ich bin so müde.</p>
+    <p class="s2">(1) <input class="gap" data-a="Du brauchst nicht aufzustehen." style="min-width:420px"> <span class="hint">(nicht aufstehen)</span></p>
+    <p class="s1">Ich habe keinen Hunger.</p>
+    <p class="s2">(2) <input class="gap" data-a="Du brauchst kein Frühstück zu essen." style="min-width:420px"> <span class="hint">(kein Frühstück essen)</span></p>
+    <p class="s1">Muss ich wieder den schrecklichen Hustensaft nehmen?</p>
+    <p class="s2">(3) <input class="gap" data-a="Du brauchst keinen Hustensaft zu nehmen." style="min-width:420px"> <span class="hint">(keinen Hustensaft nehmen)</span></p>
+    <p class="s1">Bitte lass mich nicht allein!</p>
+    <p class="s2">Ich bin doch nur in der Küche. (4) <input class="gap" data-a="Du brauchst mich nur zu rufen" style="min-width:320px"> <span class="hint">(mich nur rufen)</span>, wenn etwas ist.</p>
+    <p class="s1">Darf ich fernsehen?</p>
+    <p class="s2">Natürlich! (5) <input class="gap" data-a="Du brauchst nur ins Wohnzimmer zu gehen." style="min-width:420px"> <span class="hint">(nur ins Wohnzimmer gehen)</span></p>
+  </div>
+  <div class="sol">1. Du brauchst nicht aufzustehen. · 2. Du brauchst kein Frühstück zu essen. · 3. Du brauchst keinen Hustensaft zu nehmen. · 4. Du brauchst mich nur zu rufen. · 5. Du brauchst nur ins Wohnzimmer zu gehen.</div>
+</div>
+
+<div class="card task" data-max="5">
+  <div class="task-head"><span class="badge">A5</span><h3>Ergänzen Sie die zweiteiligen Konnektoren.</h3><span class="src">Grammatik · TH S. 37</span></div>
+  <p class="hint">entweder … oder · <s>sowohl … als auch</s> · weder … noch · zwar …, aber · einerseits …, andererseits · nicht nur …, sondern auch</p>
+  <p>0. Ich mag <b>sowohl</b> Klassik <b>als auch</b> Jazz.</p>
+  <ol class="items">
+    <li>Ich habe <input class="gap" data-a="zwar"> wenig Geld, <input class="gap" data-a="aber"> ich kaufe trotzdem Tickets für das Festival.</li>
+    <li>Ich habe <input class="gap" data-a="weder"> Zeit <input class="gap" data-a="noch"> Lust, mit dir ins Konzert zu gehen. Mir gefällt die Musik einfach nicht.</li>
+    <li><input class="gap" data-a="Entweder"> studiere ich Musik in Hamburg <input class="gap" data-a="oder"> in Wien.</li>
+    <li>Langsame Stücke in Moll beruhigen mich <input class="gap" data-a="nicht nur">, <input class="gap" data-a="sondern"> sie erinnern mich <input class="gap" data-a="auch"> an meine Oma.</li>
+    <li>Ich spiele <input class="gap" data-a="einerseits"> oft vor Publikum Klavier, <input class="gap" data-a="andererseits"> macht es mir keinen Spaß mehr.</li>
+  </ol>
+  <div class="bank"><span>entweder</span><span>oder</span><span>weder</span><span>noch</span><span>zwar</span><span>aber</span><span>einerseits</span><span>andererseits</span><span>nicht nur</span><span>sondern</span><span>auch</span></div>
+  <div class="sol">1. zwar … aber · 2. weder … noch · 3. Entweder … oder · 4. nicht nur … sondern … auch · 5. einerseits … andererseits</div>
+</div>
+
+<div class="card task" data-max="5">
+  <div class="task-head"><span class="badge">A6</span><h3>Lesen Sie den Text und die Aufgaben 1–5. Welche Lösung (a, b oder c) ist jeweils richtig? Klicken Sie an.</h3><span class="src">Lesen · TH S. 38 · ZD</span></div>
+  <div class="textbox"><h4>Lachen ist die beste Medizin!</h4>
+    <p>„Lachen ist die beste Medizin“, das ist nicht nur ein Sprichwort. Lachen hilft tatsächlich, gesund zu werden und gesund zu bleiben. Das haben auch Kliniken erkannt und deshalb gibt es seit mehr als 30 Jahren in vielen Ländern Clownsbesuche in den Krankenhäusern.</p>
+    <p>In Deutschland gibt es 16 Klinikclown-Vereine, in denen sich rund 240 Klinikclowns engagieren. Sie haben es sich zur Aufgabe gemacht, den Krankenhausalltag der Kinder zu verschönern. Diese Clowns sind keine gewöhnlichen Spaßmacher/innen. Sie machen eine spezielle Ausbildung, um den Umgang mit kranken Kindern zu lernen. Dabei lernen sie nicht nur psychologische Grundlagen, sondern auch ihren eigenen Clowncharakter zu entwickeln. Bevor sie in die Krankenhäuser gehen, üben sie in Rollenspielen kurze Szenen, damit sie für ihren ersten Besuch gut vorbereitet sind.</p>
+    <p>Sie sind für die kranken Kinder Freunde/Freundinnen und Spaßmacher/innen zugleich. Sie helfen ihnen mit Hilfe ihrer freundlichen, neugierigen, optimistischen und etwas verrückten Art, ihre Krankheit für kurze Zeit zu vergessen. Sie improvisieren auch aus dem Moment heraus, müssen sehr sensibel sein und erkennen können, welches Kind in welchem Moment was braucht. Manchmal helfen auch nur beruhigende Worte. Die Kinder haben zu den Clowns eine ganz besondere Beziehung und erzählen ihnen vieles, worüber sie mit anderen Menschen nicht sprechen. Auch die Eltern sind dankbar, denn sie merken, dass es ihren Kindern nach einem solchen Besuch besser geht.</p>
+    <p>Die Besuche finden ein- bis zweimal pro Woche statt. Jeder Klinikclown entscheidet aber selbst, wie oft er/sie pro Monat eingesetzt werden möchte. Ca. drei Stunden sind die Clowns im Einsatz und bringen im Vorbeigehen auch das Klinikpersonal zum Lachen. Nach kurzer Information über das Befinden der kleinen Patienten/Patientinnen durch das Pflegepersonal beginnt der eigentliche Besuch.</p>
+    <p>Die Besuche der Klinikclowns in den Krankenhäusern finanzieren sich nicht, wie man denken könnte, durch Beiträge der Eltern, sondern hauptsächlich durch Beiträge und Spenden ihrer Mitglieder, aber auch durch Veranstaltungen, bei denen Geld für die Vereine gesammelt wird, und Kooperationen mit Firmen.</p>
+  </div>
+  <ol class="items">
+    <li>In diesem Text geht es um <span class="ch mc" data-a="a"><button data-v="a">a) ein Projekt, das kranken Kindern hilft.</button><button data-v="b">b) eine psychologische Ausbildung.</button><button data-v="c">c) Menschen, die das Klinikpersonal zum Lachen bringen.</button></span></li>
+    <li>Klinikclowns <span class="ch mc" data-a="b"><button data-v="a">a) sind normale Clowns.</button><button data-v="b">b) brauchen am Anfang Informationen zur Psychologie.</button><button data-v="c">c) machen mit den Kindern Rollenspiele.</button></span></li>
+    <li>Die meisten Kinder <span class="ch mc" data-a="b"><button data-v="a">a) können ihre Krankheit trotz der Späße der Clowns nicht vergessen.</button><button data-v="b">b) erzählen den Clowns Dinge, die sie den Ärzten und Ärztinnen nicht sagen.</button><button data-v="c">c) reden mit ihren Eltern, worüber sie mit den Clowns nicht sprechen.</button></span></li>
+    <li>Die Clowns besuchen die Kliniken <span class="ch mc" data-a="c"><button data-v="a">a) drei Stunden pro Woche.</button><button data-v="b">b) ein- bis zweimal pro Monat.</button><button data-v="c">c) jede Woche mindestens einmal.</button></span></li>
+    <li>Die Vereine bekommen ihr Geld vor allem von den <span class="ch mc" data-a="c"><button data-v="a">a) Eltern der kranken Kinder.</button><button data-v="b">b) Krankenhäusern.</button><button data-v="c">c) Mitgliedern.</button></span></li>
+  </ol>
+  <div class="sol">1. a · 2. b · 3. b · 4. c · 5. c</div>
+</div>
+
+<div class="card task">
+  <div class="task-head"><span class="badge">A7</span><h3>Antworten Sie auf die E-Mail. Schreiben Sie etwas zu allen vier Punkten. Überlegen Sie sich vor dem Schreiben eine passende Reihenfolge der Punkte, einen passenden Betreff, eine passende Anrede, Einleitung und einen passenden Schluss.</h3><span class="src">Schreiben · TH S. 39 · 5 P.</span></div>
+  <div class="textbox"><p>Sie haben von einem Freund folgende E-Mail erhalten:</p>
+    <p>Liebe/r …,<br>ich liege schon seit zehn Tagen mit einem gebrochenen Bein im Krankenhaus. Es ist beim Fußballtraining passiert. Es hatte geregnet und der Platz war nass. Gerade, als ich eine gute Torchance hatte, bin ich gestürzt, und konnte nicht mehr alleine aufstehen. Mein Bein tat schrecklich weh.<br>Der Trainer rief einen Krankenwagen und der brachte mich ins Krankenhaus. Hier liege ich nun im Bett und kann nicht laufen. Ich habe schon viel Besuch bekommen und fast alle haben Schokolade und Blumen mitgebracht.<br>Wann kommst du mich besuchen?<br>Liebe Grüße und hoffentlich bis bald<br>Marius</p></div>
+  <ul><li>wie Sie auf die Neuigkeit reagieren</li><li>wann Sie Marius besuchen können</li><li>welche Erfahrungen Sie mit Unfällen haben</li><li>was Sie mitbringen</li></ul>
+  <textarea class="write" placeholder="Schreiben Sie hier …"></textarea>
+  <div class="sol muster"><b>Musterlösung</b><br>Lieber Marius,<br>danke für deine E-Mail. Ich habe mich wirklich gewundert, dass ich nichts mehr von dir gehört habe. Jetzt weiß ich, warum. Es tut mir sehr leid, dass du dir das Bein gebrochen hast. Das macht wirklich keinen Spaß. Ich habe mir mal beim Inlinerfahren die Hand gebrochen. Da musste ich auch ins Krankenhaus und wurde operiert. Zum Glück hatte ich nette Zimmernachbarn und es sind viele Freunde zu Besuch gekommen.<br>Ich besuche dich natürlich auch gern. Wann sind denn die Besuchszeiten im Krankenhaus? Und in welchem Zimmer liegst du? Ich möchte dir gerne etwas mitbringen. Vielleicht ein Buch oder eine Handcreme?<br>Ich wünsche dir gute Besserung und hoffe, dass du bald wieder aufstehen kannst.<br>Bis bald<br>…</div>
+</div>
+
+<div class="card finish">
+  <button id="checkAll">✔ Alles prüfen</button><button id="resetAll" class="sec">↺ Alles zurücksetzen</button>
+  <div id="totalRes"></div>
+</div>
+</main>
+
+<script>
+/* ---------- Übungs-Engine ---------- */
+function norm(s){
+  return (s||'').toLowerCase().replace(/[„“"'.,!?;:–]/g,' ').replace(/\bumso\b/g,'desto')
+    .replace(/\/innen/g,'').replace(/\s+/g,' ').trim();
+}
+document.querySelectorAll('select.sel').forEach(s=>{
+  const o=s.dataset.opts.split(',');
+  s.innerHTML='<option value="">—</option>'+o.map(x=>`<option>${x}</option>`).join('');
+});
+document.querySelectorAll('.ch').forEach(g=>g.querySelectorAll('button').forEach(b=>b.addEventListener('click',()=>{
+  g.querySelectorAll('button').forEach(x=>x.classList.remove('on','ok','bad','filled')); b.classList.add('on'); g.dataset.sel=b.dataset.v||b.textContent;
+})));
+/* Lösung in ein Element eintragen */
+function fillEl(el){
+  if(el.matches('input.gap')){
+    if(el.readOnly) return;
+    const v=el.dataset.show||(el.dataset.a?el.dataset.a.split('|')[0]:el.dataset.sol);
+    if(v===undefined) return;
+    el.value=v; el.classList.remove('ok','bad'); el.classList.add('filled'); return;
+  }
+  if(el.matches('select.sel') && el.dataset.a){ el.value=el.dataset.a; el.classList.remove('ok','bad'); el.classList.add('filled'); return; }
+  if(el.matches('.ch') && el.dataset.a){
+    el.querySelectorAll('button').forEach(b=>{b.classList.remove('on','ok','bad','filled'); if((b.dataset.v||b.textContent)===el.dataset.a){b.classList.add('on','filled');}});
+    el.dataset.sel=el.dataset.a;
+  }
+}
+const fillable=el=>(el.matches('input.gap')&&!el.readOnly&&(el.dataset.a||el.dataset.sol!==undefined))||(el.matches('select.sel,.ch')&&!!el.dataset.a);
+document.querySelectorAll('.card.task').forEach(card=>{
+  const gaps=[...card.querySelectorAll('input.gap[data-a]')], sels=[...card.querySelectorAll('select.sel[data-a]')], chs=[...card.querySelectorAll('.ch[data-a]')];
+  const all=[...card.querySelectorAll('input.gap, select.sel, .ch')].filter(fillable);
+  const sol=card.querySelector('.sol');
+  const auto=gaps.length+sels.length+chs.length;
+  const box=document.createElement('div'); box.className='btns';
+  if(auto) box.innerHTML+='<button class="b-check">✔ Prüfen</button>';
+  if(all.length||sol) box.innerHTML+= (sol&&sol.classList.contains('muster')&&!all.length) ? '<button class="b-sol">💡 Musterlösung</button>' : '<button class="b-sol">🔑 Lösung</button>';
+  if(sol&&sol.classList.contains('muster')&&all.length) box.innerHTML+='<button class="b-muster">💡 Musterlösung</button>';
+  box.innerHTML+='<button class="b-reset">↺ Zurücksetzen</button><span class="score"></span>';
+  const wd=card.querySelector(':scope > .wdict');
+  if(sol) sol.insertAdjacentElement('beforebegin',box); else if(wd) wd.insertAdjacentElement('beforebegin',box); else card.lastElementChild.insertAdjacentElement('afterend',box);
+  const sc=box.querySelector('.score');
+  /* Einzel-Lösung pro Satz / Zeile */
+  const rows=new Set(all.map(el=>el.closest('li, p, tr')).filter(Boolean));
+  rows.forEach(row=>{
+    const k=document.createElement('button'); k.className='rowkey'; k.type='button'; k.title='Lösung für diesen Satz'; k.textContent='🔑';
+    k.addEventListener('click',()=>{ [...row.querySelectorAll('input.gap, select.sel, .ch')].filter(fillable).forEach(fillEl); k.classList.add('used'); });
+    (row.tagName==='TR'?row.cells[0]:row).prepend(k);
+  });
+  function check(){
+    let ok=0; const seen={};
+    gaps.forEach(g=>{
+      if(g.readOnly){ok++;return;}
+      const alts=g.dataset.a.split('|'); const v=norm(g.value);
+      let good;
+      if(g.classList.contains('multi')){ const parts=g.value.split(/[\/,;]+| und /).map(norm).filter(Boolean); good=parts.length>0 && parts.every(p=>alts.some(a=>norm(a)===p)); }
+      else good=alts.some(a=>norm(a)===v);
+      const key=alts.slice().sort().join('|');
+      if(good && !g.classList.contains('multi') && alts.length>1 && seen[key]&&seen[key].includes(v)) good=false;
+      if(good){(seen[key]=seen[key]||[]).push(v);}
+      g.classList.remove('ok','bad','filled'); if(g.value.trim()) g.classList.add(good?'ok':'bad'); if(good)ok++;
+    });
+    sels.forEach(s=>{const good=s.value===s.dataset.a; s.classList.remove('ok','bad','filled'); if(s.value)s.classList.add(good?'ok':'bad'); if(good)ok++;});
+    chs.forEach(c=>{const good=c.dataset.sel===c.dataset.a; const b=c.querySelector('button.on'); if(b){b.classList.remove('ok','bad','filled');b.classList.add(good?'ok':'bad');} if(good)ok++;});
+    sc.textContent=`${ok} / ${auto}`;
+  }
+  box.querySelector('.b-check')?.addEventListener('click',check);
+  box.querySelector('.b-sol')?.addEventListener('click',()=>{
+    all.forEach(fillEl); card.querySelectorAll('.rowkey').forEach(k=>k.classList.add('used'));
+    if(sol && !all.length) sol.classList.toggle('show');
+    else if(sol && card.classList.contains('showalts')) sol.classList.add('show');
+  });
+  box.querySelector('.b-muster')?.addEventListener('click',()=>sol.classList.toggle('show'));
+  box.querySelector('.b-reset').addEventListener('click',()=>{
+    card.querySelectorAll('input.gap').forEach(g=>{if(!g.readOnly)g.value='';g.classList.remove('ok','bad','filled');});
+    card.querySelectorAll('select.sel').forEach(s=>{s.value='';s.classList.remove('ok','bad','filled');});
+    card.querySelectorAll('.ch').forEach(c=>{delete c.dataset.sel;c.querySelectorAll('button').forEach(b=>b.classList.remove('on','ok','bad','filled'));});
+    card.querySelectorAll('.rowkey').forEach(k=>k.classList.remove('used'));
+    sol&&sol.classList.remove('show'); sc.textContent='';
+  });
+  gaps.forEach(g=>g.addEventListener('keydown',e=>{if(e.key==='Enter')check();}));
+});
+/* Audio */
+document.querySelectorAll('.audio').forEach(d=>{
+  const src=d.dataset.src;
+  d.innerHTML=`<span class="al">🔊 ${d.dataset.label}</span><audio controls preload="metadata" src="${src}"></audio>`;
+  d.querySelector('audio').addEventListener('error',()=>{
+    d.insertAdjacentHTML('beforeend',`<span class="miss">⚠ Audiodatei fehlt: <code>${src}</code> – bitte in den Ordner <b>audio</b> neben dieser HTML-Datei legen.</span>`);
+  });
+});
+/* Bilder vergrößern */
+const zoom=document.createElement('div');zoom.id='zoom';zoom.innerHTML='<img>';document.body.appendChild(zoom);
+document.querySelectorAll('.gallery img, img.side').forEach(i=>i.addEventListener('click',()=>{zoom.querySelector('img').src=i.src;zoom.style.display='flex';}));
+zoom.addEventListener('click',()=>zoom.style.display='none');
+/* Selbsteinschätzung */
+document.querySelectorAll('.faces').forEach(f=>{
+  f.innerHTML='<button title="sehr gut">😀</button><button title="gut">🙂</button><button title="noch nicht so gut">😐</button>';
+  f.querySelectorAll('button').forEach(b=>b.addEventListener('click',()=>{f.querySelectorAll('button').forEach(x=>x.classList.remove('on'));b.classList.add('on');}));
+});
+/* Selects ohne Lösung (z. B. 1b) befüllen */
+document.querySelectorAll('select.sel:not([data-a])').forEach(s=>{if(!s.options.length){const o=s.dataset.opts.split(',');s.innerHTML='<option value="">—</option>'+o.map(x=>`<option>${x}</option>`).join('');}});
+/* Musterlösung unter jedem Foto */
+document.querySelectorAll('.figcard').forEach(card=>{
+  card.querySelectorAll('.figkey').forEach(k=>k.addEventListener('click',()=>k.nextElementSibling.classList.toggle('show')));
+  const box=card.querySelector('.btns');
+  if(box){
+    const all=document.createElement('button'); all.className='b-sol'; all.textContent='💡 Alle Musterlösungen';
+    all.addEventListener('click',()=>{const ms=[...card.querySelectorAll('.figm')]; const open=ms.every(m=>m.classList.contains('show')); ms.forEach(m=>m.classList.toggle('show',!open));});
+    box.prepend(all);
+    box.querySelector('.b-reset')?.addEventListener('click',()=>card.querySelectorAll('.figm').forEach(m=>m.classList.remove('show')));
+  }
+});
+/* Übungs-Wörterbücher */
+document.querySelectorAll('.wdict').forEach(d=>{
+  d.addEventListener('click',e=>{ if(e.target.matches('td.bgc span')) e.target.classList.toggle('peek'); });
+  d.querySelector('.wd-all')?.addEventListener('click',e=>{ d.classList.toggle('showbg'); e.target.textContent=d.classList.contains('showbg')?'Übersetzungen verstecken':'Alle Übersetzungen zeigen'; });
+});
+/* Wörter-Kärtchen rechts neben der Übung */
+document.querySelectorAll('.card.task').forEach(card=>{
+  if(card.querySelector('.workarea')) return;
+  const bank=card.querySelector('.bank:not(.static)'); if(!bank) return;
+  const head=card.querySelector(':scope > .task-head');
+  const wa=document.createElement('div'); wa.className='workarea';
+  const main=document.createElement('div'); main.className='wa-main';
+  const side=document.createElement('div'); side.className='wa-side';
+  const stop=el=>el.matches('.btns,.sol,.lk,.wdict,details');
+  const kids=[...card.children].filter(k=>k!==head && !stop(k));
+  head.after(wa); wa.append(main,side);
+  kids.forEach(k=>main.appendChild(k));
+  bank.classList.add('side-bank');
+  const t=document.createElement('div'); t.className='sb-title'; t.textContent='Wörter'; bank.prepend(t);
+  side.appendChild(bank);
+  const img=main.querySelector('img.side'); if(img){ img.classList.add('sideimg'); side.appendChild(img); }
+});
+/* ---------- Wortkärtchen: ziehen / antippen + Info-Kasten ---------- */
+// Verben: [Infinitiv, Präteritum, Perfekt, BG]; Nomen: [Singular, Plural, BG]; Adjektive: [Grundform, Komparativ, Superlativ, BG]
+const LEX = {
+ "beantragen":["V","beantragen","beantragte","hat beantragt","подавам заявление за"],
+ "überweisen":["V","überweisen","überwies","hat überwiesen","превеждам (пари)"],
+ "einzahlen":["V","einzahlen","zahlte ein","hat eingezahlt","внасям (пари)"],
+ "drucken":["V","drucken","druckte","hat gedruckt","отпечатвам, разпечатвам"],
+ "eröffnen":["V","eröffnen","eröffnete","hat eröffnet","откривам"],
+ "verlangen":["V","verlangen","verlangte","hat verlangt","искам, изисквам"],
+ "sperren":["V","sperren","sperrte","hat gesperrt","блокирам"],
+ "abheben":["V","abheben","hob ab","hat abgehoben","тегля (пари)"],
+ "zahlen":["V","zahlen","zahlte","hat gezahlt","плащам"],
+ "sparen":["V","sparen","sparte","hat gespart","спестявам"],
+ "überziehen":["V","überziehen","überzog","hat überzogen","превишавам наличността (по сметка)"],
+ "verdienen":["V","verdienen","verdiente","hat verdient","печеля, изкарвам (пари)"],
+ "wechseln":["V","wechseln","wechselte","hat gewechselt","обменям; сменям"],
+ "versäumt":["V","versäumen","versäumte","hat versäumt","пропускам"],
+ "tun":["V","tun","tat","hat getan","правя"],
+ "empfehlen":["V","empfehlen","empfahl","hat empfohlen","препоръчвам"],
+ "aufnehmen":["V","aufnehmen","nahm auf","hat aufgenommen","тегля (кредит)"],
+ "zurückzahlen":["V","zurückzahlen","zahlte zurück","hat zurückgezahlt","връщам (пари)"],
+ "Geld abheben":["V","Geld abheben","hob Geld ab","hat Geld abgehoben","тегля пари"],
+ "ein Konto überziehen":["V","ein Konto überziehen","überzog das Konto","hat das Konto überzogen","превишавам наличността"],
+ "eine Karte sperren":["V","eine Karte sperren","sperrte die Karte","hat die Karte gesperrt","блокирам карта"],
+ "angegebene":["V","angeben","gab an","hat angegeben","посочвам"],
+ "ausgefüllten":["V","ausfüllen","füllte aus","hat ausgefüllt","попълвам"],
+ "gefundene":["V","finden","fand","hat gefunden","намирам"],
+ "verschlossener":["V","verschließen","verschloss","hat verschlossen","заключвам"],
+ "gewählte":["V","wählen","wählte","hat gewählt","избирам; набирам (номер)"],
+ "die Einzahlung":["N","die Einzahlung","die Einzahlungen","внасяне (на пари), вноска"],
+ "die Eröffnung":["N","die Eröffnung","die Eröffnungen","откриване"],
+ "die Überweisung":["N","die Überweisung","die Überweisungen","превод"],
+ "die Ausgaben":["N","die Ausgabe","die Ausgaben","разход – разходи"],
+ "die Einnahmen":["N","die Einnahme","die Einnahmen","приход – приходи"],
+ "die BIC":["N","die BIC","die BICs","BIC – код на банката"],
+ "die IBAN":["N","die IBAN","die IBANs","IBAN – номер на сметка"],
+ "die Mahnung":["N","die Mahnung","die Mahnungen","напомнително писмо за неплатено задължение"],
+ "die Schulden":["N","—","die Schulden (nur Pl.)","дългове"],
+ "die Zahlung":["N","die Zahlung","die Zahlungen","плащане"],
+ "die Zinsen":["N","der Zins","die Zinsen","лихва – лихви"],
+ "die Münzen":["N","die Münze","die Münzen","монета – монети"],
+ "die Scheine":["N","der Schein","die Scheine","банкнота – банкноти"],
+ "die Gebühr":["N","die Gebühr","die Gebühren","такса"],
+ "Gebühren":["N","die Gebühr","die Gebühren","такса – такси"],
+ "die Rate":["N","die Rate","die Raten","вноска"],
+ "der Kontoauszug":["N","der Kontoauszug","die Kontoauszüge","извлечение от сметка"],
+ "Kontoauszug":["N","der Kontoauszug","die Kontoauszüge","извлечение от сметка"],
+ "der Dauerauftrag":["N","der Dauerauftrag","die Daueraufträge","постоянно нареждане"],
+ "Konditionen":["N","—","die Konditionen (Pl.)","условия"],
+ "Zinsen":["N","der Zins","die Zinsen","лихва – лихви"],
+ "das Geld":["N","das Geld","— (nur Sg.)","пари"],
+ "kostenlos":["A","kostenlos","—","—","безплатен"],
+ "monatlich":["A","monatlich","—","—","месечно, всеки месец"],
+ "online":["A","online","—","—","онлайн"],
+ "Wie hoch":["A","hoch","höher","am höchsten","висок – колко висок/голям?"],
+ "höher":["A","hoch","höher","am höchsten","висок"],
+ "größer":["A","groß","größer","am größten","голям"],
+ "cooler":["A","cool","cooler","am coolsten","готин, страхотен"],
+ "teurer":["A","teuer","teurer","am teuersten","скъп"],
+ "mehr":["A","viel","mehr","am meisten","много"],
+ "weniger":["A","wenig","weniger","am wenigsten","малко"],
+ "sparsamer":["A","sparsam","sparsamer","am sparsamsten","пестелив"],
+ "länger":["A","lang","länger","am längsten","дълъг; дълго"]
+};
+const HEAD={V:["Infinitiv","Präteritum","Perfekt"],N:["Singular","Plural"],A:["Grundform","Komparativ","Superlativ"]};
+let picked=null;
+function showInfo(card,word){
+  const e=LEX[word]; if(!e) return;
+  const side=card.querySelector('.wa-side');
+  let box=card.querySelector('.infobox');
+  if(!box){
+    box=document.createElement('aside'); box.className='infobox';
+    box.innerHTML='<div class="ib-head">📌 Wortinfo <button class="ib-close" title="schließen">✕</button></div><div class="ib-list"></div>';
+    if(side){ side.appendChild(box); }
+    else { card.appendChild(box); card.classList.add('with-info'); }
+    box.querySelector('.ib-close').addEventListener('click',()=>{box.remove();card.classList.remove('with-info');});
+  }
+  const list=box.querySelector('.ib-list');
+  [...list.children].forEach(c=>{if(c.dataset.w===word)c.remove();});
+  const t=e[0], forms=e.slice(1,-1), bg=e[e.length-1];
+  const item=document.createElement('div'); item.className='ib-item'; item.dataset.w=word;
+  item.innerHTML=`<div class="ib-forms">${forms.map((f,i)=>`<div><span>${HEAD[t][i]}</span><b>${f}</b></div>`).join('')}</div><div class="ib-bg">🇧🇬 ${bg}</div>`;
+  list.prepend(item);
+  while(list.children.length>6) list.lastChild.remove();
+}
+function placeInto(gap,chip){
+  const v=chip.dataset.v||chip.textContent.trim();
+  if(gap.classList.contains('multi')){
+    const cur=gap.value.split('/').map(s=>s.trim()).filter(Boolean);
+    if(!cur.includes(v)) cur.push(v);
+    gap.value=cur.join(' / ');
+  } else {
+    // vorher hier eingesetztes Kärtchen wieder freigeben
+    if(gap._chip && gap._chip!==chip) gap._chip.classList.remove('used');
+    // richtiger Ausdruck → automatisch in der richtigen Form einsetzen
+    if(gap.dataset.base && gap.dataset.base===v && gap.dataset.a){
+      gap.value=gap.dataset.a.split('|')[0];
+      gap.classList.add('converted'); setTimeout(()=>gap.classList.remove('converted'),900);
+    } else gap.value=v;
+    gap._chip=chip;
+    if(!chip.closest('.bank').classList.contains('reuse')) chip.classList.add('used');
+  }
+  gap.classList.remove('ok','bad','filled');
+}
+document.querySelectorAll('.card.task .bank:not(.static)').forEach(bank=>{
+  const card=bank.closest('.card');
+  card.classList.add('has-bank');
+  bank.querySelectorAll('span').forEach(ch=>{
+    ch.classList.add('chip'); ch.draggable=true;
+    if(LEX[ch.textContent.trim()]) ch.classList.add('has-info');
+    ch.addEventListener('dragstart',e=>{e.dataTransfer.setData('text/plain',ch.dataset.v||ch.textContent.trim()); picked=ch; ch.classList.add('dragging');});
+    ch.addEventListener('dragend',()=>ch.classList.remove('dragging'));
+    ch.addEventListener('click',()=>{
+      showInfo(card,ch.textContent.trim());
+      document.querySelectorAll('.chip.picked').forEach(c=>{if(c!==ch)c.classList.remove('picked');});
+      ch.classList.toggle('picked'); picked=ch.classList.contains('picked')?ch:null;
+      card.classList.toggle('picking',!!picked);
+    });
+  });
+  card.querySelectorAll('input.gap').forEach(g=>{
+    g.addEventListener('dragover',e=>{e.preventDefault();g.classList.add('drop');});
+    g.addEventListener('dragleave',()=>g.classList.remove('drop'));
+    g.addEventListener('drop',e=>{e.preventDefault();g.classList.remove('drop'); if(picked && picked.closest('.card')===card) placeInto(g,picked); picked=null;});
+    g.addEventListener('click',()=>{ if(picked && picked.closest('.card')===card){ placeInto(g,picked); picked.classList.remove('picked'); picked=null; card.classList.remove('picking'); } });
+  });
+  card.querySelector('.b-reset')?.addEventListener('click',()=>{bank.querySelectorAll('.chip').forEach(c=>c.classList.remove('used','picked'));card.querySelectorAll('input.gap').forEach(g=>g._chip=null);});
+  card.querySelector('.b-sol')?.addEventListener('click',()=>{ if(!bank.classList.contains('reuse')) bank.querySelectorAll('.chip').forEach(c=>c.classList.add('used')); });
+});
+/* ---------- Test: Punkte pro Aufgabe + Gesamtergebnis ---------- */
+function cardPoints(card){
+  const max=parseFloat(card.dataset.max||0); const sc=card.querySelector('.btns .score');
+  if(!max||!sc||!sc.textContent.includes('/')) return null;
+  const [ok,all]=sc.textContent.split('/').map(x=>parseFloat(x));
+  return Math.round(ok/all*max*2)/2;
+}
+function showPts(card){
+  const p=cardPoints(card); const el=card.querySelector('.pts'); if(!el) return;
+  el.textContent = p===null ? `– / ${card.dataset.max} P.` : `${String(p).replace('.',',')} / ${card.dataset.max} P.`;
+}
+document.querySelectorAll('.card.task[data-max]').forEach(card=>{
+  const h=card.querySelector('.task-head'); const s=document.createElement('span'); s.className='pts'; s.textContent=`– / ${card.dataset.max} P.`; h.appendChild(s);
+  card.querySelector('.b-check')?.addEventListener('click',()=>setTimeout(()=>{showPts(card);total();},0));
+  card.querySelector('.b-reset')?.addEventListener('click',()=>setTimeout(()=>{showPts(card);total();},0));
+});
+function total(){
+  let got=0,max=0,done=0;
+  document.querySelectorAll('.card.task[data-max]').forEach(c=>{ if(!c.querySelector('.b-check')) return; max+=parseFloat(c.dataset.max); const p=cardPoints(c); if(p!==null){got+=p;done++;} });
+  const t=document.getElementById('totalTop'); if(t) t.textContent=`${String(got).replace('.',',')} / ${max} P.`;
+  const pct=max?Math.round(got/max*100):0;
+  const r=document.getElementById('totalRes'); if(r) r.innerHTML=done?`Ergebnis: <b>${String(got).replace('.',',')} von ${max} Punkten</b> (${pct} %) · Schreiben: Vergleichen Sie Ihren Text mit der Musterlösung.`:'';
+}
+document.getElementById('checkAll')?.addEventListener('click',()=>{document.querySelectorAll('.card.task .b-check').forEach(b=>b.click());setTimeout(()=>{document.querySelectorAll('.card.task[data-max]').forEach(showPts);total();document.getElementById('totalRes')?.scrollIntoView({behavior:'smooth',block:'center'});},50);});
+document.getElementById('resetAll')?.addEventListener('click',()=>{if(!confirm('Alle Antworten löschen?'))return;document.querySelectorAll('.card.task .b-reset').forEach(b=>b.click());document.querySelectorAll('textarea.write').forEach(t=>t.value='');setTimeout(total,50);});
+total();
+
+</script>
+</body>
+</html>

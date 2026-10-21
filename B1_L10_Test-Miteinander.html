@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Test 10 · Miteinander</title>
+<style>
+:root{
+  --blau:#0b6e8f; --blau-hell:#e6f3f8; --ink:#222; --grau:#666; --linie:#d5dde2;
+  --ok:#1b7f3b; --ok-bg:#e6f5ea; --bad:#b3261e; --bad-bg:#fdecea;
+  --lk:#6a1b9a; --lk-bg:#f5ecfa; --gelb:#fff6dc; --orange:#e3730f; --orange-bg:#fff1e3;
+  --der:#1f5fbf; --die:#c0392b; --das:#1b7f3b;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:120px}
+body{margin:0;font-family:'Segoe UI',Arial,sans-serif;color:var(--ink);background:#f4f7f9;line-height:1.5;font-size:17px}
+header{background:var(--blau);color:#fff;padding:14px 20px 0;position:sticky;top:0;z-index:10;box-shadow:0 2px 6px rgba(0,0,0,.15)}
+.hrow{display:flex;gap:16px;align-items:center;justify-content:space-between;flex-wrap:wrap;max-width:1100px;margin:0 auto}
+header h1{margin:0;font-size:22px}
+header .meta{font-size:14px;opacity:.9}
+.lk-toggle{background:transparent;border:2px solid #fff;color:#fff;border-radius:20px;padding:5px 12px;cursor:pointer;font-size:14px}
+body.lk-on .lk-toggle{background:#fff;color:var(--lk)}
+nav{max-width:1100px;margin:10px auto 0;display:flex;gap:4px;overflow-x:auto;padding-bottom:8px}
+nav a{color:#fff;text-decoration:none;font-size:14px;padding:5px 11px;border-radius:14px;background:rgba(255,255,255,.14);white-space:nowrap}
+nav a:hover{background:rgba(255,255,255,.3)}
+nav a.lkonly{display:none} body.lk-on nav a.lkonly{display:inline-block;background:rgba(255,255,255,.35)}
+main{max-width:1100px;margin:16px auto;padding:0 16px 80px}
+h2.sec{font-size:21px;color:var(--blau);margin:34px 0 6px;border-bottom:2px solid var(--blau);padding-bottom:4px}
+h2.sec small{font-weight:400;color:var(--grau);font-size:14px;margin-left:8px}
+.card{background:#fff;border:1px solid var(--linie);border-radius:10px;padding:16px 20px;margin:14px 0}
+.task-head{display:flex;gap:10px;align-items:flex-start;margin-bottom:6px}
+.badge{background:var(--blau);color:#fff;border-radius:6px;padding:2px 8px;font-weight:700;font-size:14px;white-space:nowrap;margin-top:2px}
+.badge.ub{background:#5d7a8a}
+.task-head h3{font-size:17px;margin:0}
+.src{font-size:13px;color:var(--grau);margin-left:auto;white-space:nowrap}
+.hint{font-size:14px;color:var(--grau)}
+.bank{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0}
+.bank span{background:var(--blau-hell);border-radius:5px;padding:2px 9px;font-size:15px}
+input.gap{font-size:16px;padding:3px 7px;border:none;border-bottom:2px solid #99a9b3;background:#f8fafb;font-family:inherit;min-width:120px;border-radius:4px 4px 0 0}
+input.gap.wide{width:100%;margin-top:4px}
+input.gap:focus{outline:none;border-bottom-color:var(--blau);background:var(--blau-hell)}
+select.sel{font-size:16px;padding:3px 6px;border:1.5px solid var(--linie);border-radius:6px;font-family:inherit}
+.ok{border-color:var(--ok)!important;background:var(--ok-bg)!important}
+.bad{border-color:var(--bad)!important;background:var(--bad-bg)!important}
+.ch{display:inline-flex;gap:6px;margin-left:8px}
+.ch button{border:1.5px solid var(--linie);background:#fff;border-radius:6px;padding:3px 11px;cursor:pointer;font-size:15px;font-family:inherit}
+.ch button.on{border-color:var(--blau);background:var(--blau-hell);font-weight:600}
+ol.items{padding-left:22px;margin:6px 0} ol.items li{margin:9px 0}
+.btns{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px;align-items:center}
+.btns button{border:none;border-radius:7px;padding:7px 14px;font-size:14px;cursor:pointer;font-weight:600;font-family:inherit}
+.b-check{background:var(--blau);color:#fff} .b-sol{background:#f0c24b;color:#3a2c00} .b-reset{background:#e3e8ec}
+.score{font-weight:700;color:var(--blau)}
+.sol{display:none;background:var(--gelb);border:1px solid #e9d690;border-radius:8px;padding:10px 14px;margin-top:10px;font-size:16px}
+.sol.show{display:block}
+.lk{display:none;background:var(--lk-bg);border-left:4px solid var(--lk);border-radius:6px;padding:10px 14px;margin:10px 0;font-size:15px}
+body.lk-on .lk{display:block}
+.lk b.t{color:var(--lk)}
+.gram{background:var(--orange-bg);border:1.5px solid var(--orange);border-radius:10px;padding:14px 18px;margin:12px 0}
+.gram h4{margin:0 0 6px;color:var(--orange);font-size:17px}
+.gram table{border-collapse:collapse;margin:8px 0;font-size:16px}
+.gram td,.gram th{border:1px solid #f0c9a5;padding:5px 10px;text-align:left;vertical-align:top}
+.gram th{background:#fde3cb}
+.hl{color:var(--orange);font-weight:700}
+.bg{color:#555;font-style:italic}
+.redemittel{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media(max-width:760px){.redemittel{grid-template-columns:1fr}}
+.redemittel div{background:var(--blau-hell);border-radius:8px;padding:10px 14px}
+.redemittel h4{margin:0 0 4px;color:var(--blau)}
+.redemittel ul{margin:0;padding-left:18px}
+.situ{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:10px 0}
+@media(max-width:760px){.situ{grid-template-columns:1fr}}
+.situ div{border:2px solid var(--blau);border-radius:8px;padding:10px 14px}
+.situ b{color:var(--blau)}
+.web{border:1px solid var(--linie);border-radius:8px;padding:12px 16px;background:#fafbfc}
+.web h4{color:var(--blau);margin:6px 0 4px;font-family:Georgia,serif;font-size:18px}
+table.ablauf{width:100%;border-collapse:collapse;font-size:15px}
+table.ablauf td,table.ablauf th{border-bottom:1px solid var(--linie);padding:7px 8px;vertical-align:top;text-align:left}
+table.ablauf th{background:var(--lk-bg);color:var(--lk)}
+table.ablauf td:first-child{white-space:nowrap;font-weight:600}
+table.ablauf tr.pause td{background:#f1f1f1;color:#777;font-style:italic}
+/* Wortschatz */
+.vt-tools{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:8px 0}
+.vt-tools input{flex:1;min-width:200px;font-size:16px;padding:6px 10px;border:1.5px solid var(--linie);border-radius:8px}
+.vt-tools button,.fc-tools button{border:1.5px solid var(--blau);background:#fff;color:var(--blau);border-radius:8px;padding:6px 12px;cursor:pointer;font-size:14px;font-weight:600;font-family:inherit}
+.vt-tools button.on{background:var(--blau);color:#fff}
+table.vt{width:100%;border-collapse:collapse;font-size:16px}
+table.vt td{border-bottom:1px solid var(--linie);padding:6px 8px;vertical-align:top}
+table.vt tr.cat td{background:var(--blau-hell);color:var(--blau);font-weight:700;padding-top:10px}
+table.vt td.de{font-weight:600;width:30%}
+table.vt td.de small{display:block;font-weight:400;color:var(--grau);font-size:13px}
+table.vt td.ex{width:42%}
+table.vt td.bgc{width:28%}
+body.hide-bg table.vt td.bgc span{background:#dfe5e9;color:transparent;border-radius:4px;cursor:pointer;padding:0 4px}
+body.hide-bg table.vt td.bgc span.peek{background:none;color:inherit}
+.art-der{color:var(--der)} .art-die{color:var(--die)} .art-das{color:var(--das)}
+.fc{max-width:560px;margin:10px auto;text-align:center}
+.fc-card{border:2px solid var(--blau);border-radius:14px;min-height:170px;display:flex;align-items:center;justify-content:center;flex-direction:column;font-size:24px;padding:20px;cursor:pointer;background:#fff;user-select:none}
+.fc-card .small{font-size:15px;color:var(--grau);margin-top:8px}
+.fc-tools{display:flex;gap:8px;justify-content:center;margin-top:10px;flex-wrap:wrap}
+.artq{text-align:center}
+.artq .word{font-size:26px;font-weight:700;margin:10px 0}
+.artq button.a{font-size:18px;padding:8px 22px;margin:4px;border-radius:8px;border:2px solid;cursor:pointer;background:#fff;font-weight:700;font-family:inherit}
+.artq button.a.der{border-color:var(--der);color:var(--der)} .artq button.a.die{border-color:var(--die);color:var(--die)} .artq button.a.das{border-color:var(--das);color:var(--das)}
+.tabs{display:flex;gap:6px;margin:6px 0 10px;flex-wrap:wrap}
+.tabs button{border:none;background:#e3e8ec;padding:7px 14px;border-radius:8px 8px 0 0;cursor:pointer;font-size:15px;font-weight:600;font-family:inherit}
+.tabs button.on{background:var(--blau);color:#fff}
+.pane{display:none} .pane.on{display:block}
+.dialog p{margin:6px 0}
+.dialog .s1::before{content:"○ ";color:var(--grau)} .dialog .s2::before{content:"● ";color:var(--blau)}
+.quote{background:#eef1f4;border-radius:8px;padding:10px 14px;font-style:italic}
+.hw{background:#eef7ee;border:1.5px solid var(--ok);border-radius:10px;padding:12px 18px}
+.big{font-size:20px}
+:root{--tz1:#c2185b;--tz2:#1565c0;--tz3:#00838f;--tz4:#e65100;--tz5:#2e7d32;--tz6:#6a1b9a}
+.tz{display:inline-block;border-radius:12px;padding:1px 9px;font-size:13px;font-weight:700;color:#fff;white-space:nowrap;vertical-align:middle;margin-left:6px}
+.tz1{background:var(--tz1)}.tz2{background:var(--tz2)}.tz3{background:var(--tz3)}.tz4{background:var(--tz4)}.tz5{background:var(--tz5)}.tz6{background:var(--tz6)}
+.dot{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:5px;border:1px solid #fff}
+.ziele{background:#fff;border:2px solid var(--blau);border-radius:12px;padding:16px 20px;margin:14px 0 6px}
+.gz{font-size:18px;margin-bottom:12px}.gz-label{display:inline-block;background:var(--blau);color:#fff;border-radius:6px;padding:2px 10px;font-weight:700;margin-right:8px;font-size:15px}
+.tz-list{display:grid;grid-template-columns:1fr 1fr;gap:8px}@media(max-width:760px){.tz-list{grid-template-columns:1fr}}
+.tzc{display:block;text-decoration:none;color:var(--ink);border-left:6px solid;border-radius:6px;padding:7px 12px;background:#f7f9fa;font-size:15px}
+.tzc.tz1{border-color:var(--tz1)}.tzc.tz2{border-color:var(--tz2)}.tzc.tz3{border-color:var(--tz3)}.tzc.tz4{border-color:var(--tz4)}.tzc.tz5{border-color:var(--tz5)}.tzc.tz6{border-color:var(--tz6)}
+.tzc b{margin-right:4px}.tzc:hover{background:#eef3f6}
+.tzc.tz1 b{color:var(--tz1)}.tzc.tz2 b{color:var(--tz2)}.tzc.tz3 b{color:var(--tz3)}.tzc.tz4 b{color:var(--tz4)}.tzc.tz5 b{color:var(--tz5)}.tzc.tz6 b{color:var(--tz6)}
+h2.ph{display:flex;align-items:center;gap:10px;border-bottom-width:3px}
+h2.ph .phn{background:var(--blau);color:#fff;border-radius:50%;width:32px;height:32px;display:inline-flex;align-items:center;justify-content:center;font-size:17px}
+h2.tz1b{color:var(--tz1);border-color:var(--tz1)}h2.tz1b .phn{background:var(--tz1)}
+h2.tz2b{color:var(--tz2);border-color:var(--tz2)}h2.tz2b .phn{background:var(--tz2)}
+h2.tz3b{color:var(--tz3);border-color:var(--tz3)}h2.tz3b .phn{background:var(--tz3)}
+h2.tz4b{color:var(--tz4);border-color:var(--tz4)}h2.tz4b .phn{background:var(--tz4)}
+h2.tz5b{color:var(--tz5);border-color:var(--tz5)}h2.tz5b .phn{background:var(--tz5)}
+h2.tz6b{color:var(--tz6);border-color:var(--tz6)}h2.tz6b .phn{background:var(--tz6)}
+.card.c-tz1{border-left:5px solid var(--tz1)}.card.c-tz2{border-left:5px solid var(--tz2)}.card.c-tz3{border-left:5px solid var(--tz3)}.card.c-tz4{border-left:5px solid var(--tz4)}.card.c-tz5{border-left:5px solid var(--tz5)}.card.c-tz6{border-left:5px solid var(--tz6)}
+.gallery{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:8px 0 12px}
+@media(max-width:760px){.gallery{grid-template-columns:repeat(2,1fr)}}
+.gallery figure{margin:0;position:relative}.gallery figure.wide{grid-column:span 2}
+.gallery img{width:100%;height:170px;object-fit:cover;border-radius:6px;display:block;cursor:zoom-in}
+.gallery figcaption{position:absolute;left:6px;top:6px;background:#fff;border-radius:4px;padding:0 8px;font-weight:700}
+.split{display:flex;gap:18px;align-items:flex-start}.split>div{flex:1}
+img.side{max-width:300px;width:34%;border-radius:8px}
+@media(max-width:760px){.split{flex-direction:column}img.side{width:100%}}
+.webhead{display:flex;gap:14px;align-items:flex-start}
+.audio{display:flex;align-items:center;gap:10px;background:#eef6f8;border:1px solid #cfe3ea;border-radius:8px;padding:6px 12px;margin:8px 0;flex-wrap:wrap}
+.audio .al{font-weight:700;color:var(--blau);font-size:14px;min-width:120px}
+.audio audio{height:36px;flex:1;min-width:240px}
+.audio .miss{color:var(--bad);font-size:14px}
+table.szenen{border-collapse:collapse;width:100%;margin:8px 0}table.szenen td,table.szenen th{padding:5px 8px;border-bottom:1px solid var(--linie);text-align:left}
+table.refl{width:100%;border-collapse:collapse}table.refl td{border-bottom:1px solid var(--linie);padding:8px}
+.faces button{font-size:24px;background:none;border:2px solid transparent;border-radius:50%;cursor:pointer;opacity:.45;padding:2px 5px}
+.faces button.on{opacity:1;border-color:var(--blau)}
+#zoom{position:fixed;inset:0;background:rgba(0,0,0,.8);display:none;align-items:center;justify-content:center;z-index:50;cursor:zoom-out}
+#zoom img{max-width:92vw;max-height:92vh;border-radius:8px}
+.filled{background:#fff3c4!important;border-color:#e0b400!important}
+.ch button.filled{background:#fff3c4!important;border-color:#e0b400!important}
+.rowkey{border:none;background:none;cursor:pointer;font-size:15px;opacity:.55;margin:0 6px 0 0;padding:0 3px;vertical-align:baseline}
+.rowkey:hover{opacity:1}.rowkey.used{opacity:.12}
+
+.colloc li{display:flex;align-items:center;gap:6px}.colloc .nn{min-width:230px}.colloc input.gap{flex:1;min-width:0}
+.colloc .nn{min-width:200px}
+.bank .chip{cursor:grab;border:1.5px solid #9cc6d6;background:#fff;box-shadow:0 1px 2px rgba(0,0,0,.08);user-select:none;transition:opacity .15s}
+.bank .chip:hover{background:var(--blau-hell)}
+
+.bank .chip.picked{background:var(--blau);color:#fff;border-color:var(--blau)}
+.bank .chip.used{opacity:.35}
+.bank .chip.dragging{opacity:.5}
+.card.picking input.gap{outline:2px dashed var(--blau);outline-offset:1px;cursor:copy}
+input.gap.drop{background:var(--blau-hell)!important;border-bottom-color:var(--blau)!important}
+.card.with-info{display:grid;grid-template-columns:minmax(0,1fr) 270px;column-gap:18px}
+.card.with-info>*{grid-column:1}
+.card.with-info>.infobox{grid-column:2;grid-row:1 / span 30;align-self:start;position:sticky;top:130px}
+@media(max-width:860px){.card.with-info{display:block}.card.with-info>.infobox{position:static;margin-top:10px}}
+.infobox{background:#fbfcfd;border:1.5px solid var(--blau);border-radius:10px;padding:10px 12px;font-size:15px}
+.ib-head{display:flex;justify-content:space-between;align-items:center;font-weight:700;color:var(--blau);margin-bottom:6px}
+.ib-close{border:none;background:none;cursor:pointer;font-size:15px;color:var(--grau)}
+.ib-item{border-top:1px solid var(--linie);padding:7px 0}
+.ib-item:first-child{border-top:none;background:var(--blau-hell);margin:0 -12px;padding:7px 12px}
+.ib-forms div{display:flex;justify-content:space-between;gap:8px}
+.ib-forms span{color:var(--grau);font-size:13px}
+.ib-forms b{text-align:right}
+.ib-bg{margin-top:3px;color:#333}
+.s1d{color:#333}.s2d{display:inline-block;margin-top:3px}
+mark{background:#fff0a8;padding:0 2px}
+.ch.odd button{margin:2px}
+table.steig{border-collapse:collapse;width:100%;margin:6px 0;font-size:16px}
+table.steig th,table.steig td{border:1px solid #f0c9a5;padding:5px 9px;text-align:left}
+table.steig th{background:#fde3cb}
+table.steig th.sub{background:#fff;color:var(--orange);font-weight:700;border-left:none;border-right:none;padding-top:10px}
+table.steig td.note{font-size:14px;color:#555;background:#fffaf4}
+table.steig td b{color:var(--orange)}
+table.steig.ex th,table.steig.ex td{border-color:var(--linie)}
+table.steig.ex th{background:var(--blau-hell);color:var(--blau)}
+table.steig.ex input.gap{min-width:120px;width:140px}
+.orig{color:#666;font-size:15px}
+.bank .chip.used{opacity:.35}
+.lk details{margin-top:8px}.lk summary{cursor:pointer;color:var(--lk);font-weight:700}
+.transcript{max-height:360px;overflow:auto;background:#fff;border:1px solid #e3d3ee;border-radius:6px;padding:8px 12px;margin-top:6px}
+.transcript p{margin:3px 0}.transcript p.th{font-weight:700;color:var(--lk);margin-top:8px}
+.gallery figure{display:flex;flex-direction:column}
+.figkey{margin-top:5px;border:none;background:#f0c24b;color:#3a2c00;border-radius:6px;padding:3px 8px;font-size:13px;font-weight:600;cursor:pointer;align-self:flex-start;font-family:inherit}
+.figm{display:none;background:var(--gelb);border:1px solid #e9d690;border-radius:6px;padding:6px 9px;margin-top:5px;font-size:14px;line-height:1.4}
+.figm.show{display:block}
+.workarea{display:grid;grid-template-columns:minmax(0,1fr) 240px;gap:18px;align-items:start}
+.wa-side{position:sticky;top:130px}
+.side-bank{flex-direction:column;align-items:stretch;background:#f5f9fb;border:1.5px solid #9cc6d6;border-radius:10px;padding:10px;margin:0}
+.side-bank .sb-title{font-weight:700;color:var(--blau);font-size:14px;margin-bottom:2px}
+.side-bank .chip{text-align:center}
+@media(max-width:760px){.workarea{grid-template-columns:1fr}.wa-side{position:static;order:-1}}
+input.gap.converted{animation:conv .9s ease}
+@keyframes conv{0%{background:#c8f0d2}100%{background:#f8fafb}}
+.wdict{margin-top:14px;border:1.5px solid #9cc6d6;border-radius:10px;background:#f7fbfc}
+.wdict summary{cursor:pointer;padding:9px 14px;font-weight:700;color:var(--blau);list-style:none}
+.wdict summary::-webkit-details-marker{display:none}
+.wdict summary::after{content:" ▸";font-size:13px}.wdict[open] summary::after{content:" ▾"}
+.wdict[open] summary{border-bottom:1px solid #cfe3ea}
+.wdict .hint,.wdict table{margin:8px 14px}.wdict table{width:calc(100% - 28px)}
+.wd-all{border:1.5px solid var(--blau);background:#fff;color:var(--blau);border-radius:6px;padding:2px 9px;font-size:13px;cursor:pointer;margin-left:6px;font-family:inherit}
+.wdict.showbg td.bgc span{background:none!important;color:inherit!important}
+
+.wa-side img.sideimg{width:100%;max-width:none!important;margin-top:10px;border-radius:8px}
+.wa-side .infobox{margin-top:10px}
+.side-bank .chip{white-space:normal}
+td.de .pl{font-weight:600}td.de .plnote{font-weight:400;color:var(--grau);font-size:14px}
+.card.gutgesagt{background:#fff8ec;border:2px solid #e3a95c}
+.gg-phrases{display:flex;gap:14px;flex-wrap:wrap;margin:10px 0 4px}
+.gg-phrases span{background:#fff;border:1.5px solid #e3a95c;border-radius:20px;padding:6px 16px;font-size:19px;font-weight:700;color:#7a3a00}
+.figkey.mini{padding:0 6px;font-size:13px;margin:0 0 0 4px;vertical-align:middle;align-self:auto}
+.redemittel li .figm{margin:4px 0 6px;font-size:15px}
+
+/* --- Tests --- */
+.ch.mc{display:flex;flex-direction:column;align-items:flex-start;gap:5px;margin:6px 0 2px}
+.ch.mc button{text-align:left;white-space:normal}
+textarea.write{width:100%;min-height:200px;font:inherit;font-size:17px;line-height:1.5;padding:10px 12px;border-radius:8px;border:1.5px solid #c5ccd6;box-sizing:border-box;margin-top:6px}
+.task-head .pts{margin-left:auto;white-space:nowrap;font-weight:700;color:#0d6e8c;background:#e6f2f7;border-radius:12px;padding:2px 10px;font-size:14px;align-self:flex-start}
+.totalbox{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.totalbox .total{font-weight:700;background:#fff;color:#0d6e8c;border-radius:14px;padding:3px 12px}
+.finish{text-align:center}
+.finish button{font-size:18px;padding:10px 22px;border-radius:10px;border:0;background:#0d6e8c;color:#fff;cursor:pointer;margin:4px}
+.finish button.sec{background:#e3e7ec;color:#333}
+#totalRes{font-size:18px;margin-top:10px}
+.textbox{background:#fff;border:1px solid #d5dbe3;border-radius:10px;padding:12px 16px;line-height:1.55;margin:8px 0}
+.textbox h4{margin:0 0 6px;color:#0d6e8c}
+details.tr{margin-top:10px;border:1px dashed #9cb3c4;border-radius:8px;padding:6px 12px;background:#fafcfd}
+details.tr summary{cursor:pointer;color:#0d6e8c;font-weight:600}
+.matchtab td{padding:6px 8px;vertical-align:top}
+</style>
+</head>
+<body class="hide-bg">
+<header>
+  <div class="hrow">
+    <div>
+      <h1>Test 10 · Miteinander</h1>
+      <div class="meta">Netzwerk neu B1 · Kapitel 10 · Testheft S. 43–47 · Selbsttest · Pharos II</div>
+    </div>
+    <div class="totalbox"><span class="total" id="totalTop">– P.</span></div>
+  </div>
+</header>
+<main>
+<div class="card">
+  <p style="margin:0">So arbeiten Sie: Lösen Sie die Aufgaben. Mit <b>✔ Prüfen</b> sehen Sie, was richtig ist (grün) und was falsch ist (rot), und Ihre Punkte. <b>🔑 Lösung</b> zeigt die richtigen Antworten – Sie können auch Satz für Satz mit 🔑 aufdecken. Wörter aus dem Kasten <b>rechts</b> können Sie in die Lücken ziehen (oder antippen und dann die Lücke antippen). Beim Schreiben vergleichen Sie Ihren Text mit der <b>💡 Musterlösung</b>. Das Transkript zum Hören öffnen Sie erst <b>nach</b> der Aufgabe.</p>
+</div>
+<div class="card task" data-max="10">
+  <div class="task-head"><span class="badge">A1</span><h3>Sie hören nun ein Gespräch. Sie hören das Gespräch zweimal. Entscheiden Sie beim Hören, ob die Aussagen 1–10 richtig (+) oder falsch (−) sind. Lesen Sie jetzt die Aufgaben 1–10. Sie haben dazu eine Minute Zeit.</h3><span class="src">Hören · ZD · TH S. 43</span></div>
+  <div class="audio" data-src="audio/NWn_B1_TH_Audio_013.mp3" data-label="Track 13"></div>
+  <ol class="items">
+    <li>Das Tanzprojekt „Kinderherzen“ gibt es seit 25 Jahren. <span class="ch" data-a="+ richtig"><button>+ richtig</button><button>− falsch</button></span></li>
+    <li>Der Journalist spricht mit einer Vertreterin des Projekts. <span class="ch" data-a="+ richtig"><button>+ richtig</button><button>− falsch</button></span></li>
+    <li>Die Kinder und Jugendlichen kommen aus Deutschland. <span class="ch" data-a="− falsch"><button>+ richtig</button><button>− falsch</button></span></li>
+    <li>Alle Teilnehmenden leben in schwierigen Verhältnissen. <span class="ch" data-a="− falsch"><button>+ richtig</button><button>− falsch</button></span></li>
+    <li>Alle, die mitmachen möchten, sind willkommen. <span class="ch" data-a="+ richtig"><button>+ richtig</button><button>− falsch</button></span></li>
+    <li>Die Teilnehmenden lernen im Projekt Respekt und Toleranz im Umgang miteinander. <span class="ch" data-a="+ richtig"><button>+ richtig</button><button>− falsch</button></span></li>
+    <li>„Kinderherzen“ hat seit der Gründung 50 Stücke aufgeführt. <span class="ch" data-a="− falsch"><button>+ richtig</button><button>− falsch</button></span></li>
+    <li>In den Stücken verarbeiten die Kinder Erlebnisse aus ihrer Vergangenheit. <span class="ch" data-a="+ richtig"><button>+ richtig</button><button>− falsch</button></span></li>
+    <li>Im Jubiläumsstück kann man auch professionelle Tänzer/innen sehen. <span class="ch" data-a="+ richtig"><button>+ richtig</button><button>− falsch</button></span></li>
+    <li>Das Projekt bekommt pro Tänzer/in 15 € Unterstützung von der Stadt. <span class="ch" data-a="− falsch"><button>+ richtig</button><button>− falsch</button></span></li>
+  </ol>
+  <div class="sol">1 + · 2 + · 3 − · 4 − · 5 + · 6 + · 7 − · 8 + · 9 + · 10 −</div>
+  <details class="tr"><summary>Transkript (erst nach der Aufgabe öffnen)</summary><div class="transcript">
+<p>○ Das Tanzprojekt „Kinderherzen“ wird in diesem Jahr 25 Jahre alt und feiert das mit einer Jubiläums-Aufführung. Ich begrüße dazu heute hier im Studio Gründerin und Choreographin des Projekts, Shira Bondok. Guten Tag, Frau Bondok!</p>
+<p>● Guten Tag!</p>
+<p>○ Frau Bondok, können Sie uns erklären, was das Besondere an diesem Projekt ist und wer daran teilnimmt?</p>
+<p>● „Kinderherzen“ ist ein soziales Projekt im Bremer Raum. Kinder und Jugendliche mit unterschiedlichen sozialen Voraussetzungen und verschiedenen Herkunftsländern, natürlich auch aus Deutschland, tanzen gemeinsam.</p>
+<p>○ Das ist aber bestimmt nicht immer einfach, oder?</p>
+<p>● Doch! Wir bringen Jugendliche und Kinder aus Krisengebieten mit jungen Menschen aus stabilen familiären Verhältnissen zusammen! Sie lernen über den Tanz, ihre Gefühle auszudrücken und das verbindet!</p>
+<p>○ Das klingt sehr spannend! Wie funktioniert die Auswahl der Teilnehmer und Teilnehmerinnen?</p>
+<p>● Es gibt keine Auswahl! Wir haben für jeden und jede einen kostenfreien Platz.</p>
+<p>○ Und was sind die Ziele von diesem Projekt?</p>
+<p>● Die jungen Menschen lernen Dinge, die ihnen auch in ihrem Alltag helfen. Sie erleben eine starke Gemeinschaft. Sie finden Freunde und entwickeln dabei Mut und Selbstvertrauen, sie lernen respektvoll und tolerant miteinander umzugehen. Und den größten Kick bekommen sie, wenn sie gemeinsam auf der Bühne stehen.</p>
+<p>○ Ein beeindruckendes Projekt! Wie viele Stücke haben Sie in den 25 Jahren auf die Bühne gebracht?</p>
+<p>● 25! Jedes Jahr ein ganz individuelles Stück, das die Geschichten der Kinder und Jugendlichen erzählt. Die Stücke führen wir dann immer zweimal auf.</p>
+<p>○ 50 Aufführungen! Toll! Das sind bestimmt sehr bewegende Geschichten.</p>
+<p>● Ja. Viele der jungen Menschen mussten Situationen erleben, in denen sie Angst um ihr Leben haben mussten. Das wird in den Stücken immer wieder deutlich.</p>
+<p>○ Was ist das Besondere am Jubiläumsstück?</p>
+<p>● Zum ersten Mal nehmen auch Profi-Tänzer und Tänzerinnen teil. Das gibt den jungen Menschen noch einmal eine extra Portion Motivation.</p>
+<p>○ Ich habe das Stück im letzten Jahr gesehen und war auch beeindruckt von den Kostümen, dem Bühnenbild und der Technik. Wer finanziert das?</p>
+<p>● Ja, wir bekommen schon seit Beginn Spenden; vor allem von verschiedenen Bremer Schulen, die das Projekt unterstützen. Seit zehn Jahren bekommen wir auch finanzielle Unterstützung von der Stadt. Außerdem nehmen wir für die Aufführungen 15 € Eintritt pro Person.</p>
+<p>○ Wann sind in diesem Jahr die Aufführungen? Und wo kann man die Karten bekommen?</p>
+<p>● Am 26.5. und am 3.6., jeweils um 19:30 Uhr. Karten können Sie auf der Internetseite vom Theater Bremen kaufen.</p>
+<p>○ Ich komme auf jeden Fall! Frau Bondok, ich bedanke mich für Ihren Besuch und wünsche „Kinderherzen“ auch für die nächsten 25 Jahre toi, toi, toi.</p>
+<p>● Danke.</p>
+  </div></details>
+</div>
+
+<div class="card task" data-max="2">
+  <div class="task-head"><span class="badge">A2</span><h3>Soziales Engagement. Ergänzen Sie die Sätze.</h3><span class="src">Wortschatz · TH S. 43</span></div>
+  <div class="bank"><span>bedürftig</span><span>bewältigen</span><span>spenden</span><span>zuständig</span></div>
+  <ol class="items" start="0">
+    <li>Viele Menschen, die <input class="gap" value="ehrenamtlich" readonly> tätig sind, wollen Menschen in Not helfen.</li>
+    <li>Paten und Patinnen unterstützen Kinder, die Probleme in der Schule haben, dabei, ihre Aufgaben zu <input class="gap" data-a="bewältigen">.</li>
+    <li>Die Feuerwehr ist dafür <input class="gap" data-a="zuständig">, Brände zu löschen und bei Unfällen oder Hochwasser zu helfen.</li>
+    <li>Die Tafel hat Ausgabestellen. Dort können Menschen, die <input class="gap" data-a="bedürftig"> sind, Lebensmittel abholen.</li>
+    <li>Es gibt in Deutschland viele Menschen, die regelmäßig Geld an Hilfsorganisationen <input class="gap" data-a="spenden">.</li>
+  </ol>
+  <div class="sol">1. bewältigen · 2. zuständig · 3. bedürftig · 4. spenden</div>
+</div>
+
+<div class="card task" data-max="5">
+  <div class="task-head"><span class="badge">A3</span><h3>Lesen Sie den folgenden Text und entscheiden Sie, welches Wort in die Lücken 1–10 passt. Sie können jedes Wort nur einmal verwenden. Nicht alle Wörter passen in den Text.</h3><span class="src">Lesen · ZD · TH S. 44</span></div>
+  <div class="textbox"><h4>Anzeige</h4><p>Wir suchen <b>Jugendliche und junge Erwachsene</b>, die Musik lieben und Lust haben, sich ehrenamtlich als Gruppenleiter/innen zu engagieren, mit unserer Vereinsjugend zu musizieren oder den Musikgarten für die Kleinsten zu organisieren. Bei Interesse bitte melden unter: a.ostendorf@musikring.de. Geben Sie gern an, wann wir Sie einsetzen können.</p></div>
+  <div class="textbox">
+    <p>Sehr geehrte Frau Ostendorf,</p>
+    <p>ich habe Ihre Anzeige gelesen und habe großes Interesse, mich als Gruppenleiterin beim Musikring (1) <input class="gap" data-a="ZU"> engagieren. Ich bin Musikerin und Gruppenleiterin aus Leidenschaft. (2) <input class="gap" data-a="SEIT"> über 12 Jahren spiele ich Gitarre und Klavier in einer Band. Vor drei Jahren habe ich einen Kurs für Jugendleiter/innen gemacht, (3) <input class="gap" data-a="WEIL"> ich die Musik mit einer ehrenamtlichen Tätigkeit verbinden wollte. (4) <input class="gap" data-a="BISHER"> konnte ich Erfahrungen mit verschiedenen Jugendmusikgruppen sammeln und habe auch zwei Sommercamps begleitet.</p>
+    <p>Dabei hatte ich kurz die Gelegenheit, (5) <input class="gap" data-a="MIT"> kleineren Kindern zu arbeiten. Das hat mir viel Spaß gemacht, (6) <input class="gap" data-a="DESHALB"> könnte ich mir gut vorstellen, in Ihrem Musikgarten mitzuarbeiten. Ich würde gerne wissen, (7) <input class="gap" data-a="OB"> man dafür noch eine Zusatzqualifikation braucht.</p>
+    <p>Sie können mich gern am Montagnachmittag, von 16 bis 18 Uhr und (8) <input class="gap" data-a="JEDEN"> zweiten Samstagnachmittag in den Gruppen einsetzen. In den Sommerferien (9) <input class="gap" data-a="KÖNNTE"> ich zwei Wochen eines Ihrer Sommercamps begleiten.</p>
+    <p>Ich freue mich (10) <input class="gap" data-a="AUF"> ein persönliches Gespräch.</p>
+    <p>Mit freundlichen Grüßen<br>Silja Bronte</p>
+  </div>
+  <div class="bank"><span>ALLE</span><span>AUF</span><span>BISHER</span><span>DESHALB</span><span>DÜRFTE</span><span>FÜR</span><span>IN</span><span>JEDEN</span><span>KÖNNTE</span><span>MIT</span><span>OB</span><span>SEIT</span><span>WEIL</span><span>WENN</span><span>ZU</span></div>
+  <div class="sol">1. ZU (o) · 2. SEIT (l) · 3. WEIL (m) · 4. BISHER (c) · 5. MIT (j) · 6. DESHALB (d) · 7. OB (k) · 8. JEDEN (h) · 9. KÖNNTE (i) · 10. AUF (b)</div>
+</div>
+
+<div class="card task" data-max="4">
+  <div class="task-head"><span class="badge">A4</span><h3>Tag der offenen Tür bei der Europäischen Union. Was wurde vorbereitet? Was wird dort heute gemacht? Schreiben Sie die Sätze im Passiv. Achten Sie dabei auf die Zeitform.</h3><span class="src">Grammatik · TH S. 44</span></div>
+  <p><b>Die Vorbereitungen für den Tag der offenen Tür</b></p>
+  <ol class="items" start="0">
+    <li>das Programm online stellen<br><input class="gap" value="Das Programm wurde online gestellt." readonly style="min-width:420px"></li>
+    <li>eine Debatte organisieren<br><input class="gap" style="min-width:420px" data-a="Eine Debatte wurde organisiert.|Es wurde eine Debatte organisiert."></li>
+    <li>Plakate drucken<br><input class="gap" style="min-width:420px" data-a="Plakate wurden gedruckt.|Es wurden Plakate gedruckt.|Die Plakate wurden gedruckt."></li>
+  </ol>
+  <p><b>Der Tag der offenen Tür</b></p>
+  <ol class="items" start="3">
+    <li>die Besucher durch die Gebäude führen<br><input class="gap" style="min-width:420px" data-a="Die Besucher werden durch die Gebäude geführt."></li>
+    <li>Getränke und kleine Speisen anbieten<br><input class="gap" style="min-width:420px" data-a="Getränke und kleine Speisen werden angeboten.|Es werden Getränke und kleine Speisen angeboten."></li>
+  </ol>
+  <div class="sol">1. Eine Debatte wurde organisiert. · 2. Plakate wurden gedruckt. · 3. Die Besucher werden durch die Gebäude geführt. · 4. Getränke und kleine Speisen werden angeboten.</div>
+</div>
+
+<div class="card task" data-max="4">
+  <div class="task-head"><span class="badge">A5</span><h3>Was muss für das Stadtteilfest alles gemacht werden? Ergänzen Sie die Sätze im Passiv mit dem Modalverb <i>müssen</i>.</h3><span class="src">Grammatik · TH S. 45</span></div>
+  <ol class="items" start="0">
+    <li>Die Einladungen <input class="gap" value="müssen geschrieben werden" readonly style="min-width:300px">. (schreiben)</li>
+    <li>Bänke und Tische <input class="gap" style="min-width:300px" data-a="müssen ausgeliehen werden">. (ausleihen)</li>
+    <li>Viele Kuchen <input class="gap" style="min-width:300px" data-a="müssen gebacken werden">. (backen)</li>
+    <li>Getränke <input class="gap" style="min-width:300px" data-a="müssen geholt werden">. (holen)</li>
+    <li>Der Platz <input class="gap" style="min-width:300px" data-a="muss geschmückt werden">. (schmücken)</li>
+  </ol>
+  <div class="sol">1. müssen ausgeliehen werden · 2. müssen gebacken werden · 3. müssen geholt werden · 4. muss geschmückt werden</div>
+</div>
+
+<div class="card task" data-max="6">
+  <div class="task-head"><span class="badge">A6</span><h3>Lesen Sie die drei Texte. Zu jedem Text gibt es zwei Aufgaben. Entscheiden Sie bei jedem Text, ob die Aussage richtig oder falsch ist und welche Antwort (a, b oder c) am besten passt.</h3><span class="src">Lesen · DTZ · TH S. 45–46</span></div>
+  <div class="textbox"><h4>Arbeitsberatung für Migrantinnen und Migranten</h4><p>Von 9 bis 12 Uhr wird im Rathaus eine Beratung für Migrantinnen und Migranten angeboten. Es ist eine Beratung für Menschen, die einen ausländischen Schul- oder Berufsabschluss haben und wissen möchten, ob sie damit in Deutschland arbeiten können. Zeugnisse können gleich mitgebracht werden. In der Mittagszeit halten wir einen kleinen Imbiss für Sie bereit und freuen uns darauf, mit Ihnen ins Gespräch zu kommen. Von 14 bis 16 Uhr können Sie sich dann speziell über mögliche Qualifizierungen im Handwerk informieren. Das ist für alle interessant, die noch keine Berufsausbildung haben. Am Nachmittag gibt das Büro für Migration und Integration Auskunft über Fortbildungsmöglichkeiten für Menschen mit medizinischem Abschluss aus dem Ausland. Von 18:30 bis 19:30 Uhr sind Vertreterinnen und Vertreter von verschiedenen Migrantenvereinen eingeladen, über spannende Projekte zu informieren.</p></div>
+  <ol class="items">
+    <li>Migrant/innen erfahren an diesem Tag, ob ihre Ausbildung in Deutschland akzeptiert wird. <span class="ch" data-a="richtig"><button>richtig</button><button>falsch</button></span></li>
+    <li>Migrant/innen können sich über … <span class="ch mc" data-a="b"><button data-v="a">a) offene Stellen im Handwerk informieren.</button><button data-v="b">b) Möglichkeiten der Fortbildung informieren.</button><button data-v="c">c) internationale Projekte informieren.</button></span></li>
+  </ol>
+  <div class="textbox"><p>Liebe Eltern,<br>unsere kleinsten Mitbürger/innen haben das Kindergartenalter erreicht. Aus diesem Grund möchten wir ab September wieder eine neue Krabbelgruppe anbieten. Eltern mit Kindern im Alter von 0–2 Jahren treffen sich jeden Dienstag ab 10:00 Uhr im Bürgerhaus. Bei Spiel, Spaß und Musik können sich Kinder und Eltern kennenlernen. Dies ist ein guter Ausgleich für den Alltag und das Angebot wurde bis jetzt immer gern von den Eltern angenommen. Wer Interesse hat, meldet sich bitte bei der Kursleiterin Birgit Olsen (b.olsen@tline.de) oder bei Familie Pichler unter 08732/7823.<br>In der Osterzeit haben wir wieder besondere Angebote für Sie und Ihre Kinder: Eierbemalen und Basteln von Osterschmuck aus Papier.<br>Ihr Familienzentrum Lorbach</p></div>
+  <ol class="items" start="3">
+    <li>Die Eltern können Kinder ab zwei Jahren ins Bürgerhaus bringen. <span class="ch" data-a="falsch"><button>richtig</button><button>falsch</button></span></li>
+    <li>Das Familienzentrum organisiert zu Ostern … <span class="ch mc" data-a="a"><button data-v="a">a) kreative Aktivitäten für alle.</button><button data-v="b">b) eine Krabbelgruppe.</button><button data-v="c">c) einen Musikkurs für Eltern.</button></span></li>
+  </ol>
+  <div class="textbox"><h4>Noch Plätze für Wasserratten frei!</h4><p>Fairness, Respekt und Teamgeist stehen im Sport neben dem Spaß im Mittelpunkt. Diese Werte vermitteln wir den Kindern und Jugendlichen seit Jahren in unserem Wasserball-Verein. Nach dem Erfolg im letzten Jahr haben in diesen Sommerferien 25 junge Menschen wieder die Möglichkeit, zu testen, ob Wasserball der richtige Sport für sie ist. Bei unseren beiden ehrenamtlichen Trainern sind Ihre Kinder in den besten Händen. Die letzten freien Plätze vergeben wir in der Woche vom 17. bis 22. Mai. Sie können Ihre Kinder persönlich zu unseren Geschäftszeiten, Dienstag und Donnerstag, 17–19 Uhr, per E-Mail unter wasserratten@wasserball.de oder per Post anmelden. Die Anmeldeformulare finden Sie auf unserer Webseite oder Sie holen sie sich in der Geschäftsstelle ab. Am 1.6. geben wir die Kursverteilung bekannt.</p></div>
+  <ol class="items" start="5">
+    <li>Der Verein bietet Kindern und Jugendlichen die Möglichkeit, Wasserball auszuprobieren. <span class="ch" data-a="richtig"><button>richtig</button><button>falsch</button></span></li>
+    <li>Es gibt … <span class="ch mc" data-a="b"><button data-v="a">a) noch 25 Plätze.</button><button data-v="b">b) nur noch ein paar Plätze.</button><button data-v="c">c) die Anmeldeformulare nur in der Geschäftsstelle.</button></span></li>
+  </ol>
+  <div class="sol">1. richtig · 2. b · 3. falsch · 4. a · 5. richtig · 6. b</div>
+</div>
+
+<div class="card task">
+  <div class="task-head"><span class="badge">A7</span><h3>Wählen Sie Aufgabe A oder B. Zeigen Sie, was Sie können. Schreiben Sie möglichst viel. (4 Punkte)</h3><span class="src">Schreiben · DTZ · TH S. 46</span></div>
+  <div class="split" style="align-items:flex-start">
+    <div class="textbox" style="flex:1"><h4>Aufgabe A</h4><p>Sie sind Mitglied in einer internationalen Kochgruppe. Das nächste Kochtreffen findet bei Frau Brunetti statt, die die Zubereitung eines italienischen Gerichts zeigen möchte. Sie können nicht kommen. Deshalb schreiben Sie eine E-Mail an Frau Brunetti.</p><p>Schreiben Sie etwas über folgende Punkte. Vergessen Sie nicht die Anrede und den Gruß.</p><ul><li>Grund für Ihr Schreiben</li><li>Entschuldigung</li><li>Termin für das nächste Kochtreffen bei Ihnen</li><li>Spezialität aus Ihrem Land</li></ul></div>
+    <div class="textbox" style="flex:1"><h4>Aufgabe B</h4><p>Am 25. Juli soll in Ihrer Straße zum ersten Mal ein Nachbarschaftsfest stattfinden. Wie alle Hausbewohner/innen werden auch Sie gebeten, bei den Vorbereitungen mitzuhelfen. Antworten Sie auf diese Bitte mit einer E-Mail an die Organisatorin, Frau Kupfer.</p><p>Schreiben Sie etwas über folgende Punkte. Vergessen Sie nicht die Anrede und den Gruß.</p><ul><li>Grund für Ihr Schreiben</li><li>Ihre Hilfe bei den Vorbereitungen</li><li>Möglichkeit, jemanden mitzubringen</li><li>Termin</li></ul></div>
+  </div>
+  <textarea class="write" placeholder="Schreiben Sie hier Ihre E-Mail …"></textarea>
+  <div class="sol muster"><b>Musterlösung A</b><br>Liebe Frau Brunetti,<br>leider kann ich zu unserem nächsten Kochtreffen nicht kommen. Meine Cousine feiert an diesem Tag ihren 30. Geburtstag und macht ein großes Fest. Ich finde das sehr schade, denn die Zubereitung von selbstgemachten italienischen Nudeln hätte mich interessiert.<br>Das nächste Treffen können wir gerne bei mir machen. Ich schlage Freitag, den 25. Mai, um 19 Uhr vor. Ich zeige eine besondere Spezialität aus der Türkei, die fast niemand kennt, die aber sehr lecker schmeckt. Natürlich bekommen alle das Rezept dazu und können bei der Zubereitung helfen. Bitte fragen Sie die anderen, ob der Termin passt.<br>Herzliche Grüße<br>…<br><br><b>Musterlösung B</b><br>Liebe Frau Kupfer,<br>ich schreibe Ihnen, weil Sie das Nachbarschaftsfest in unserer Straße organisieren. Ich finde das ganz toll! Gerne helfe ich bei den Vorbereitungen und würde dazu einen leckeren Kuchen backen. Das Rezept gibt es gratis dazu.<br>An diesem Tag ist mein Bruder mit seiner Familie zu Besuch. Kann ich sie mitbringen? Mein Bruder kann dann beim Aufstellen der Bänke und Tische helfen.<br>Um wie viel Uhr sollen wir da sein?<br>Herzliche Grüße<br>…</div>
+</div>
+
+<div class="card finish">
+  <button id="checkAll">✔ Alles prüfen</button><button id="resetAll" class="sec">↺ Alles zurücksetzen</button>
+  <div id="totalRes"></div>
+</div>
+</main>
+
+<script>
+/* ---------- Übungs-Engine ---------- */
+function norm(s){
+  return (s||'').toLowerCase().replace(/[„“"'.,!?;:–]/g,' ').replace(/\bumso\b/g,'desto')
+    .replace(/\/innen/g,'').replace(/\s+/g,' ').trim();
+}
+document.querySelectorAll('select.sel').forEach(s=>{
+  const o=s.dataset.opts.split(',');
+  s.innerHTML='<option value="">—</option>'+o.map(x=>`<option>${x}</option>`).join('');
+});
+document.querySelectorAll('.ch').forEach(g=>g.querySelectorAll('button').forEach(b=>b.addEventListener('click',()=>{
+  g.querySelectorAll('button').forEach(x=>x.classList.remove('on','ok','bad','filled')); b.classList.add('on'); g.dataset.sel=b.dataset.v||b.textContent;
+})));
+/* Lösung in ein Element eintragen */
+function fillEl(el){
+  if(el.matches('input.gap')){
+    if(el.readOnly) return;
+    const v=el.dataset.show||(el.dataset.a?el.dataset.a.split('|')[0]:el.dataset.sol);
+    if(v===undefined) return;
+    el.value=v; el.classList.remove('ok','bad'); el.classList.add('filled'); return;
+  }
+  if(el.matches('select.sel') && el.dataset.a){ el.value=el.dataset.a; el.classList.remove('ok','bad'); el.classList.add('filled'); return; }
+  if(el.matches('.ch') && el.dataset.a){
+    el.querySelectorAll('button').forEach(b=>{b.classList.remove('on','ok','bad','filled'); if((b.dataset.v||b.textContent)===el.dataset.a){b.classList.add('on','filled');}});
+    el.dataset.sel=el.dataset.a;
+  }
+}
+const fillable=el=>(el.matches('input.gap')&&!el.readOnly&&(el.dataset.a||el.dataset.sol!==undefined))||(el.matches('select.sel,.ch')&&!!el.dataset.a);
+document.querySelectorAll('.card.task').forEach(card=>{
+  const gaps=[...card.querySelectorAll('input.gap[data-a]')], sels=[...card.querySelectorAll('select.sel[data-a]')], chs=[...card.querySelectorAll('.ch[data-a]')];
+  const all=[...card.querySelectorAll('input.gap, select.sel, .ch')].filter(fillable);
+  const sol=card.querySelector('.sol');
+  const auto=gaps.length+sels.length+chs.length;
+  const box=document.createElement('div'); box.className='btns';
+  if(auto) box.innerHTML+='<button class="b-check">✔ Prüfen</button>';
+  if(all.length||sol) box.innerHTML+= (sol&&sol.classList.contains('muster')&&!all.length) ? '<button class="b-sol">💡 Musterlösung</button>' : '<button class="b-sol">🔑 Lösung</button>';
+  if(sol&&sol.classList.contains('muster')&&all.length) box.innerHTML+='<button class="b-muster">💡 Musterlösung</button>';
+  box.innerHTML+='<button class="b-reset">↺ Zurücksetzen</button><span class="score"></span>';
+  const wd=card.querySelector(':scope > .wdict');
+  if(sol) sol.insertAdjacentElement('beforebegin',box); else if(wd) wd.insertAdjacentElement('beforebegin',box); else card.lastElementChild.insertAdjacentElement('afterend',box);
+  const sc=box.querySelector('.score');
+  /* Einzel-Lösung pro Satz / Zeile */
+  const rows=new Set(all.map(el=>el.closest('li, p, tr')).filter(Boolean));
+  rows.forEach(row=>{
+    const k=document.createElement('button'); k.className='rowkey'; k.type='button'; k.title='Lösung für diesen Satz'; k.textContent='🔑';
+    k.addEventListener('click',()=>{ [...row.querySelectorAll('input.gap, select.sel, .ch')].filter(fillable).forEach(fillEl); k.classList.add('used'); });
+    (row.tagName==='TR'?row.cells[0]:row).prepend(k);
+  });
+  function check(){
+    let ok=0; const seen={};
+    gaps.forEach(g=>{
+      if(g.readOnly){ok++;return;}
+      const alts=g.dataset.a.split('|'); const v=norm(g.value);
+      let good;
+      if(g.classList.contains('multi')){ const parts=g.value.split(/[\/,;]+| und /).map(norm).filter(Boolean); good=parts.length>0 && parts.every(p=>alts.some(a=>norm(a)===p)); }
+      else good=alts.some(a=>norm(a)===v);
+      const key=alts.slice().sort().join('|');
+      if(good && !g.classList.contains('multi') && alts.length>1 && seen[key]&&seen[key].includes(v)) good=false;
+      if(good){(seen[key]=seen[key]||[]).push(v);}
+      g.classList.remove('ok','bad','filled'); if(g.value.trim()) g.classList.add(good?'ok':'bad'); if(good)ok++;
+    });
+    sels.forEach(s=>{const good=s.value===s.dataset.a; s.classList.remove('ok','bad','filled'); if(s.value)s.classList.add(good?'ok':'bad'); if(good)ok++;});
+    chs.forEach(c=>{const good=c.dataset.sel===c.dataset.a; const b=c.querySelector('button.on'); if(b){b.classList.remove('ok','bad','filled');b.classList.add(good?'ok':'bad');} if(good)ok++;});
+    sc.textContent=`${ok} / ${auto}`;
+  }
+  box.querySelector('.b-check')?.addEventListener('click',check);
+  box.querySelector('.b-sol')?.addEventListener('click',()=>{
+    all.forEach(fillEl); card.querySelectorAll('.rowkey').forEach(k=>k.classList.add('used'));
+    if(sol && !all.length) sol.classList.toggle('show');
+    else if(sol && card.classList.contains('showalts')) sol.classList.add('show');
+  });
+  box.querySelector('.b-muster')?.addEventListener('click',()=>sol.classList.toggle('show'));
+  box.querySelector('.b-reset').addEventListener('click',()=>{
+    card.querySelectorAll('input.gap').forEach(g=>{if(!g.readOnly)g.value='';g.classList.remove('ok','bad','filled');});
+    card.querySelectorAll('select.sel').forEach(s=>{s.value='';s.classList.remove('ok','bad','filled');});
+    card.querySelectorAll('.ch').forEach(c=>{delete c.dataset.sel;c.querySelectorAll('button').forEach(b=>b.classList.remove('on','ok','bad','filled'));});
+    card.querySelectorAll('.rowkey').forEach(k=>k.classList.remove('used'));
+    sol&&sol.classList.remove('show'); sc.textContent='';
+  });
+  gaps.forEach(g=>g.addEventListener('keydown',e=>{if(e.key==='Enter')check();}));
+});
+/* Audio */
+document.querySelectorAll('.audio').forEach(d=>{
+  const src=d.dataset.src;
+  d.innerHTML=`<span class="al">🔊 ${d.dataset.label}</span><audio controls preload="metadata" src="${src}"></audio>`;
+  d.querySelector('audio').addEventListener('error',()=>{
+    d.insertAdjacentHTML('beforeend',`<span class="miss">⚠ Audiodatei fehlt: <code>${src}</code> – bitte in den Ordner <b>audio</b> neben dieser HTML-Datei legen.</span>`);
+  });
+});
+/* Bilder vergrößern */
+const zoom=document.createElement('div');zoom.id='zoom';zoom.innerHTML='<img>';document.body.appendChild(zoom);
+document.querySelectorAll('.gallery img, img.side').forEach(i=>i.addEventListener('click',()=>{zoom.querySelector('img').src=i.src;zoom.style.display='flex';}));
+zoom.addEventListener('click',()=>zoom.style.display='none');
+/* Selbsteinschätzung */
+document.querySelectorAll('.faces').forEach(f=>{
+  f.innerHTML='<button title="sehr gut">😀</button><button title="gut">🙂</button><button title="noch nicht so gut">😐</button>';
+  f.querySelectorAll('button').forEach(b=>b.addEventListener('click',()=>{f.querySelectorAll('button').forEach(x=>x.classList.remove('on'));b.classList.add('on');}));
+});
+/* Selects ohne Lösung (z. B. 1b) befüllen */
+document.querySelectorAll('select.sel:not([data-a])').forEach(s=>{if(!s.options.length){const o=s.dataset.opts.split(',');s.innerHTML='<option value="">—</option>'+o.map(x=>`<option>${x}</option>`).join('');}});
+/* Musterlösung unter jedem Foto */
+document.querySelectorAll('.figcard').forEach(card=>{
+  card.querySelectorAll('.figkey').forEach(k=>k.addEventListener('click',()=>k.nextElementSibling.classList.toggle('show')));
+  const box=card.querySelector('.btns');
+  if(box){
+    const all=document.createElement('button'); all.className='b-sol'; all.textContent='💡 Alle Musterlösungen';
+    all.addEventListener('click',()=>{const ms=[...card.querySelectorAll('.figm')]; const open=ms.every(m=>m.classList.contains('show')); ms.forEach(m=>m.classList.toggle('show',!open));});
+    box.prepend(all);
+    box.querySelector('.b-reset')?.addEventListener('click',()=>card.querySelectorAll('.figm').forEach(m=>m.classList.remove('show')));
+  }
+});
+/* Übungs-Wörterbücher */
+document.querySelectorAll('.wdict').forEach(d=>{
+  d.addEventListener('click',e=>{ if(e.target.matches('td.bgc span')) e.target.classList.toggle('peek'); });
+  d.querySelector('.wd-all')?.addEventListener('click',e=>{ d.classList.toggle('showbg'); e.target.textContent=d.classList.contains('showbg')?'Übersetzungen verstecken':'Alle Übersetzungen zeigen'; });
+});
+/* Wörter-Kärtchen rechts neben der Übung */
+document.querySelectorAll('.card.task').forEach(card=>{
+  if(card.querySelector('.workarea')) return;
+  const bank=card.querySelector('.bank:not(.static)'); if(!bank) return;
+  const head=card.querySelector(':scope > .task-head');
+  const wa=document.createElement('div'); wa.className='workarea';
+  const main=document.createElement('div'); main.className='wa-main';
+  const side=document.createElement('div'); side.className='wa-side';
+  const stop=el=>el.matches('.btns,.sol,.lk,.wdict,details');
+  const kids=[...card.children].filter(k=>k!==head && !stop(k));
+  head.after(wa); wa.append(main,side);
+  kids.forEach(k=>main.appendChild(k));
+  bank.classList.add('side-bank');
+  const t=document.createElement('div'); t.className='sb-title'; t.textContent='Wörter'; bank.prepend(t);
+  side.appendChild(bank);
+  const img=main.querySelector('img.side'); if(img){ img.classList.add('sideimg'); side.appendChild(img); }
+});
+/* ---------- Wortkärtchen: ziehen / antippen + Info-Kasten ---------- */
+// Verben: [Infinitiv, Präteritum, Perfekt, BG]; Nomen: [Singular, Plural, BG]; Adjektive: [Grundform, Komparativ, Superlativ, BG]
+const LEX = {
+ "beantragen":["V","beantragen","beantragte","hat beantragt","подавам заявление за"],
+ "überweisen":["V","überweisen","überwies","hat überwiesen","превеждам (пари)"],
+ "einzahlen":["V","einzahlen","zahlte ein","hat eingezahlt","внасям (пари)"],
+ "drucken":["V","drucken","druckte","hat gedruckt","отпечатвам, разпечатвам"],
+ "eröffnen":["V","eröffnen","eröffnete","hat eröffnet","откривам"],
+ "verlangen":["V","verlangen","verlangte","hat verlangt","искам, изисквам"],
+ "sperren":["V","sperren","sperrte","hat gesperrt","блокирам"],
+ "abheben":["V","abheben","hob ab","hat abgehoben","тегля (пари)"],
+ "zahlen":["V","zahlen","zahlte","hat gezahlt","плащам"],
+ "sparen":["V","sparen","sparte","hat gespart","спестявам"],
+ "überziehen":["V","überziehen","überzog","hat überzogen","превишавам наличността (по сметка)"],
+ "verdienen":["V","verdienen","verdiente","hat verdient","печеля, изкарвам (пари)"],
+ "wechseln":["V","wechseln","wechselte","hat gewechselt","обменям; сменям"],
+ "versäumt":["V","versäumen","versäumte","hat versäumt","пропускам"],
+ "tun":["V","tun","tat","hat getan","правя"],
+ "empfehlen":["V","empfehlen","empfahl","hat empfohlen","препоръчвам"],
+ "aufnehmen":["V","aufnehmen","nahm auf","hat aufgenommen","тегля (кредит)"],
+ "zurückzahlen":["V","zurückzahlen","zahlte zurück","hat zurückgezahlt","връщам (пари)"],
+ "Geld abheben":["V","Geld abheben","hob Geld ab","hat Geld abgehoben","тегля пари"],
+ "ein Konto überziehen":["V","ein Konto überziehen","überzog das Konto","hat das Konto überzogen","превишавам наличността"],
+ "eine Karte sperren":["V","eine Karte sperren","sperrte die Karte","hat die Karte gesperrt","блокирам карта"],
+ "angegebene":["V","angeben","gab an","hat angegeben","посочвам"],
+ "ausgefüllten":["V","ausfüllen","füllte aus","hat ausgefüllt","попълвам"],
+ "gefundene":["V","finden","fand","hat gefunden","намирам"],
+ "verschlossener":["V","verschließen","verschloss","hat verschlossen","заключвам"],
+ "gewählte":["V","wählen","wählte","hat gewählt","избирам; набирам (номер)"],
+ "die Einzahlung":["N","die Einzahlung","die Einzahlungen","внасяне (на пари), вноска"],
+ "die Eröffnung":["N","die Eröffnung","die Eröffnungen","откриване"],
+ "die Überweisung":["N","die Überweisung","die Überweisungen","превод"],
+ "die Ausgaben":["N","die Ausgabe","die Ausgaben","разход – разходи"],
+ "die Einnahmen":["N","die Einnahme","die Einnahmen","приход – приходи"],
+ "die BIC":["N","die BIC","die BICs","BIC – код на банката"],
+ "die IBAN":["N","die IBAN","die IBANs","IBAN – номер на сметка"],
+ "die Mahnung":["N","die Mahnung","die Mahnungen","напомнително писмо за неплатено задължение"],
+ "die Schulden":["N","—","die Schulden (nur Pl.)","дългове"],
+ "die Zahlung":["N","die Zahlung","die Zahlungen","плащане"],
+ "die Zinsen":["N","der Zins","die Zinsen","лихва – лихви"],
+ "die Münzen":["N","die Münze","die Münzen","монета – монети"],
+ "die Scheine":["N","der Schein","die Scheine","банкнота – банкноти"],
+ "die Gebühr":["N","die Gebühr","die Gebühren","такса"],
+ "Gebühren":["N","die Gebühr","die Gebühren","такса – такси"],
+ "die Rate":["N","die Rate","die Raten","вноска"],
+ "der Kontoauszug":["N","der Kontoauszug","die Kontoauszüge","извлечение от сметка"],
+ "Kontoauszug":["N","der Kontoauszug","die Kontoauszüge","извлечение от сметка"],
+ "der Dauerauftrag":["N","der Dauerauftrag","die Daueraufträge","постоянно нареждане"],
+ "Konditionen":["N","—","die Konditionen (Pl.)","условия"],
+ "Zinsen":["N","der Zins","die Zinsen","лихва – лихви"],
+ "das Geld":["N","das Geld","— (nur Sg.)","пари"],
+ "kostenlos":["A","kostenlos","—","—","безплатен"],
+ "monatlich":["A","monatlich","—","—","месечно, всеки месец"],
+ "online":["A","online","—","—","онлайн"],
+ "Wie hoch":["A","hoch","höher","am höchsten","висок – колко висок/голям?"],
+ "höher":["A","hoch","höher","am höchsten","висок"],
+ "größer":["A","groß","größer","am größten","голям"],
+ "cooler":["A","cool","cooler","am coolsten","готин, страхотен"],
+ "teurer":["A","teuer","teurer","am teuersten","скъп"],
+ "mehr":["A","viel","mehr","am meisten","много"],
+ "weniger":["A","wenig","weniger","am wenigsten","малко"],
+ "sparsamer":["A","sparsam","sparsamer","am sparsamsten","пестелив"],
+ "länger":["A","lang","länger","am längsten","дълъг; дълго"]
+};
+const HEAD={V:["Infinitiv","Präteritum","Perfekt"],N:["Singular","Plural"],A:["Grundform","Komparativ","Superlativ"]};
+let picked=null;
+function showInfo(card,word){
+  const e=LEX[word]; if(!e) return;
+  const side=card.querySelector('.wa-side');
+  let box=card.querySelector('.infobox');
+  if(!box){
+    box=document.createElement('aside'); box.className='infobox';
+    box.innerHTML='<div class="ib-head">📌 Wortinfo <button class="ib-close" title="schließen">✕</button></div><div class="ib-list"></div>';
+    if(side){ side.appendChild(box); }
+    else { card.appendChild(box); card.classList.add('with-info'); }
+    box.querySelector('.ib-close').addEventListener('click',()=>{box.remove();card.classList.remove('with-info');});
+  }
+  const list=box.querySelector('.ib-list');
+  [...list.children].forEach(c=>{if(c.dataset.w===word)c.remove();});
+  const t=e[0], forms=e.slice(1,-1), bg=e[e.length-1];
+  const item=document.createElement('div'); item.className='ib-item'; item.dataset.w=word;
+  item.innerHTML=`<div class="ib-forms">${forms.map((f,i)=>`<div><span>${HEAD[t][i]}</span><b>${f}</b></div>`).join('')}</div><div class="ib-bg">🇧🇬 ${bg}</div>`;
+  list.prepend(item);
+  while(list.children.length>6) list.lastChild.remove();
+}
+function placeInto(gap,chip){
+  const v=chip.dataset.v||chip.textContent.trim();
+  if(gap.classList.contains('multi')){
+    const cur=gap.value.split('/').map(s=>s.trim()).filter(Boolean);
+    if(!cur.includes(v)) cur.push(v);
+    gap.value=cur.join(' / ');
+  } else {
+    // vorher hier eingesetztes Kärtchen wieder freigeben
+    if(gap._chip && gap._chip!==chip) gap._chip.classList.remove('used');
+    // richtiger Ausdruck → automatisch in der richtigen Form einsetzen
+    if(gap.dataset.base && gap.dataset.base===v && gap.dataset.a){
+      gap.value=gap.dataset.a.split('|')[0];
+      gap.classList.add('converted'); setTimeout(()=>gap.classList.remove('converted'),900);
+    } else gap.value=v;
+    gap._chip=chip;
+    if(!chip.closest('.bank').classList.contains('reuse')) chip.classList.add('used');
+  }
+  gap.classList.remove('ok','bad','filled');
+}
+document.querySelectorAll('.card.task .bank:not(.static)').forEach(bank=>{
+  const card=bank.closest('.card');
+  card.classList.add('has-bank');
+  bank.querySelectorAll('span').forEach(ch=>{
+    ch.classList.add('chip'); ch.draggable=true;
+    if(LEX[ch.textContent.trim()]) ch.classList.add('has-info');
+    ch.addEventListener('dragstart',e=>{e.dataTransfer.setData('text/plain',ch.dataset.v||ch.textContent.trim()); picked=ch; ch.classList.add('dragging');});
+    ch.addEventListener('dragend',()=>ch.classList.remove('dragging'));
+    ch.addEventListener('click',()=>{
+      showInfo(card,ch.textContent.trim());
+      document.querySelectorAll('.chip.picked').forEach(c=>{if(c!==ch)c.classList.remove('picked');});
+      ch.classList.toggle('picked'); picked=ch.classList.contains('picked')?ch:null;
+      card.classList.toggle('picking',!!picked);
+    });
+  });
+  card.querySelectorAll('input.gap').forEach(g=>{
+    g.addEventListener('dragover',e=>{e.preventDefault();g.classList.add('drop');});
+    g.addEventListener('dragleave',()=>g.classList.remove('drop'));
+    g.addEventListener('drop',e=>{e.preventDefault();g.classList.remove('drop'); if(picked && picked.closest('.card')===card) placeInto(g,picked); picked=null;});
+    g.addEventListener('click',()=>{ if(picked && picked.closest('.card')===card){ placeInto(g,picked); picked.classList.remove('picked'); picked=null; card.classList.remove('picking'); } });
+  });
+  card.querySelector('.b-reset')?.addEventListener('click',()=>{bank.querySelectorAll('.chip').forEach(c=>c.classList.remove('used','picked'));card.querySelectorAll('input.gap').forEach(g=>g._chip=null);});
+  card.querySelector('.b-sol')?.addEventListener('click',()=>{ if(!bank.classList.contains('reuse')) bank.querySelectorAll('.chip').forEach(c=>c.classList.add('used')); });
+});
+/* ---------- Test: Punkte pro Aufgabe + Gesamtergebnis ---------- */
+function cardPoints(card){
+  const max=parseFloat(card.dataset.max||0); const sc=card.querySelector('.btns .score');
+  if(!max||!sc||!sc.textContent.includes('/')) return null;
+  const [ok,all]=sc.textContent.split('/').map(x=>parseFloat(x));
+  return Math.round(ok/all*max*2)/2;
+}
+function showPts(card){
+  const p=cardPoints(card); const el=card.querySelector('.pts'); if(!el) return;
+  el.textContent = p===null ? `– / ${card.dataset.max} P.` : `${String(p).replace('.',',')} / ${card.dataset.max} P.`;
+}
+document.querySelectorAll('.card.task[data-max]').forEach(card=>{
+  const h=card.querySelector('.task-head'); const s=document.createElement('span'); s.className='pts'; s.textContent=`– / ${card.dataset.max} P.`; h.appendChild(s);
+  card.querySelector('.b-check')?.addEventListener('click',()=>setTimeout(()=>{showPts(card);total();},0));
+  card.querySelector('.b-reset')?.addEventListener('click',()=>setTimeout(()=>{showPts(card);total();},0));
+});
+function total(){
+  let got=0,max=0,done=0;
+  document.querySelectorAll('.card.task[data-max]').forEach(c=>{ if(!c.querySelector('.b-check')) return; max+=parseFloat(c.dataset.max); const p=cardPoints(c); if(p!==null){got+=p;done++;} });
+  const t=document.getElementById('totalTop'); if(t) t.textContent=`${String(got).replace('.',',')} / ${max} P.`;
+  const pct=max?Math.round(got/max*100):0;
+  const r=document.getElementById('totalRes'); if(r) r.innerHTML=done?`Ergebnis: <b>${String(got).replace('.',',')} von ${max} Punkten</b> (${pct} %) · Schreiben: Vergleichen Sie Ihren Text mit der Musterlösung.`:'';
+}
+document.getElementById('checkAll')?.addEventListener('click',()=>{document.querySelectorAll('.card.task .b-check').forEach(b=>b.click());setTimeout(()=>{document.querySelectorAll('.card.task[data-max]').forEach(showPts);total();document.getElementById('totalRes')?.scrollIntoView({behavior:'smooth',block:'center'});},50);});
+document.getElementById('resetAll')?.addEventListener('click',()=>{if(!confirm('Alle Antworten löschen?'))return;document.querySelectorAll('.card.task .b-reset').forEach(b=>b.click());document.querySelectorAll('textarea.write').forEach(t=>t.value='');setTimeout(total,50);});
+total();
+
+</script>
+</body>
+</html>
