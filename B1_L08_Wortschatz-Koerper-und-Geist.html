@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>B1 · L08 · Wortschatz</title>
+<style>
+:root{
+  --blau:#0b6e8f; --blau-hell:#e6f3f8; --ink:#222; --grau:#666; --linie:#d5dde2;
+  --ok:#1b7f3b; --ok-bg:#e6f5ea; --bad:#b3261e; --bad-bg:#fdecea;
+  --lk:#6a1b9a; --lk-bg:#f5ecfa; --gelb:#fff6dc; --orange:#e3730f; --orange-bg:#fff1e3;
+  --der:#1f5fbf; --die:#c0392b; --das:#1b7f3b;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:120px}
+body{margin:0;font-family:'Segoe UI',Arial,sans-serif;color:var(--ink);background:#f4f7f9;line-height:1.5;font-size:17px}
+header{background:var(--blau);color:#fff;padding:14px 20px 0;position:sticky;top:0;z-index:10;box-shadow:0 2px 6px rgba(0,0,0,.15)}
+.hrow{display:flex;gap:16px;align-items:center;justify-content:space-between;flex-wrap:wrap;max-width:1100px;margin:0 auto}
+header h1{margin:0;font-size:22px}
+header .meta{font-size:14px;opacity:.9}
+.lk-toggle{background:transparent;border:2px solid #fff;color:#fff;border-radius:20px;padding:5px 12px;cursor:pointer;font-size:14px}
+body.lk-on .lk-toggle{background:#fff;color:var(--lk)}
+nav{max-width:1100px;margin:10px auto 0;display:flex;gap:4px;overflow-x:auto;padding-bottom:8px}
+nav a{color:#fff;text-decoration:none;font-size:14px;padding:5px 11px;border-radius:14px;background:rgba(255,255,255,.14);white-space:nowrap}
+nav a:hover{background:rgba(255,255,255,.3)}
+nav a.lkonly{display:none} body.lk-on nav a.lkonly{display:inline-block;background:rgba(255,255,255,.35)}
+main{max-width:1100px;margin:16px auto;padding:0 16px 80px}
+h2.sec{font-size:21px;color:var(--blau);margin:34px 0 6px;border-bottom:2px solid var(--blau);padding-bottom:4px}
+h2.sec small{font-weight:400;color:var(--grau);font-size:14px;margin-left:8px}
+.card{background:#fff;border:1px solid var(--linie);border-radius:10px;padding:16px 20px;margin:14px 0}
+.task-head{display:flex;gap:10px;align-items:flex-start;margin-bottom:6px}
+.badge{background:var(--blau);color:#fff;border-radius:6px;padding:2px 8px;font-weight:700;font-size:14px;white-space:nowrap;margin-top:2px}
+.badge.ub{background:#5d7a8a}
+.task-head h3{font-size:17px;margin:0}
+.src{font-size:13px;color:var(--grau);margin-left:auto;white-space:nowrap}
+.hint{font-size:14px;color:var(--grau)}
+.bank{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0}
+.bank span{background:var(--blau-hell);border-radius:5px;padding:2px 9px;font-size:15px}
+input.gap{font-size:16px;padding:3px 7px;border:none;border-bottom:2px solid #99a9b3;background:#f8fafb;font-family:inherit;min-width:120px;border-radius:4px 4px 0 0}
+input.gap.wide{width:100%;margin-top:4px}
+input.gap:focus{outline:none;border-bottom-color:var(--blau);background:var(--blau-hell)}
+select.sel{font-size:16px;padding:3px 6px;border:1.5px solid var(--linie);border-radius:6px;font-family:inherit}
+.ok{border-color:var(--ok)!important;background:var(--ok-bg)!important}
+.bad{border-color:var(--bad)!important;background:var(--bad-bg)!important}
+.ch{display:inline-flex;gap:6px;margin-left:8px}
+.ch button{border:1.5px solid var(--linie);background:#fff;border-radius:6px;padding:3px 11px;cursor:pointer;font-size:15px;font-family:inherit}
+.ch button.on{border-color:var(--blau);background:var(--blau-hell);font-weight:600}
+ol.items{padding-left:22px;margin:6px 0} ol.items li{margin:9px 0}
+.btns{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px;align-items:center}
+.btns button{border:none;border-radius:7px;padding:7px 14px;font-size:14px;cursor:pointer;font-weight:600;font-family:inherit}
+.b-check{background:var(--blau);color:#fff} .b-sol{background:#f0c24b;color:#3a2c00} .b-reset{background:#e3e8ec}
+.score{font-weight:700;color:var(--blau)}
+.sol{display:none;background:var(--gelb);border:1px solid #e9d690;border-radius:8px;padding:10px 14px;margin-top:10px;font-size:16px}
+.sol.show{display:block}
+.lk{display:none;background:var(--lk-bg);border-left:4px solid var(--lk);border-radius:6px;padding:10px 14px;margin:10px 0;font-size:15px}
+body.lk-on .lk{display:block}
+.lk b.t{color:var(--lk)}
+.gram{background:var(--orange-bg);border:1.5px solid var(--orange);border-radius:10px;padding:14px 18px;margin:12px 0}
+.gram h4{margin:0 0 6px;color:var(--orange);font-size:17px}
+.gram table{border-collapse:collapse;margin:8px 0;font-size:16px}
+.gram td,.gram th{border:1px solid #f0c9a5;padding:5px 10px;text-align:left;vertical-align:top}
+.gram th{background:#fde3cb}
+.hl{color:var(--orange);font-weight:700}
+.bg{color:#555;font-style:italic}
+.redemittel{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media(max-width:760px){.redemittel{grid-template-columns:1fr}}
+.redemittel div{background:var(--blau-hell);border-radius:8px;padding:10px 14px}
+.redemittel h4{margin:0 0 4px;color:var(--blau)}
+.redemittel ul{margin:0;padding-left:18px}
+.situ{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:10px 0}
+@media(max-width:760px){.situ{grid-template-columns:1fr}}
+.situ div{border:2px solid var(--blau);border-radius:8px;padding:10px 14px}
+.situ b{color:var(--blau)}
+.web{border:1px solid var(--linie);border-radius:8px;padding:12px 16px;background:#fafbfc}
+.web h4{color:var(--blau);margin:6px 0 4px;font-family:Georgia,serif;font-size:18px}
+table.ablauf{width:100%;border-collapse:collapse;font-size:15px}
+table.ablauf td,table.ablauf th{border-bottom:1px solid var(--linie);padding:7px 8px;vertical-align:top;text-align:left}
+table.ablauf th{background:var(--lk-bg);color:var(--lk)}
+table.ablauf td:first-child{white-space:nowrap;font-weight:600}
+table.ablauf tr.pause td{background:#f1f1f1;color:#777;font-style:italic}
+/* Wortschatz */
+.vt-tools{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:8px 0}
+.vt-tools input{flex:1;min-width:200px;font-size:16px;padding:6px 10px;border:1.5px solid var(--linie);border-radius:8px}
+.vt-tools button,.fc-tools button{border:1.5px solid var(--blau);background:#fff;color:var(--blau);border-radius:8px;padding:6px 12px;cursor:pointer;font-size:14px;font-weight:600;font-family:inherit}
+.vt-tools button.on{background:var(--blau);color:#fff}
+table.vt{width:100%;border-collapse:collapse;font-size:16px}
+table.vt td{border-bottom:1px solid var(--linie);padding:6px 8px;vertical-align:top}
+table.vt tr.cat td{background:var(--blau-hell);color:var(--blau);font-weight:700;padding-top:10px}
+table.vt td.de{font-weight:600;width:30%}
+table.vt td.de small{display:block;font-weight:400;color:var(--grau);font-size:13px}
+table.vt td.ex{width:42%}
+table.vt td.bgc{width:28%}
+body.hide-bg table.vt td.bgc span{background:#dfe5e9;color:transparent;border-radius:4px;cursor:pointer;padding:0 4px}
+body.hide-bg table.vt td.bgc span.peek{background:none;color:inherit}
+.art-der{color:var(--der)} .art-die{color:var(--die)} .art-das{color:var(--das)}
+.fc{max-width:560px;margin:10px auto;text-align:center}
+.fc-card{border:2px solid var(--blau);border-radius:14px;min-height:170px;display:flex;align-items:center;justify-content:center;flex-direction:column;font-size:24px;padding:20px;cursor:pointer;background:#fff;user-select:none}
+.fc-card .small{font-size:15px;color:var(--grau);margin-top:8px}
+.fc-tools{display:flex;gap:8px;justify-content:center;margin-top:10px;flex-wrap:wrap}
+.artq{text-align:center}
+.artq .word{font-size:26px;font-weight:700;margin:10px 0}
+.artq button.a{font-size:18px;padding:8px 22px;margin:4px;border-radius:8px;border:2px solid;cursor:pointer;background:#fff;font-weight:700;font-family:inherit}
+.artq button.a.der{border-color:var(--der);color:var(--der)} .artq button.a.die{border-color:var(--die);color:var(--die)} .artq button.a.das{border-color:var(--das);color:var(--das)}
+.tabs{display:flex;gap:6px;margin:6px 0 10px;flex-wrap:wrap}
+.tabs button{border:none;background:#e3e8ec;padding:7px 14px;border-radius:8px 8px 0 0;cursor:pointer;font-size:15px;font-weight:600;font-family:inherit}
+.tabs button.on{background:var(--blau);color:#fff}
+.pane{display:none} .pane.on{display:block}
+.dialog p{margin:6px 0}
+.dialog .s1::before{content:"○ ";color:var(--grau)} .dialog .s2::before{content:"● ";color:var(--blau)}
+.quote{background:#eef1f4;border-radius:8px;padding:10px 14px;font-style:italic}
+.hw{background:#eef7ee;border:1.5px solid var(--ok);border-radius:10px;padding:12px 18px}
+.big{font-size:20px}
+:root{--tz1:#c2185b;--tz2:#1565c0;--tz3:#00838f;--tz4:#e65100;--tz5:#2e7d32;--tz6:#6a1b9a}
+.tz{display:inline-block;border-radius:12px;padding:1px 9px;font-size:13px;font-weight:700;color:#fff;white-space:nowrap;vertical-align:middle;margin-left:6px}
+.tz1{background:var(--tz1)}.tz2{background:var(--tz2)}.tz3{background:var(--tz3)}.tz4{background:var(--tz4)}.tz5{background:var(--tz5)}.tz6{background:var(--tz6)}
+.dot{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:5px;border:1px solid #fff}
+.ziele{background:#fff;border:2px solid var(--blau);border-radius:12px;padding:16px 20px;margin:14px 0 6px}
+.gz{font-size:18px;margin-bottom:12px}.gz-label{display:inline-block;background:var(--blau);color:#fff;border-radius:6px;padding:2px 10px;font-weight:700;margin-right:8px;font-size:15px}
+.tz-list{display:grid;grid-template-columns:1fr 1fr;gap:8px}@media(max-width:760px){.tz-list{grid-template-columns:1fr}}
+.tzc{display:block;text-decoration:none;color:var(--ink);border-left:6px solid;border-radius:6px;padding:7px 12px;background:#f7f9fa;font-size:15px}
+.tzc.tz1{border-color:var(--tz1)}.tzc.tz2{border-color:var(--tz2)}.tzc.tz3{border-color:var(--tz3)}.tzc.tz4{border-color:var(--tz4)}.tzc.tz5{border-color:var(--tz5)}.tzc.tz6{border-color:var(--tz6)}
+.tzc b{margin-right:4px}.tzc:hover{background:#eef3f6}
+.tzc.tz1 b{color:var(--tz1)}.tzc.tz2 b{color:var(--tz2)}.tzc.tz3 b{color:var(--tz3)}.tzc.tz4 b{color:var(--tz4)}.tzc.tz5 b{color:var(--tz5)}.tzc.tz6 b{color:var(--tz6)}
+h2.ph{display:flex;align-items:center;gap:10px;border-bottom-width:3px}
+h2.ph .phn{background:var(--blau);color:#fff;border-radius:50%;width:32px;height:32px;display:inline-flex;align-items:center;justify-content:center;font-size:17px}
+h2.tz1b{color:var(--tz1);border-color:var(--tz1)}h2.tz1b .phn{background:var(--tz1)}
+h2.tz2b{color:var(--tz2);border-color:var(--tz2)}h2.tz2b .phn{background:var(--tz2)}
+h2.tz3b{color:var(--tz3);border-color:var(--tz3)}h2.tz3b .phn{background:var(--tz3)}
+h2.tz4b{color:var(--tz4);border-color:var(--tz4)}h2.tz4b .phn{background:var(--tz4)}
+h2.tz5b{color:var(--tz5);border-color:var(--tz5)}h2.tz5b .phn{background:var(--tz5)}
+h2.tz6b{color:var(--tz6);border-color:var(--tz6)}h2.tz6b .phn{background:var(--tz6)}
+.card.c-tz1{border-left:5px solid var(--tz1)}.card.c-tz2{border-left:5px solid var(--tz2)}.card.c-tz3{border-left:5px solid var(--tz3)}.card.c-tz4{border-left:5px solid var(--tz4)}.card.c-tz5{border-left:5px solid var(--tz5)}.card.c-tz6{border-left:5px solid var(--tz6)}
+.gallery{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:8px 0 12px}
+@media(max-width:760px){.gallery{grid-template-columns:repeat(2,1fr)}}
+.gallery figure{margin:0;position:relative}.gallery figure.wide{grid-column:span 2}
+.gallery img{width:100%;height:170px;object-fit:cover;border-radius:6px;display:block;cursor:zoom-in}
+.gallery figcaption{position:absolute;left:6px;top:6px;background:#fff;border-radius:4px;padding:0 8px;font-weight:700}
+.split{display:flex;gap:18px;align-items:flex-start}.split>div{flex:1}
+img.side{max-width:300px;width:34%;border-radius:8px}
+@media(max-width:760px){.split{flex-direction:column}img.side{width:100%}}
+.webhead{display:flex;gap:14px;align-items:flex-start}
+.audio{display:flex;align-items:center;gap:10px;background:#eef6f8;border:1px solid #cfe3ea;border-radius:8px;padding:6px 12px;margin:8px 0;flex-wrap:wrap}
+.audio .al{font-weight:700;color:var(--blau);font-size:14px;min-width:120px}
+.audio audio{height:36px;flex:1;min-width:240px}
+.audio .miss{color:var(--bad);font-size:14px}
+table.szenen{border-collapse:collapse;width:100%;margin:8px 0}table.szenen td,table.szenen th{padding:5px 8px;border-bottom:1px solid var(--linie);text-align:left}
+table.refl{width:100%;border-collapse:collapse}table.refl td{border-bottom:1px solid var(--linie);padding:8px}
+.faces button{font-size:24px;background:none;border:2px solid transparent;border-radius:50%;cursor:pointer;opacity:.45;padding:2px 5px}
+.faces button.on{opacity:1;border-color:var(--blau)}
+#zoom{position:fixed;inset:0;background:rgba(0,0,0,.8);display:none;align-items:center;justify-content:center;z-index:50;cursor:zoom-out}
+#zoom img{max-width:92vw;max-height:92vh;border-radius:8px}
+.filled{background:#fff3c4!important;border-color:#e0b400!important}
+.ch button.filled{background:#fff3c4!important;border-color:#e0b400!important}
+.rowkey{border:none;background:none;cursor:pointer;font-size:15px;opacity:.55;margin:0 6px 0 0;padding:0 3px;vertical-align:baseline}
+.rowkey:hover{opacity:1}.rowkey.used{opacity:.12}
+
+.colloc li{display:flex;align-items:center;gap:6px}.colloc .nn{min-width:230px}.colloc input.gap{flex:1;min-width:0}
+.colloc .nn{min-width:200px}
+.bank .chip{cursor:grab;border:1.5px solid #9cc6d6;background:#fff;box-shadow:0 1px 2px rgba(0,0,0,.08);user-select:none;transition:opacity .15s}
+.bank .chip:hover{background:var(--blau-hell)}
+
+.bank .chip.picked{background:var(--blau);color:#fff;border-color:var(--blau)}
+.bank .chip.used{opacity:.35}
+.bank .chip.dragging{opacity:.5}
+.card.picking input.gap{outline:2px dashed var(--blau);outline-offset:1px;cursor:copy}
+input.gap.drop{background:var(--blau-hell)!important;border-bottom-color:var(--blau)!important}
+.card.with-info{display:grid;grid-template-columns:minmax(0,1fr) 270px;column-gap:18px}
+.card.with-info>*{grid-column:1}
+.card.with-info>.infobox{grid-column:2;grid-row:1 / span 30;align-self:start;position:sticky;top:130px}
+@media(max-width:860px){.card.with-info{display:block}.card.with-info>.infobox{position:static;margin-top:10px}}
+.infobox{background:#fbfcfd;border:1.5px solid var(--blau);border-radius:10px;padding:10px 12px;font-size:15px}
+.ib-head{display:flex;justify-content:space-between;align-items:center;font-weight:700;color:var(--blau);margin-bottom:6px}
+.ib-close{border:none;background:none;cursor:pointer;font-size:15px;color:var(--grau)}
+.ib-item{border-top:1px solid var(--linie);padding:7px 0}
+.ib-item:first-child{border-top:none;background:var(--blau-hell);margin:0 -12px;padding:7px 12px}
+.ib-forms div{display:flex;justify-content:space-between;gap:8px}
+.ib-forms span{color:var(--grau);font-size:13px}
+.ib-forms b{text-align:right}
+.ib-bg{margin-top:3px;color:#333}
+.s1d{color:#333}.s2d{display:inline-block;margin-top:3px}
+mark{background:#fff0a8;padding:0 2px}
+.ch.odd button{margin:2px}
+table.steig{border-collapse:collapse;width:100%;margin:6px 0;font-size:16px}
+table.steig th,table.steig td{border:1px solid #f0c9a5;padding:5px 9px;text-align:left}
+table.steig th{background:#fde3cb}
+table.steig th.sub{background:#fff;color:var(--orange);font-weight:700;border-left:none;border-right:none;padding-top:10px}
+table.steig td.note{font-size:14px;color:#555;background:#fffaf4}
+table.steig td b{color:var(--orange)}
+table.steig.ex th,table.steig.ex td{border-color:var(--linie)}
+table.steig.ex th{background:var(--blau-hell);color:var(--blau)}
+table.steig.ex input.gap{min-width:120px;width:140px}
+.orig{color:#666;font-size:15px}
+.bank .chip.used{opacity:.35}
+.lk details{margin-top:8px}.lk summary{cursor:pointer;color:var(--lk);font-weight:700}
+.transcript{max-height:360px;overflow:auto;background:#fff;border:1px solid #e3d3ee;border-radius:6px;padding:8px 12px;margin-top:6px}
+.transcript p{margin:3px 0}.transcript p.th{font-weight:700;color:var(--lk);margin-top:8px}
+.gallery figure{display:flex;flex-direction:column}
+.figkey{margin-top:5px;border:none;background:#f0c24b;color:#3a2c00;border-radius:6px;padding:3px 8px;font-size:13px;font-weight:600;cursor:pointer;align-self:flex-start;font-family:inherit}
+.figm{display:none;background:var(--gelb);border:1px solid #e9d690;border-radius:6px;padding:6px 9px;margin-top:5px;font-size:14px;line-height:1.4}
+.figm.show{display:block}
+.workarea{display:grid;grid-template-columns:minmax(0,1fr) 240px;gap:18px;align-items:start}
+.wa-side{position:sticky;top:130px}
+.side-bank{flex-direction:column;align-items:stretch;background:#f5f9fb;border:1.5px solid #9cc6d6;border-radius:10px;padding:10px;margin:0}
+.side-bank .sb-title{font-weight:700;color:var(--blau);font-size:14px;margin-bottom:2px}
+.side-bank .chip{text-align:center}
+@media(max-width:760px){.workarea{grid-template-columns:1fr}.wa-side{position:static;order:-1}}
+input.gap.converted{animation:conv .9s ease}
+@keyframes conv{0%{background:#c8f0d2}100%{background:#f8fafb}}
+.wdict{margin-top:14px;border:1.5px solid #9cc6d6;border-radius:10px;background:#f7fbfc}
+.wdict summary{cursor:pointer;padding:9px 14px;font-weight:700;color:var(--blau);list-style:none}
+.wdict summary::-webkit-details-marker{display:none}
+.wdict summary::after{content:" ▸";font-size:13px}.wdict[open] summary::after{content:" ▾"}
+.wdict[open] summary{border-bottom:1px solid #cfe3ea}
+.wdict .hint,.wdict table{margin:8px 14px}.wdict table{width:calc(100% - 28px)}
+.wd-all{border:1.5px solid var(--blau);background:#fff;color:var(--blau);border-radius:6px;padding:2px 9px;font-size:13px;cursor:pointer;margin-left:6px;font-family:inherit}
+.wdict.showbg td.bgc span{background:none!important;color:inherit!important}
+
+.wa-side img.sideimg{width:100%;max-width:none!important;margin-top:10px;border-radius:8px}
+.wa-side .infobox{margin-top:10px}
+.side-bank .chip{white-space:normal}
+td.de .pl{font-weight:600}td.de .plnote{font-weight:400;color:var(--grau);font-size:14px}
+.card.gutgesagt{background:#fff8ec;border:2px solid #e3a95c}
+.gg-phrases{display:flex;gap:14px;flex-wrap:wrap;margin:10px 0 4px}
+.gg-phrases span{background:#fff;border:1.5px solid #e3a95c;border-radius:20px;padding:6px 16px;font-size:19px;font-weight:700;color:#7a3a00}
+.figkey.mini{padding:0 6px;font-size:13px;margin:0 0 0 4px;vertical-align:middle;align-self:auto}
+.redemittel li .figm{margin:4px 0 6px;font-size:15px}
+</style>
+</head>
+<body class="hide-bg">
+<header>
+  <div class="hrow">
+    <div>
+      <h1>Wortschatz Kapitel 8 · Rund um Körper und Geist</h1>
+      <div class="meta">Netzwerk neu B1 · Lernwortschatz · Pharos II</div>
+    </div>
+    
+  </div>
+</header>
+<main>
+<!-- ============ WORTSCHATZ ============ -->
+<p class="hint" style="margin-top:16px">Lernwortschatz ÜB S. 100–101 · Liste mit Erklärungen, Karteikarten und Artikel-Training</p>
+<div class="card">
+  <div class="tabs" data-tabs="vt">
+    <button class="on" data-p="vt-list">📋 Liste</button>
+    <button data-p="vt-fc">🃏 Karteikarten</button>
+    <button data-p="vt-art">der · die · das?</button>
+  </div>
+  <div class="pane on" id="vt-list">
+    <div class="vt-tools">
+      <input type="search" id="vtSearch" placeholder="🔍 Suchen (Deutsch oder Bulgarisch) …">
+      <button id="vtHide">Bulgarisch zeigen</button>
+    </div>
+    <p class="hint">Farben: <span class="art-der"><b>der</b></span> · <span class="art-die"><b>die</b></span> · <span class="art-das"><b>das</b></span>. Lesen Sie die Erklärung und übersetzen Sie zuerst selbst. Dann auf das graue Feld klicken – die bulgarische Übersetzung erscheint.</p>
+    <table class="vt" id="vt"></table>
+  </div>
+  <div class="pane" id="vt-fc">
+    <div class="fc">
+      <div class="vt-tools" style="justify-content:center">
+        <button id="fcDir" class="on">Erklärung → Wort</button>
+        <button id="fcShuffle">🔀 Mischen</button>
+      </div>
+      <div class="fc-card" id="fcCard"></div>
+      <div class="fc-tools"><button id="fcPrev">◀ Zurück</button><span id="fcPos" style="align-self:center"></span><button id="fcNext">Weiter ▶</button></div>
+      <p class="hint">Karte anklicken = umdrehen. Tastatur: Leertaste = umdrehen, ← → = blättern.</p>
+    </div>
+  </div>
+  <div class="pane" id="vt-art">
+    <div class="artq">
+      <p class="hint">Welcher Artikel? Im Plenum: Die Lernenden sagen den Artikel, die Lehrkraft klickt.</p>
+      <div class="word" id="artWord"></div>
+      <div class="bg" id="artBg"></div>
+      <div><button class="a der" data-a="der">der</button><button class="a die" data-a="die">die</button><button class="a das" data-a="das">das</button></div>
+      <p id="artFb" style="min-height:26px;font-weight:600"></p>
+      <p class="score" id="artScore"></p>
+    </div>
+  </div>
+</div>
+
+
+
+</main>
+
+<script>
+/* ---------- Wortschatz ---------- */
+// [Deutsch, Grammatik, Erklärung auf Deutsch, Bulgarisch]
+const VOC = [
+ ["fit und gesund bleiben"],
+ ["die Gymnastik", "nur Sg.", "leichte Bewegungsübungen für den Körper", "гимнастика"],
+ ["sich an|strengen", "hat sich angestrengt", "sich viel Mühe geben, viel Kraft benutzen", "напрягам се, старая се"],
+ ["das Gehirn", "-e", "das Organ im Kopf, mit dem man denkt", "мозък"],
+ ["der Geist", "-er", "der Verstand, das Denken (Körper und Geist)", "дух, ум"],
+ ["raten (zu + D.)", "rät, riet, hat geraten · Ich rate dir, auf deine Gesundheit zu achten.", "jemandem sagen, was er tun soll; einen Tipp geben", "съветвам"],
+ ["kühlen", "hat gekühlt", "kalt machen", "охлаждам"],
+ ["ein|cremen", "hat eingecremt", "Creme auf die Haut geben", "намазвам с крем"],
+ ["der Schatten", "-", "ein dunkler Ort ohne Sonne", "сянка"],
+ ["Essen und Trinken"],
+ ["die Flüssigkeit", "-en", "Wasser, Saft, Milch … – nicht fest", "течност"],
+ ["die Hauptmahlzeit", "-en", "das wichtigste Essen am Tag", "основно хранене"],
+ ["der Knödel", "-", "eine runde Beilage aus Kartoffeln oder Brot (Süddeutschland, Österreich)", "кнедла"],
+ ["der Pfannkuchen", "-", "ein flacher Kuchen aus Mehl, Eiern und Milch, in der Pfanne gebacken", "палачинка"],
+ ["der Schweinebraten", "-", "ein großes Stück Schweinefleisch aus dem Ofen", "печено свинско"],
+ ["das Steak", "-s", "ein dickes Stück Fleisch, kurz gebraten", "пържола, стек"],
+ ["roh", "", "nicht gekocht oder gebraten", "суров"],
+ ["blutig", "", "mit Blut; beim Steak: innen noch rot", "кървав; (за месо) алангле"],
+ ["essbar", "", "man kann es essen", "годен за ядене"],
+ ["eiskalt", "", "sehr, sehr kalt", "леденостуден"],
+ ["rund um den Körper"],
+ ["atmen", "hat geatmet", "Luft durch Nase oder Mund in die Lunge holen", "дишам"],
+ ["blass", "", "mit heller, weißer Haut im Gesicht, weil man krank ist", "блед"],
+ ["schwindelig", "", "man hat das Gefühl, dass sich alles dreht", "замаян"],
+ ["die Brust", "¨-e", "der vordere Teil des Körpers zwischen Hals und Bauch", "гърди"],
+ ["die Schulter", "-n", "der Teil des Körpers zwischen Hals und Arm", "рамо"],
+ ["leiden (an + D.)", "leidet, litt, hat gelitten", "eine Krankheit haben, Schmerzen haben", "страдам (от)"],
+ ["im Krankenhaus"],
+ ["die Heilung", "-en", "wenn man wieder gesund wird", "излекуване"],
+ ["die Medizin", "nur Sg.", "1. die Wissenschaft vom Körper und von Krankheiten 2. ein Medikament", "медицина; лекарство"],
+ ["das Schmerzmittel", "-", "ein Medikament gegen Schmerzen", "болкоуспокояващо"],
+ ["einnehmen", "nimmt ein, nahm ein, hat eingenommen · Medikamente einnehmen", "ein Medikament schlucken", "приемам (лекарство)"],
+ ["auf|lösen", "hat aufgelöst", "etwas in Wasser geben, bis es nicht mehr zu sehen ist", "разтварям"],
+ ["verschreiben", "verschreibt, verschrieb, hat verschrieben", "der Arzt schreibt ein Rezept für ein Medikament", "изписвам (лекарство)"],
+ ["krank|schreiben", "schreibt krank, schrieb krank, hat krankgeschrieben", "der Arzt bestätigt, dass man nicht arbeiten kann", "давам болничен"],
+ ["der Krankenwagen", "-", "ein Auto, das kranke oder verletzte Menschen ins Krankenhaus bringt", "линейка"],
+ ["die Notaufnahme", "-n", "die Abteilung im Krankenhaus für Notfälle", "спешно отделение"],
+ ["die Versichertenkarte", "-n", "die Karte von der Krankenkasse, die man beim Arzt zeigt", "здравноосигурителна карта"],
+ ["der Klinikaufenthalt", "-e", "die Zeit, in der man im Krankenhaus ist", "престой в болница"],
+ ["die Entlassung", "-en", "wenn man das Krankenhaus wieder verlassen darf", "изписване (от болница)"],
+ ["die Besuchszeit", "-en", "die Zeit, in der man Patienten besuchen darf", "часове за посещение"],
+ ["der Haupteingang", "¨-e", "die wichtigste Tür in ein Gebäude", "главен вход"],
+ ["der Notausgang", "¨-e", "eine Tür, durch die man bei Gefahr schnell hinausgeht", "авариен изход"],
+ ["der Notruf", "-e", "ein Anruf bei Polizei oder Rettung (112)", "спешно повикване"],
+ ["der Pfleger", "-", "ein Mann, der im Krankenhaus kranke Menschen versorgt", "санитар, медицински брат"],
+ ["zur Verfügung stehen", "stand, hat gestanden", "da sein, sodass man es benutzen kann", "на разположение е"],
+ ["auf|bewahren", "hat aufbewahrt", "an einem sicheren Ort lassen", "пазя, съхранявам"],
+ ["untersagt sein", "war, ist gewesen", "verboten sein", "забранено е"],
+ ["warnen (vor + D.)", "hat gewarnt", "sagen, dass eine Gefahr da ist", "предупреждавам (за)"],
+ ["zuständig (für + A.)", "", "verantwortlich für etwas", "отговорен (за), компетентен"],
+ ["Kleidung und Hygiene"],
+ ["der Bademantel", "¨-", "ein langer, warmer Mantel aus Stoff für nach dem Duschen", "халат за баня"],
+ ["der Hausschuh", "-e", "ein bequemer Schuh für zu Hause", "пантоф"],
+ ["der Schlafanzug", "¨-e", "Kleidung zum Schlafen", "пижама"],
+ ["die Zahnbürste", "-n", "damit putzt man die Zähne", "четка за зъби"],
+ ["die Zahnpasta", "-pasten", "die Creme zum Zähneputzen", "паста за зъби"],
+ ["kämmen", "hat gekämmt", "die Haare mit einem Kamm in Ordnung bringen", "реша (се)"],
+ ["die Drogerie", "-n", "ein Geschäft für Kosmetik, Seife, Zahnpasta …", "дрогерия"],
+ ["Technik"],
+ ["der Alarmknopf", "¨-e", "ein Knopf, den man bei Gefahr drückt", "алармен бутон"],
+ ["der Apparat", "-e", "ein technisches Gerät", "апарат"],
+ ["die Bedienungsanleitung", "-en", "ein Text, der erklärt, wie ein Gerät funktioniert", "инструкция за употреба"],
+ ["die Chipkarte", "-n", "eine Plastikkarte mit einem kleinen Computerchip", "чип карта"],
+ ["die Fernbedienung", "-en", "damit schaltet man den Fernseher an oder aus", "дистанционно управление"],
+ ["das Festnetz", "nur Sg.", "das normale Telefon zu Hause (nicht das Handy)", "стационарна телефонна мрежа"],
+ ["Musik und Emotionen"],
+ ["der Klang", "¨-e", "wie ein Ton oder eine Stimme klingt", "звук, звучене"],
+ ["der Jazz", "nur Sg.", "eine Musikrichtung aus Amerika", "джаз"],
+ ["die Klassik", "nur Sg.", "die klassische Musik, z. B. Mozart, Beethoven", "класика, класическа музика"],
+ ["klassisch", "", "traditionell; zur Klassik gehörend", "класически"],
+ ["das Stück", "-e · Ich spiele ein Stück von Mozart.", "ein Musikwerk", "пиеса, музикално произведение"],
+ ["beruhigend", "", "macht ruhig und entspannt", "успокояващ"],
+ ["die Wirkung", "-en", "was etwas bei einem Menschen bewirkt, z. B. ein Medikament", "действие, ефект"],
+ ["empfinden", "empfindet, empfand, hat empfunden", "fühlen", "чувствам, изпитвам"],
+ ["spüren", "hat gespürt", "mit dem Körper oder mit Gefühl merken", "усещам"],
+ ["die Forscherin", "-nen", "eine Frau, die in der Wissenschaft Neues herausfindet", "изследователка"],
+ ["feierlich", "", "festlich, für einen besonderen Anlass", "тържествен"],
+ ["besondere Orte"],
+ ["barrierearm", "", "fast ohne Treppen und Hindernisse, gut für Rollstuhlfahrer", "с малко бариери, достъпен"],
+ ["familienfreundlich", "", "gut für Familien mit Kindern", "подходящ за семейства"],
+ ["fantasievoll", "", "mit vielen kreativen Ideen", "изпълнен с фантазия"],
+ ["geeignet (für + A.)", "", "passend, gut für etwas", "подходящ (за)"],
+ ["interaktiv", "", "man kann selbst mitmachen und etwas ausprobieren", "интерактивен"],
+ ["ungewöhnlich", "", "nicht normal, besonders", "необичаен"],
+ ["sich wundern (über + A.)", "hat sich gewundert", "überrascht sein, weil etwas komisch ist", "учудвам се (на)"],
+ ["andere wichtige Wörter und Wendungen"],
+ ["alltäglich", "", "normal, jeden Tag", "всекидневен"],
+ ["ausreichend", "", "genug", "достатъчен"],
+ ["die Beerdigung", "-en", "wenn ein Toter ins Grab gelegt wird", "погребение"],
+ ["betragen", "beträgt, betrug, hat betragen", "eine bestimmte Höhe haben (Die Kosten betragen 50 Euro.)", "възлизам на"],
+ ["bisher", "", "bis jetzt", "досега"],
+ ["brauchen … zu", "Sie brauchen mich nur zu rufen, wenn ich Ihnen helfen soll.", "nur … müssen; nicht … müssen", "трябва само да …; не е нужно да …"],
+ ["einigermaßen", "", "nicht sehr, aber genug; ziemlich", "горе-долу, донякъде"],
+ ["einschließlich", "", "mit, inklusive", "включително"],
+ ["vermutlich", "", "wahrscheinlich", "вероятно"],
+ ["gelangen", "ist gelangt", "an einen Ort kommen", "достигам, стигам"],
+ ["glatt", "", "ganz eben, ohne Falten; rutschig", "гладък; хлъзгав"],
+ ["grundsätzlich", "", "im Prinzip, immer", "по принцип"],
+ ["kleben", "hat geklebt", "etwas mit Klebstoff festmachen", "лепя"],
+ ["das Rätsel", "-", "eine Aufgabe, bei der man die Lösung finden muss", "гатанка, загадка"],
+ ["kommen (auf + A.)", "kommt, kam, ist gekommen · Ich komme gerade nicht auf die Lösung.", "eine Idee finden, sich an etwas erinnern", "сещам се (за)"],
+ ["durch den Kopf gehen", "ging, ist gegangen", "man denkt immer wieder darüber nach", "минава ми през ума"],
+ ["mithilfe (von + D.)", "", "mit Hilfe von etwas", "с помощта на"],
+ ["der Moderator", "-en", "eine Person, die eine Sendung oder Diskussion leitet", "водещ"],
+ ["die Motivation", "nur Sg.", "der Grund und die Lust, etwas zu tun", "мотивация"],
+ ["motiviert", "", "man hat Lust, etwas zu tun", "мотивиран"],
+ ["die Nachfrage", "-n", "1. wie viele Menschen etwas kaufen wollen 2. eine Frage, ob alles klar ist", "търсене; запитване"],
+ ["obere", "", "weiter oben, höher", "горен"],
+ ["die Reklame", "-n", "Werbung", "реклама"],
+ ["der Rest", "-e", "was übrig bleibt", "остатък"],
+ ["die Rücksicht", "nur Sg. · Bitte nehmen Sie Rücksicht auf Ihre Nachbarn.", "man denkt an andere und stört sie nicht", "внимание, съобразяване (с другите)"],
+ ["zur Seite gehen", "ging, ist gegangen", "ein bisschen weggehen, damit jemand vorbei kann", "отдръпвам се встрани"],
+ ["sichtbar", "", "man kann es sehen", "видим"],
+ ["sinken", "sinkt, sank, ist gesunken", "weniger oder niedriger werden", "спадам, намалявам"],
+ ["überprüfen", "hat überprüft", "kontrollieren, ob etwas richtig ist", "проверявам"],
+ ["einerseits …, andererseits", "", "auf der einen Seite …, auf der anderen Seite", "от една страна …, от друга страна"],
+ ["entweder … oder", "", "das eine oder das andere", "или … или"],
+ ["nicht nur …, sondern auch", "", "das eine und dazu noch das andere", "не само …, но и"],
+ ["sowohl … als auch", "", "das eine und das andere", "както …, така и"],
+ ["weder … noch", "", "nicht das eine und nicht das andere", "нито … нито"],
+ ["zwar …, aber", "", "es stimmt, aber …", "наистина …, но"]
+];
+function colorDe(de){
+  return de.replace(/^(der|die|das)\b/,m=>`<span class="art-${m}">${m}</span>`)
+           .replace(/^der\/die\b/,'<span class="art-der">der</span>/<span class="art-die">die</span>');
+}
+const vt=document.getElementById('vt');
+function renderVT(f){
+  f=(f||'').toLowerCase(); let html='', cat='', catShown=false;
+  VOC.forEach(r=>{
+    if(r.length===1){cat=r[0];catShown=false;return;}
+    if(f && !r.join(' ').toLowerCase().includes(f)) return;
+    if(!catShown){html+=`<tr class="cat"><td colspan="3">${cat}</td></tr>`;catShown=true;}
+    const isN=/^(der|die|das)\b|^der\/die/.test(r[0]) && /^(-|¨|Pl\.|nur |- \/)/.test(r[1]||'');
+    const pl=isN ? (r[1].startsWith('Pl. ')?', '+r[1].slice(4):(/^(nur |Pl\.)/.test(r[1])?` <span class="plnote">(${r[1]})</span>`:', '+r[1])) : '';
+    html+=`<tr><td class="de">${colorDe(r[0])}${isN?`<span class="pl">${pl}</span>`:(r[1]?`<small>${r[1]}</small>`:'')}</td><td class="ex">${r[2]}</td><td class="bgc"><span>${r[3]}</span></td></tr>`;
+  });
+  vt.innerHTML=html||'<tr><td>Nichts gefunden.</td></tr>';
+}
+renderVT();
+document.getElementById('vtSearch').addEventListener('input',e=>renderVT(e.target.value));
+document.getElementById('vtHide').addEventListener('click',e=>{document.body.classList.toggle('hide-bg');e.target.classList.toggle('on');e.target.textContent=document.body.classList.contains('hide-bg')?'Bulgarisch zeigen':'Bulgarisch verstecken';});
+vt.addEventListener('click',e=>{if(e.target.matches('td.bgc span'))e.target.classList.toggle('peek');});
+
+/* Karteikarten: Erklärung → Wort (+ BG)  oder  Wort → Bulgarisch */
+let cards=VOC.filter(r=>r.length>1), ci=0, step=0, mode='ex';
+const fcCard=document.getElementById('fcCard');
+function showCard(){
+  const r=cards[ci]; let html;
+  if(mode==='ex'){
+    if(step===0) html=`<div style="font-size:21px">${r[2]}</div><div class="small">Welches Wort ist das? – klicken</div>`;
+    else if(step===1) html=`<div>${colorDe(r[0])}</div><div class="small">${r[1]||''}</div><div class="small">Und auf Bulgarisch? – klicken</div>`;
+    else html=`<div>${colorDe(r[0])}</div><div class="small" style="font-size:19px;color:var(--ink)">${r[3]}</div>`;
+  } else {
+    if(step===0) html=`<div>${colorDe(r[0])}</div><div class="small">${r[1]||''}</div><div class="small">Wie sagt man das auf Bulgarisch? – klicken</div>`;
+    else html=`<div>${r[3]}</div><div class="small">${r[2]}</div>`;
+  }
+  fcCard.innerHTML=html;
+  fcCard.style.background = step ? 'var(--blau-hell)' : '#fff';
+  document.getElementById('fcPos').textContent=`${ci+1} / ${cards.length}`;
+}
+fcCard.addEventListener('click',()=>{const max=mode==='ex'?2:1; step=step>=max?0:step+1; showCard();});
+document.getElementById('fcNext').addEventListener('click',()=>{ci=(ci+1)%cards.length;step=0;showCard();});
+document.getElementById('fcPrev').addEventListener('click',()=>{ci=(ci-1+cards.length)%cards.length;step=0;showCard();});
+document.getElementById('fcShuffle').addEventListener('click',()=>{cards=cards.map(c=>[Math.random(),c]).sort((a,b)=>a[0]-b[0]).map(x=>x[1]);ci=0;step=0;showCard();});
+document.getElementById('fcDir').addEventListener('click',e=>{mode=mode==='ex'?'bg':'ex';e.target.textContent=mode==='ex'?'Erklärung → Wort':'Wort → Bulgarisch';step=0;showCard();});
+showCard();
+document.addEventListener('keydown',e=>{
+  if(!document.getElementById('vt-fc').classList.contains('on')) return;
+  if(/INPUT|TEXTAREA|SELECT/.test(document.activeElement.tagName)) return;
+  if(e.key===' '){e.preventDefault();fcCard.click();}
+  if(e.key==='ArrowRight')document.getElementById('fcNext').click();
+  if(e.key==='ArrowLeft')document.getElementById('fcPrev').click();
+});
+
+/* Artikel-Quiz */
+const nouns=VOC.filter(r=>r.length>1 && /^(der|die|das) [A-ZÄÖÜ]/.test(r[0]) && !/nur Pl\.|^Pl\./.test(r[1]));
+let aq=[], ai=0, aok=0, atry=0;
+function newArt(){aq=nouns.map(n=>[Math.random(),n]).sort((a,b)=>a[0]-b[0]).map(x=>x[1]);ai=0;aok=0;atry=0;showArt();}
+function showArt(){
+  const n=aq[ai%aq.length]; const w=n[0].split(' ').slice(1).join(' ');
+  document.getElementById('artWord').textContent=w; document.getElementById('artBg').textContent=n[2];
+  document.getElementById('artFb').textContent='';
+  document.getElementById('artScore').textContent=atry?`${aok} von ${atry} richtig`:'';
+}
+document.querySelectorAll('.artq button.a').forEach(b=>b.addEventListener('click',()=>{
+  const n=aq[ai%aq.length]; const art=n[0].split(' ')[0]; atry++;
+  const fb=document.getElementById('artFb');
+  if(b.dataset.a===art){aok++;fb.innerHTML=`✔ Richtig: <span class="art-${art}">${n[0]}</span>, ${n[1]}`;fb.style.color='var(--ok)';}
+  else{fb.innerHTML=`✘ Nein: <span class="art-${art}">${n[0]}</span>, ${n[1]}`;fb.style.color='var(--bad)';}
+  document.getElementById('artScore').textContent=`${aok} von ${atry} richtig`;
+  ai++; setTimeout(()=>{ if(ai<aq.length) showArt(); else {fb.innerHTML+=` — Fertig! <button onclick="newArt()">Neu starten</button>`;} },1400);
+}));
+newArt();
+
+/* Tabs */
+document.querySelectorAll('.tabs').forEach(t=>t.querySelectorAll('button').forEach(b=>b.addEventListener('click',()=>{
+  t.querySelectorAll('button').forEach(x=>x.classList.remove('on')); b.classList.add('on');
+  t.parentElement.querySelectorAll(':scope > .pane').forEach(p=>p.classList.toggle('on',p.id===b.dataset.p));
+})));
+
+
+</script>
+</body>
+</html>
