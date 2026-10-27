@@ -1,0 +1,562 @@
+<!doctype html><html lang="de"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Grammatik Netzwerk neu B1</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Literata:opsz,wght@7..72,500;7..72,700&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=IBM+Plex+Mono:wght@500&display=swap">
+<style>
+/* Layout: ein Nachschlagewerk – oben Themenregister, dann Kapitel 1–12 als Karteikarten mit Regel → Beispiel → Achtung */
+:root{
+  --bg:#f6f7f9; --paper:#ffffff; --ink:#1b2430; --muted:#5a6573; --line:#d9dee6;
+  --accent:#1d5c8f; --accent-soft:#e6eff7; --mark:#b4381e; --warn-bg:#fff4e0; --warn-line:#e5a33a;
+  --f-display:"Literata",Georgia,"Times New Roman",serif;
+  --f-body:"Atkinson Hyperlegible",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,Consolas,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#12161c; --paper:#1a2029; --ink:#e7ebf0; --muted:#9aa5b3; --line:#2e3742;
+  --accent:#7fb6e6; --accent-soft:#1d2c3b; --mark:#f08a6c; --warn-bg:#2f2615; --warn-line:#b9852f; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#12161c; --paper:#1a2029; --ink:#e7ebf0; --muted:#9aa5b3; --line:#2e3742;
+  --accent:#7fb6e6; --accent-soft:#1d2c3b; --mark:#f08a6c; --warn-bg:#2f2615; --warn-line:#b9852f; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.55;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:0 48px}
+.wrap{max-width:960px;margin:0 auto}
+header.top{padding-block:28px 12px}
+.eyebrow{font-size:.78rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+h1{font-family:var(--f-display);font-weight:700;font-size:clamp(1.7rem,4vw,2.4rem);line-height:1.15;margin:.2em 0 .3em;text-wrap:balance}
+.lead{color:var(--muted);max-width:65ch;margin:0}
+nav.chips{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);padding-block:10px;border-bottom:1px solid var(--line);
+  display:flex;gap:6px;flex-wrap:wrap}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bg)}
+nav.chips a{font-family:var(--f-mono);font-size:.82rem;text-decoration:none;color:var(--accent);border:1px solid var(--line);background:var(--paper);
+  padding:3px 9px;border-radius:999px}
+nav.chips a:hover,nav.chips a:focus-visible{border-color:var(--accent);outline:none}
+h2{font-family:var(--f-display);font-weight:700;font-size:1.45rem;margin:0;text-wrap:balance}
+h3{font-size:1.05rem;margin:22px 0 6px;color:var(--accent)}
+section.block{margin-top:28px}
+.chapter{background:var(--paper);border:1px solid var(--line);border-radius:10px;margin-top:22px;overflow:hidden}
+.chapter>summary{list-style:none;cursor:pointer;display:flex;gap:14px;align-items:baseline;padding:16px 18px;border-bottom:1px solid var(--line)}
+.chapter>summary::-webkit-details-marker{display:none}
+.chapter:not([open])>summary{border-bottom:0}
+.knum{font-family:var(--f-mono);color:var(--paper);background:var(--accent);border-radius:6px;padding:2px 8px;font-size:.85rem;flex:none}
+.ktitle{display:flex;flex-direction:column;gap:2px;min-width:0}
+.ktopics{color:var(--muted);font-size:.9rem}
+.body{padding:4px 18px 20px}
+.body>*:first-child{margin-top:14px}
+p{margin:.4em 0;max-width:68ch}
+.rule{background:var(--accent-soft);border-radius:8px;padding:10px 14px;margin:8px 0}
+.rule p{margin:.2em 0}
+.warn{background:var(--warn-bg);border-left:3px solid var(--warn-line);border-radius:0 8px 8px 0;padding:8px 14px;margin:8px 0}
+.warn p{margin:.2em 0}
+.warn strong{color:var(--mark)}
+.ex{margin:6px 0;padding-left:0;list-style:none}
+.ex li{padding:3px 0 3px 18px;position:relative}
+.ex li::before{content:"›";position:absolute;left:4px;color:var(--muted)}
+em.h,.h{font-style:normal;font-weight:700;color:var(--mark)}
+.v{font-weight:700;text-decoration:underline;text-decoration-color:var(--accent);text-underline-offset:3px}
+.tw{overflow-x:auto;margin:8px 0}
+table{border-collapse:collapse;font-size:.93rem;min-width:100%}
+th,td{border:1px solid var(--line);padding:5px 9px;text-align:left;vertical-align:top}
+th{background:var(--accent-soft);font-weight:700}
+td.k,th.k{font-family:var(--f-mono);font-size:.82rem;color:var(--muted);white-space:nowrap}
+.cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px}
+.cols>*{min-width:0}
+.idx td:first-child{font-weight:700}
+.idx a{color:var(--accent);font-family:var(--f-mono);font-size:.85rem;text-decoration:none;white-space:nowrap}
+.tools{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+button{font:inherit;font-size:.88rem;border:1px solid var(--line);background:var(--paper);color:var(--ink);border-radius:6px;padding:5px 12px;cursor:pointer}
+button:hover,button:focus-visible{border-color:var(--accent);outline:none}
+footer{color:var(--muted);font-size:.85rem;margin-top:28px}
+@media (prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}}
+html{scroll-behavior:smooth}
+section[id],details[id]{scroll-margin-top:64px}
+@media print{nav.chips,.tools{display:none}.chapter{break-inside:auto}}
+</style></head><body>
+
+<div class="wrap">
+<header class="top">
+  <div class="eyebrow">Pharos II · Netzwerk neu B1 · Kapitel 1–12</div>
+  <h1>Grammatik B1 – alles auf einen Blick</h1>
+  <p class="lead">Die gesamte Grammatik aus Netzwerk neu B1, geordnet nach Kapiteln. Oben finden Sie ein Register nach Themen und eine Übersicht aller Konnektoren. In jedem Kapitel steht zuerst die Regel, dann kommen Beispiele und am Ende die Ausnahmen.</p>
+  <div class="tools">
+    <button type="button" id="openAll">Alle Kapitel öffnen</button>
+    <button type="button" id="closeAll">Alle Kapitel schließen</button>
+  </div>
+</header>
+
+<nav class="chips" aria-label="Kapitel">
+  <a href="#register">Register</a><a href="#konnektoren">Konnektoren</a>
+  <a href="#k1">K1</a><a href="#k2">K2</a><a href="#k3">K3</a><a href="#k4">K4</a><a href="#k5">K5</a><a href="#k6">K6</a>
+  <a href="#k7">K7</a><a href="#k8">K8</a><a href="#k9">K9</a><a href="#k10">K10</a><a href="#k11">K11</a><a href="#k12">K12</a>
+</nav>
+
+<!-- ============ REGISTER ============ -->
+<section class="block" id="register">
+  <h2>Register nach Themen</h2>
+  <div class="tw"><table class="idx">
+    <tr><th>Bereich</th><th>Thema</th><th>Kapitel</th></tr>
+    <tr><td rowspan="6">Verb</td><td>Präteritum · Plusquamperfekt · Futur I</td><td><a href="#k3">K3</a> · <a href="#k7">K7</a> · <a href="#k6">K6</a></td></tr>
+    <tr><td>Konjunktiv II · irreale Bedingungssätze</td><td><a href="#k4">K4</a></td></tr>
+    <tr><td>Passiv (Präsens, Präteritum, Perfekt, mit Modalverb)</td><td><a href="#k10">K10</a></td></tr>
+    <tr><td>lassen · nicht/nur + brauchen + zu</td><td><a href="#k2">K2</a> · <a href="#k8">K8</a></td></tr>
+    <tr><td>Verben mit Präposition · Pronominaladverbien (darauf, worauf …)</td><td><a href="#k4">K4</a></td></tr>
+    <tr><td>Reflexivpronomen im Akkusativ und Dativ</td><td><a href="#k8">K8</a></td></tr>
+    <tr><td rowspan="3">Nomen &amp; Artikel</td><td>Genitiv · n-Deklination</td><td><a href="#k2">K2</a> · <a href="#k6">K6</a></td></tr>
+    <tr><td>Artikelwörter als Pronomen · irgendein/-welche</td><td><a href="#k11">K11</a></td></tr>
+    <tr><td>Adjektive als Nomen (der/die Bekannte)</td><td><a href="#k11">K11</a></td></tr>
+    <tr><td rowspan="3">Adjektiv</td><td>Komparativ und Superlativ vor Nomen</td><td><a href="#k5">K5</a></td></tr>
+    <tr><td>Adjektive ohne Artikel · alle Adjektivendungen</td><td><a href="#k9">K9</a></td></tr>
+    <tr><td>Partizip I und II als Adjektiv</td><td><a href="#k12">K12</a></td></tr>
+    <tr><td rowspan="2">Präpositionen</td><td>wegen, trotz + Genitiv</td><td><a href="#k2">K2</a></td></tr>
+    <tr><td>Zeitangaben mit Dativ und Genitiv</td><td><a href="#k3">K3</a></td></tr>
+    <tr><td rowspan="6">Satz</td><td>Infinitiv mit zu · da/weil · obwohl</td><td><a href="#k1">K1</a></td></tr>
+    <tr><td>deshalb/deswegen/darum/daher · sodass / so … dass</td><td><a href="#k2">K2</a></td></tr>
+    <tr><td>damit / um … zu</td><td><a href="#k5">K5</a></td></tr>
+    <tr><td>Relativsätze (Dativ, mit Präposition, mit was und wo)</td><td><a href="#k6">K6</a> · <a href="#k11">K11</a></td></tr>
+    <tr><td>Temporalsätze: bevor, bis, nachdem, seit(dem), während · zweiteilige Konnektoren</td><td><a href="#k7">K7</a> · <a href="#k8">K8</a></td></tr>
+    <tr><td>Stellung von nicht · je …, desto/umso …</td><td><a href="#k9">K9</a> · <a href="#k12">K12</a></td></tr>
+  </table></div>
+</section>
+
+<!-- ============ KONNEKTOREN ============ -->
+<section class="block" id="konnektoren">
+  <h2>Konnektoren: Wo steht das Verb?</h2>
+  <p>Die wichtigste Frage bei jedem Konnektor ist: Wo steht danach das konjugierte Verb?</p>
+  <div class="tw"><table>
+    <tr><th>Typ</th><th>Konnektoren</th><th>Verb</th><th>Beispiel</th></tr>
+    <tr><td>Hauptsatz + Hauptsatz<br><span class="k">Position 0</span></td><td>und, oder, aber, denn, sondern</td><td>Position 2</td><td>Ich bleibe zu Hause, <span class="v">denn</span> ich <em class="h">bin</em> krank.</td></tr>
+    <tr><td>Hauptsatz + Hauptsatz<br><span class="k">Position 1</span></td><td>deshalb, deswegen, darum, daher, trotzdem</td><td>Position 2, direkt nach dem Konnektor</td><td>Ich bin krank, <span class="v">deshalb</span> <em class="h">bleibe</em> ich zu Hause.</td></tr>
+    <tr><td>Hauptsatz + Nebensatz</td><td>weil, da, obwohl, dass, ob, wenn, als, damit, sodass, so … dass, bevor, bis, nachdem, seit/seitdem, während, je</td><td>am Ende</td><td>Ich bleibe zu Hause, <span class="v">weil</span> ich krank <em class="h">bin</em>.</td></tr>
+    <tr><td>Infinitivsatz</td><td>zu, um … zu</td><td>Infinitiv am Ende</td><td>Ich lerne viel, <span class="v">um</span> die Prüfung <em class="h">zu bestehen</em>.</td></tr>
+    <tr><td>zweiteilig</td><td>sowohl … als auch, nicht nur … sondern auch, entweder … oder, weder … noch, zwar … aber, einerseits … andererseits</td><td>je nach Satzteil</td><td>Sie spricht <span class="v">nicht nur</span> Deutsch, <span class="v">sondern auch</span> Spanisch.</td></tr>
+  </table></div>
+  <div class="rule"><p><strong>Nebensatz zuerst:</strong> Dann beginnt der Hauptsatz mit dem Verb. „Verb, Komma, Verb“: <em>Weil ich krank <em class="h">bin</em>, <em class="h">bleibe</em> ich zu Hause.</em></p></div>
+  <div class="warn"><p><strong>Achtung:</strong> Trennbare Verben stehen im Nebensatz zusammen: <em>…, weil der Zug um 8 Uhr <em class="h">abfährt</em>.</em></p></div>
+</section>
+
+<!-- ============ K1 ============ -->
+<details class="chapter" id="k1" open>
+<summary><span class="knum">K1</span><span class="ktitle"><h2>Gute Reise!</h2><span class="ktopics">Infinitiv mit zu · Nebensatz mit da/weil · Nebensatz mit obwohl</span></span></summary>
+<div class="body">
+  <h3>Infinitiv mit zu</h3>
+  <div class="rule"><p>Nach bestimmten Verben, nach Adjektiven mit <em>sein/finden</em> und nach Nomen mit <em>haben/machen</em> steht ein Infinitiv mit <strong>zu</strong> am Satzende.</p></div>
+  <div class="tw"><table>
+    <tr><th>nach …</th><th>Beispiele</th><th>Satz</th></tr>
+    <tr><td>Verben</td><td>anfangen, aufhören, sich entscheiden, planen, vergessen, versuchen, vorhaben, vorschlagen</td><td>Ich habe vergessen, dich <em class="h">anzurufen</em>.</td></tr>
+    <tr><td>Adjektiv + sein/finden</td><td>anstrengend, gut, interessant, langweilig, schön, wichtig</td><td>Es ist langweilig, den ganzen Tag am Strand <em class="h">zu sein</em>.</td></tr>
+    <tr><td>Nomen + haben/machen</td><td>(keine) Lust haben, (keine) Zeit haben, Spaß machen</td><td>Ich habe keine Zeit, ins Reisebüro <em class="h">zu gehen</em>.</td></tr>
+  </table></div>
+  <div class="warn"><p><strong>Trennbare Verben:</strong> <em>zu</em> steht zwischen Präfix und Verb: an<em class="h">zu</em>rufen, ein<em class="h">zu</em>laden, aus<em class="h">zu</em>probieren.</p></div>
+
+  <h3>Nebensatz mit weil/da – Grund</h3>
+  <ul class="ex">
+    <li>Ben lädt die Freunde ein, <span class="v">weil</span> er im Urlaub <em class="h">war</em>.</li>
+    <li><span class="v">Da</span> Köln sehr bekannt <em class="h">ist</em>, <em class="h">gibt</em> es viele Touristen.</li>
+  </ul>
+  <div class="rule"><p><em>da</em> = <em>weil</em>. <em>da</em> steht oft am Satzanfang, wenn der Grund schon bekannt ist.</p></div>
+
+  <h3>Nebensatz mit obwohl – Gegengrund</h3>
+  <ul class="ex">
+    <li>Der Urlaub war schön, <span class="v">obwohl</span> das Wetter schlecht <em class="h">war</em>.</li>
+    <li>= Das Wetter war schlecht. <span class="v">Trotzdem</span> <em class="h">war</em> der Urlaub schön.</li>
+  </ul>
+  <div class="warn"><p><strong>obwohl</strong> leitet einen Nebensatz ein (Verb am Ende), <strong>trotzdem</strong> steht im Hauptsatz auf Position 1 (Verb direkt danach).</p></div>
+</div></details>
+
+<!-- ============ K2 ============ -->
+<details class="chapter" id="k2" open>
+<summary><span class="knum">K2</span><span class="ktitle"><h2>Das ist ja praktisch!</h2><span class="ktopics">Verb lassen · deshalb/deswegen/darum/daher · sodass, so … dass · Genitiv · wegen und trotz</span></span></summary>
+<div class="body">
+  <h3>Verb lassen</h3>
+  <div class="rule"><p><strong>lassen</strong> + Infinitiv = jemand anderes macht etwas für mich.</p></div>
+  <ul class="ex">
+    <li>Sie repariert ihr Handy. → Sie macht es selbst.</li>
+    <li>Sie <em class="h">lässt</em> ihr Handy <em class="h">reparieren</em>. → Sie macht es nicht selbst.</li>
+    <li>Perfekt: Sie <em class="h">hat</em> ihr Handy reparieren <em class="h">lassen</em>. (zwei Infinitive am Ende)</li>
+  </ul>
+  <div class="tw"><table><tr><th>ich</th><th>du</th><th>er/es/sie</th><th>wir</th><th>ihr</th><th>sie/Sie</th></tr>
+  <tr><td>lasse</td><td>l<em class="h">ä</em>sst</td><td>l<em class="h">ä</em>sst</td><td>lassen</td><td>lasst</td><td>lassen</td></tr></table></div>
+
+  <h3>Folgen ausdrücken</h3>
+  <div class="cols">
+    <div><p><strong>deshalb / deswegen / darum / daher</strong> (Hauptsatz, Position 1)</p>
+      <ul class="ex"><li>Alle spielen schlecht, <span class="v">deshalb</span> <em class="h">haben</em> sie verloren.</li></ul></div>
+    <div><p><strong>sodass / so … dass</strong> (Nebensatz)</p>
+      <ul class="ex"><li>Es hat immer geregnet, <span class="v">sodass</span> alles nass <em class="h">wurde</em>.</li>
+      <li>Das Zelt war <span class="v">so</span> nass, <span class="v">dass</span> wir nicht schlafen <em class="h">konnten</em>.</li></ul></div>
+  </div>
+  <div class="warn"><p><strong>so … dass:</strong> <em>so</em> steht direkt vor dem Adjektiv oder Adverb im Hauptsatz.</p></div>
+
+  <h3>Genitiv</h3>
+  <div class="rule"><p>Der Genitiv antwortet auf die Frage <strong>Wessen?</strong> und zeigt Besitz oder Zugehörigkeit. Er steht nach dem Nomen: <em>das Auto <em class="h">meines</em> Nachbar<em class="h">n</em></em>.</p></div>
+  <div class="tw"><table>
+    <tr><th></th><th>maskulin</th><th>neutrum</th><th>feminin</th><th>Plural</th></tr>
+    <tr><td class="k">bestimmt</td><td>de<em class="h">s</em> Raum<em class="h">es</em></td><td>de<em class="h">s</em> Zimmer<em class="h">s</em></td><td>de<em class="h">r</em> Familie</td><td>de<em class="h">r</em> Gäste</td></tr>
+    <tr><td class="k">unbestimmt</td><td>eine<em class="h">s</em> Mann<em class="h">es</em></td><td>eine<em class="h">s</em> Kind<em class="h">es</em></td><td>eine<em class="h">r</em> Frau</td><td>– (von + Dativ)</td></tr>
+    <tr><td class="k">mein/kein</td><td>meine<em class="h">s</em> Hund<em class="h">es</em></td><td>meine<em class="h">s</em> Kind<em class="h">es</em></td><td>meine<em class="h">r</em> Mutter</td><td>meine<em class="h">r</em> Eltern</td></tr>
+    <tr><td class="k">+ Adjektiv</td><td>des schön<em class="h">en</em> Abends</td><td>des aktuell<em class="h">en</em> Themas</td><td>der groß<em class="h">en</em> Sängerin</td><td>der bequem<em class="h">en</em> Schuhe</td></tr>
+  </table></div>
+  <div class="warn"><p><strong>Maskulin und neutrum</strong> bekommen im Genitiv <em>-s</em> oder <em>-es</em>. Einsilbige Nomen haben meist <em>-es</em>: des Hauses, des Raumes. Nach dem unbestimmten Artikel gibt es im Plural keinen Genitiv, man sagt <em>von</em> + Dativ: Nachrichten <em>von Gästen</em>.</p></div>
+
+  <h3>wegen und trotz + Genitiv</h3>
+  <ul class="ex">
+    <li><span class="v">Wegen</span> <em class="h">der hohen Kosten</em> habe ich kein Auto. (Grund)</li>
+    <li>Die Wohnung ist <span class="v">trotz</span> <em class="h">der vielen Technik</em> gemütlich. (Gegengrund)</li>
+  </ul>
+</div></details>
+
+<!-- ============ K3 ============ -->
+<details class="chapter" id="k3" open>
+<summary><span class="knum">K3</span><span class="ktitle"><h2>Veränderungen</h2><span class="ktopics">Präteritum · Zeitangaben: Präpositionen mit Dativ und Genitiv</span></span></summary>
+<div class="body">
+  <h3>Präteritum</h3>
+  <div class="rule"><p><strong>Regelmäßige Verben:</strong> Stamm + <em class="h">-(e)te</em> + Endung. <strong>Unregelmäßige Verben:</strong> Vokal ändert sich, bei ich und er/es/sie gibt es keine Endung.</p></div>
+  <div class="tw"><table>
+    <tr><th></th><th>arbeiten</th><th>ausprobieren</th><th>sehen</th><th>gefallen</th></tr>
+    <tr><td class="k">ich</td><td>arbeit<em class="h">ete</em></td><td>probier<em class="h">te</em> aus</td><td>s<em class="h">a</em>h</td><td>gef<em class="h">ie</em>l</td></tr>
+    <tr><td class="k">du</td><td>arbeit<em class="h">etest</em></td><td>probier<em class="h">test</em> aus</td><td>s<em class="h">a</em>h<em class="h">st</em></td><td>gef<em class="h">ie</em>l<em class="h">st</em></td></tr>
+    <tr><td class="k">er/es/sie</td><td>arbeit<em class="h">ete</em></td><td>probier<em class="h">te</em> aus</td><td>s<em class="h">a</em>h</td><td>gef<em class="h">ie</em>l</td></tr>
+    <tr><td class="k">wir</td><td>arbeit<em class="h">eten</em></td><td>probier<em class="h">ten</em> aus</td><td>s<em class="h">a</em>h<em class="h">en</em></td><td>gef<em class="h">ie</em>l<em class="h">en</em></td></tr>
+    <tr><td class="k">ihr</td><td>arbeit<em class="h">etet</em></td><td>probier<em class="h">tet</em> aus</td><td>s<em class="h">a</em>h<em class="h">t</em></td><td>gef<em class="h">ie</em>l<em class="h">t</em></td></tr>
+    <tr><td class="k">sie/Sie</td><td>arbeit<em class="h">eten</em></td><td>probier<em class="h">ten</em> aus</td><td>s<em class="h">a</em>h<em class="h">en</em></td><td>gef<em class="h">ie</em>l<em class="h">en</em></td></tr>
+  </table></div>
+  <div class="warn"><p><strong>Mischverben</strong> (Vokaländerung + -te): denken → d<em class="h">achte</em>, wissen → w<em class="h">usste</em>, bringen → br<em class="h">achte</em>, kennen → k<em class="h">annte</em>, nennen → n<em class="h">annte</em>, mögen → m<em class="h">ochte</em>.</p></div>
+  <div class="tw"><table>
+    <tr><th>Perfekt</th><th>Präteritum</th></tr>
+    <tr><td>beim Sprechen, in persönlichen Texten (E-Mails): <em>Ich bin gestern ins Kino gegangen.</em></td><td>in Zeitungsartikeln, Berichten, Literatur: <em>Er war zwölf Jahre lang Soldat, dann fühlte er sich nicht mehr glücklich.</em><br>immer bei <strong>sein, haben</strong> und den <strong>Modalverben</strong>: <em>Ich hatte keine Lust, aber dann wollte ich doch …</em></td></tr>
+  </table></div>
+
+  <h3>Zeitangaben: Präpositionen mit Dativ und Genitiv</h3>
+  <div class="cols">
+    <div><p><strong>mit Dativ</strong></p><div class="tw"><table>
+      <tr><td>ab</td><td>ab dem Moment</td></tr><tr><td>an</td><td>am Montag</td></tr><tr><td>bis zu</td><td>bis zum Abend</td></tr>
+      <tr><td>in</td><td>im August</td></tr><tr><td>nach</td><td>nach dem Urlaub</td></tr><tr><td>seit</td><td>seit einer Woche</td></tr><tr><td>vor</td><td>vor der Reise</td></tr></table></div></div>
+    <div><p><strong>mit Genitiv</strong></p><div class="tw"><table>
+      <tr><td>außerhalb</td><td>außerhalb des Urlaubs</td></tr><tr><td>innerhalb</td><td>innerhalb einer Stunde</td></tr><tr><td>während</td><td>während eines Konzerts</td></tr></table></div></div>
+  </div>
+  <div class="rule"><p><strong>Zusammenfassung Präpositionen:</strong> mit Akkusativ: bis, durch, für, gegen, ohne, um · mit Dativ: ab, aus, bei, bis zu, gegenüber von, mit, nach, seit, von, zu · mit Genitiv: außerhalb, innerhalb, trotz, während, wegen</p></div>
+</div></details>
+
+<!-- ============ K4 ============ -->
+<details class="chapter" id="k4" open>
+<summary><span class="knum">K4</span><span class="ktitle"><h2>Arbeitswelt</h2><span class="ktopics">Konjunktiv II · irreale Bedingungssätze · Pronomen und Pronominaladverbien · Verben mit Präposition und Nebensatz</span></span></summary>
+<div class="body">
+  <h3>Konjunktiv II – Formen</h3>
+  <div class="tw"><table>
+    <tr><th></th><th>sein</th><th>haben</th><th>können</th><th>müssen</th><th>dürfen</th><th>sollen</th><th>andere Verben</th></tr>
+    <tr><td class="k">ich</td><td>w<em class="h">ä</em>re</td><td>h<em class="h">ä</em>tte</td><td>k<em class="h">ö</em>nnte</td><td>m<em class="h">ü</em>sste</td><td>d<em class="h">ü</em>rfte</td><td>sollte</td><td><em class="h">würde</em> lesen</td></tr>
+    <tr><td class="k">du</td><td>wär(e)st</td><td>hättest</td><td>könntest</td><td>müsstest</td><td>dürftest</td><td>solltest</td><td>würdest fahren</td></tr>
+    <tr><td class="k">er/es/sie</td><td>wäre</td><td>hätte</td><td>könnte</td><td>müsste</td><td>dürfte</td><td>sollte</td><td>würde besuchen</td></tr>
+    <tr><td class="k">wir</td><td>wären</td><td>hätten</td><td>könnten</td><td>müssten</td><td>dürften</td><td>sollten</td><td>würden reisen</td></tr>
+    <tr><td class="k">ihr</td><td>wär(e)t</td><td>hättet</td><td>könntet</td><td>müsstet</td><td>dürftet</td><td>solltet</td><td>würdet denken</td></tr>
+    <tr><td class="k">sie/Sie</td><td>wären</td><td>hätten</td><td>könnten</td><td>müssten</td><td>dürften</td><td>sollten</td><td>würden machen</td></tr>
+  </table></div>
+  <div class="warn"><p><strong>wollen und sollen</strong> haben keinen Umlaut: ich wollte, ich sollte (wie im Präteritum).</p></div>
+  <h3>Konjunktiv II – Verwendung</h3>
+  <div class="tw"><table>
+    <tr><td>höfliche Bitte</td><td>Könntest du mir bitte helfen? · Würden Sie mir das Buch geben?</td></tr>
+    <tr><td>Wunsch</td><td>Ich hätte gern mehr Zeit. · Ich würde dich gern öfter besuchen.</td></tr>
+    <tr><td>Ratschlag</td><td>An deiner Stelle wäre ich pünktlicher. · Du solltest mit der U-Bahn fahren.</td></tr>
+    <tr><td>irreale Bedingung</td><td>Ich <em class="h">würde</em> noch einen Kaffee <em class="h">trinken</em>, wenn ich Zeit <em class="h">hätte</em>.</td></tr>
+  </table></div>
+  <h3>Irreale Bedingungssätze</h3>
+  <div class="rule"><p>Etwas ist <strong>nicht</strong> Realität. Hauptsatz + Nebensatz mit <em>wenn</em>, in beiden Teilen Konjunktiv II.</p></div>
+  <ul class="ex"><li><span class="v">Wenn</span> Boris nicht so gestresst <em class="h">wäre</em>, <em class="h">könnten</em> wir länger Pause machen. (Realität: Boris ist gestresst.)</li></ul>
+
+  <h3>Pronomen und Pronominaladverbien</h3>
+  <div class="tw"><table>
+    <tr><th></th><th>Personen</th><th>Dinge, Ereignisse</th></tr>
+    <tr><td>Antwort</td><td>Präposition + Pronomen: <em>mit <em class="h">ihm</em>, auf <em class="h">sie</em></em></td><td>da(r) + Präposition: <em class="h">damit, darauf, daran</em></td></tr>
+    <tr><td>Frage</td><td>Präposition + wen/wem: <em>Mit <em class="h">wem</em>? Auf <em class="h">wen</em>?</em></td><td>wo(r) + Präposition: <em class="h">Womit? Worauf? Woran?</em></td></tr>
+  </table></div>
+  <ul class="ex">
+    <li>Rufen Sie den Personalchef an. <span class="v">Mit ihm</span> können Sie sprechen.</li>
+    <li>Es gibt Bewerbungstrainings. <span class="v">Daran</span> kann jeder teilnehmen.</li>
+  </ul>
+  <div class="warn"><p><strong>r</strong> kommt dazu, wenn die Präposition mit einem Vokal beginnt: da<em class="h">r</em>an, da<em class="h">r</em>auf, wo<em class="h">r</em>über. Aber: damit, dafür, wofür.</p></div>
+
+  <h3>Verben mit Präposition und Nebensatz</h3>
+  <ul class="ex">
+    <li>Er wartet <span class="v">auf</span> eine Antwort.</li>
+    <li>Er wartet <span class="v">darauf</span>, <em class="h">dass</em> er eine Antwort bekommt.</li>
+    <li>Er wartet <span class="v">darauf</span>, eine Antwort <em class="h">zu bekommen</em>. (gleiches Subjekt)</li>
+  </ul>
+  <p>Wichtige Verben: sich freuen auf/über, sich interessieren für, sich erinnern an, warten auf, sich kümmern um, sprechen mit/über, träumen von, teilnehmen an, sich bewerben um, sich ärgern über.</p>
+</div></details>
+
+<!-- ============ K5 ============ -->
+<details class="chapter" id="k5" open>
+<summary><span class="knum">K5</span><span class="ktitle"><h2>Umweltfreundlich?</h2><span class="ktopics">Komparativ und Superlativ vor Nomen · Nebensatz mit damit und um … zu</span></span></summary>
+<div class="body">
+  <h3>Komparativ und Superlativ vor Nomen</h3>
+  <div class="rule"><p><strong>Regel:</strong> Komparativ = Adjektiv + <em class="h">-er</em>, Superlativ = <em>am</em> + Adjektiv + <em class="h">-sten</em>. Stehen sie <strong>vor einem Nomen</strong>, bekommen sie zusätzlich die normale Adjektivendung.</p></div>
+  <div class="tw"><table>
+    <tr><th>Grundform</th><th>Komparativ</th><th>am …-sten</th><th>der/die/das …-ste</th></tr>
+    <tr><td>billig</td><td>billig<em class="h">er</em></td><td>am billig<em class="h">sten</em></td><td>der/die/das billig<em class="h">ste</em></td></tr>
+    <tr><td>modern</td><td>modern<em class="h">er</em></td><td>am modern<em class="h">sten</em></td><td>der/die/das modern<em class="h">ste</em></td></tr>
+    <tr><td>teuer</td><td>teu<em class="h">rer</em></td><td>am teuer<em class="h">sten</em></td><td>der/die/das teuer<em class="h">ste</em></td></tr>
+  </table></div>
+  <ul class="ex">
+    <li>Der Geschirrspüler ist besser. → Der Geschirrspüler ist die bess<em class="h">ere</em> Wahl.</li>
+    <li>Ich hätte gern ein modern<em class="h">eres</em> Handy.</li>
+    <li>Mehrwegflaschen sind am besten. → Mehrwegflaschen sind die best<em class="h">e</em> Alternative.</li>
+    <li>Das ist der teuerst<em class="h">e</em> Saft.</li>
+  </ul>
+  <p><strong>Sonderfälle:</strong></p>
+  <div class="tw"><table>
+    <tr><th>Grundform</th><th>Komparativ</th><th>am …-sten</th><th>der/die/das …-ste</th><th>Regel</th></tr>
+    <tr><td>groß</td><td>gr<em class="h">ö</em>ßer</td><td>am gr<em class="h">ö</em>ßten</td><td>der größte</td><td rowspan="3">viele kurze Adjektive: Umlaut</td></tr>
+    <tr><td>alt</td><td><em class="h">ä</em>lter</td><td>am <em class="h">ä</em>lt<em class="h">e</em>sten</td><td>der älteste</td></tr>
+    <tr><td>warm</td><td>w<em class="h">ä</em>rmer</td><td>am w<em class="h">ä</em>rmsten</td><td>der wärmste</td></tr>
+    <tr><td>kurz</td><td>kürzer</td><td>am kürz<em class="h">e</em>sten</td><td>der kürzeste</td><td>auf d, t, s/ss/ß, z: <em>-esten</em></td></tr>
+    <tr><td>gut</td><td><em class="h">besser</em></td><td>am <em class="h">besten</em></td><td>der beste</td><td rowspan="5">unregelmäßig</td></tr>
+    <tr><td>viel</td><td><em class="h">mehr</em></td><td>am <em class="h">meisten</em></td><td>der meiste</td></tr>
+    <tr><td>gern</td><td><em class="h">lieber</em></td><td>am <em class="h">liebsten</em></td><td>der liebste</td></tr>
+    <tr><td>hoch</td><td><em class="h">höher</em></td><td>am höchsten</td><td>der höchste</td></tr>
+    <tr><td>nah</td><td>näher</td><td>am <em class="h">nächsten</em></td><td>der nächste</td></tr>
+  </table></div>
+  <div class="warn"><p><strong>mehr</strong> und <strong>weniger</strong> haben keine Endung: Ich hätte gern <em>mehr</em> Zeit. Er verbraucht <em>weniger</em> Wasser.</p></div>
+
+  <h3>damit und um … zu – Ziel</h3>
+  <ul class="ex">
+    <li>Die Taschen haben einen Akku, <span class="v">damit</span> man das Handy aufladen <em class="h">kann</em>. (verschiedene Subjekte)</li>
+    <li>Viele kaufen die Taschen, <span class="v">damit</span> sie in der Natur Strom <em class="h">haben</em>.</li>
+    <li>= Viele kaufen die Taschen, <span class="v">um</span> in der Natur Strom <em class="h">zu haben</em>. (gleiches Subjekt)</li>
+  </ul>
+  <div class="rule"><p>Subjekte <strong>verschieden</strong> → nur <em>damit</em>. Subjekte <strong>gleich</strong> → <em>damit</em> oder <em>um … zu</em>. Bei <em>um … zu</em> fällt das Subjekt weg.</p></div>
+</div></details>
+
+<!-- ============ K6 ============ -->
+<details class="chapter" id="k6" open>
+<summary><span class="knum">K6</span><span class="ktitle"><h2>Blick nach vorn</h2><span class="ktopics">Futur I · n-Deklination · Relativsätze im Dativ und mit Präposition</span></span></summary>
+<div class="body">
+  <h3>Futur I</h3>
+  <div class="rule"><p><strong>werden</strong> (Position 2) + <strong>Infinitiv</strong> (am Ende): Zukunft, Pläne, Prognosen, Vermutungen.</p></div>
+  <ul class="ex"><li>Ich <em class="h">werde</em> oft in der Bibliothek <em class="h">sein</em>.</li><li>Angelo <em class="h">wird</em> einen Spaziergang <em class="h">machen</em>.</li></ul>
+  <p>Zukunft geht auch so: Zeitangabe + Präsens (<em>Morgen bringe ich dir etwas mit.</em>) · <em>wollen/möchten</em> · <em>vorhaben</em> + zu (<em>Ich habe vor, die Ruhe zu genießen.</em>).</p>
+
+  <h3>n-Deklination</h3>
+  <div class="rule"><p>Einige maskuline Nomen haben in <strong>allen Formen außer Nominativ Singular</strong> die Endung <em class="h">-(e)n</em>.</p></div>
+  <div class="tw"><table>
+    <tr><th></th><th>Singular</th><th>Plural</th></tr>
+    <tr><td class="k">Nom.</td><td>der Kollege</td><td>die Kollege<em class="h">n</em></td></tr>
+    <tr><td class="k">Akk.</td><td>den Kollege<em class="h">n</em></td><td>die Kollege<em class="h">n</em></td></tr>
+    <tr><td class="k">Dat.</td><td>dem Kollege<em class="h">n</em></td><td>den Kollege<em class="h">n</em></td></tr>
+    <tr><td class="k">Gen.</td><td>des Kollege<em class="h">n</em></td><td>der Kollege<em class="h">n</em></td></tr>
+  </table></div>
+  <p>Welche Nomen? · auf <strong>-e</strong>: der Kollege, Junge, Kunde, Experte, Name, Löwe · <strong>Personen und Tiere</strong>: der Mensch, Herr, Nachbar, Bauer, Bär · auf <strong>-and, -ant, -at, -ent, -graf, -ist, -oge</strong>: der Praktikant, Automat, Student, Fotograf, Journalist, Pädagoge.</p>
+  <div class="warn"><p><strong>Achtung:</strong> <em>der Name</em> → Genitiv <em>des Name<em class="h">ns</em></em>. <em>der Herr</em> → <em>dem Herr<em class="h">n</em></em>, Plural <em>die Herr<em class="h">en</em></em>.</p></div>
+
+  <h3>Relativsätze im Dativ und mit Präposition</h3>
+  <div class="tw"><table>
+    <tr><th></th><th>der</th><th>das</th><th>die</th><th>Plural</th></tr>
+    <tr><td class="k">Nom.</td><td>der</td><td>das</td><td>die</td><td>die</td></tr>
+    <tr><td class="k">Akk.</td><td>den</td><td>das</td><td>die</td><td>die</td></tr>
+    <tr><td class="k">Dat.</td><td>dem</td><td>dem</td><td>der</td><td><em class="h">denen</em></td></tr>
+  </table></div>
+  <ul class="ex">
+    <li>Zu Menschen, <span class="v">denen</span> man oft begegnet, hat man eine engere Beziehung. (begegnen + Dativ)</li>
+    <li>Man trifft Bewohner, <span class="v">mit denen</span> man sich unterhalten kann.</li>
+    <li>Alle Dinge, <span class="v">auf die</span> man nicht verzichten kann, findet man in der Nähe.</li>
+  </ul>
+  <div class="rule"><p>Das <strong>Genus</strong> kommt vom Bezugswort, der <strong>Kasus</strong> kommt vom Verb oder von der Präposition im Relativsatz. Die Präposition steht <strong>vor</strong> dem Relativpronomen.</p></div>
+</div></details>
+
+<!-- ============ K7 ============ -->
+<details class="chapter" id="k7" open>
+<summary><span class="knum">K7</span><span class="ktitle"><h2>Zwischenmenschliches</h2><span class="ktopics">Plusquamperfekt · temporale Nebensätze: bevor, bis, nachdem, seit/seitdem, während</span></span></summary>
+<div class="body">
+  <h3>Plusquamperfekt</h3>
+  <div class="rule"><p><strong>hatte/war</strong> (Präteritum) + <strong>Partizip II</strong>. Es ist die Vergangenheit vor einer anderen Vergangenheit.</p></div>
+  <div class="tw"><table>
+    <tr><td class="k">jetzt</td><td>Präsens</td><td>Wir fahren gemeinsam an die Ostsee.</td></tr>
+    <tr><td class="k">früher</td><td>Präteritum/Perfekt</td><td>Wir verloren uns aus den Augen.</td></tr>
+    <tr><td class="k">noch früher</td><td>Plusquamperfekt</td><td>Wir <em class="h">hatten</em> uns fast jeden Tag <em class="h">getroffen</em>. Wir <em class="h">waren</em> viel zusammen <em class="h">gereist</em>.</td></tr>
+  </table></div>
+
+  <h3>Temporale Nebensätze</h3>
+  <div class="tw"><table>
+    <tr><th>Konnektor</th><th>Bedeutung</th><th>Beispiel</th></tr>
+    <tr><td>bevor</td><td>zuerst Hauptsatz, dann Nebensatz</td><td>Julia trinkt Kaffee, <span class="v">bevor</span> sie telefoniert.</td></tr>
+    <tr><td>bis</td><td>Ende einer Handlung</td><td>Wir warten, <span class="v">bis</span> du zurückkommst.</td></tr>
+    <tr><td>nachdem</td><td>zuerst Nebensatz, dann Hauptsatz</td><td><span class="v">Nachdem</span> sie umgezogen <em class="h">war</em>, fühlte sie sich einsam.</td></tr>
+    <tr><td>seit / seitdem</td><td>Beginn in der Vergangenheit, dauert bis jetzt</td><td><span class="v">Seit</span> du wieder arbeitest, bist du gestresst.</td></tr>
+    <tr><td>während</td><td>gleichzeitig</td><td><span class="v">Während</span> ich aufräume, kochst du.</td></tr>
+    <tr><td>als</td><td>einmal in der Vergangenheit</td><td><span class="v">Als</span> Melly 14 war, hörte sie gern Musik.</td></tr>
+    <tr><td>wenn</td><td>mehrmals (Vergangenheit) / Präsens</td><td>(Immer) <span class="v">wenn</span> Melly traurig war, hörte sie Musik.</td></tr>
+  </table></div>
+  <div class="warn"><p><strong>nachdem: andere Zeitform als im Hauptsatz.</strong> Hauptsatz Präsens → Nebensatz Perfekt: <em>Es gefällt ihr, nachdem sie Freunde gefunden hat.</em> Hauptsatz Präteritum/Perfekt → Nebensatz Plusquamperfekt.</p></div>
+  <div class="warn"><p><strong>während</strong> ist auch eine Präposition mit Genitiv (K3): <em>während des Konzerts</em>.</p></div>
+</div></details>
+
+<!-- ============ K8 ============ -->
+<details class="chapter" id="k8" open>
+<summary><span class="knum">K8</span><span class="ktitle"><h2>Rund um Körper und Geist</h2><span class="ktopics">nicht/kein/nur + brauchen + zu · Reflexivpronomen im Akkusativ und Dativ · zweiteilige Konnektoren</span></span></summary>
+<div class="body">
+  <h3>nicht/kein/nur + brauchen + zu + Infinitiv</h3>
+  <div class="tw"><table>
+    <tr><td>nicht brauchen zu</td><td>Das brauchst du nicht <em class="h">zu machen</em>.</td><td>= Das musst du nicht machen.</td></tr>
+    <tr><td>kein- brauchen zu</td><td>Er braucht kein Fieber <em class="h">zu messen</em>.</td><td>= Er muss kein Fieber messen.</td></tr>
+    <tr><td>nur brauchen zu</td><td>Sie brauchen mich nur <em class="h">zu rufen</em>.</td><td>= Sie müssen mich nur rufen.</td></tr>
+  </table></div>
+
+  <h3>Reflexivpronomen im Akkusativ und Dativ</h3>
+  <div class="tw"><table>
+    <tr><th></th><th>ich</th><th>du</th><th>er/es/sie</th><th>wir</th><th>ihr</th><th>sie/Sie</th></tr>
+    <tr><td class="k">Akkusativ</td><td>mi<em class="h">ch</em></td><td>di<em class="h">ch</em></td><td>sich</td><td>uns</td><td>euch</td><td>sich</td></tr>
+    <tr><td class="k">Dativ</td><td>mi<em class="h">r</em></td><td>di<em class="h">r</em></td><td>sich</td><td>uns</td><td>euch</td><td>sich</td></tr>
+  </table></div>
+  <div class="rule"><p>Gibt es <strong>noch ein Akkusativobjekt</strong>, steht das Reflexivpronomen im <strong>Dativ</strong>.</p></div>
+  <ul class="ex"><li>Ich ziehe <em class="h">mich</em> an. (Akkusativ)</li><li>Ich ziehe <em class="h">mir</em> den Pullover an. (Dativ + Akkusativ)</li><li>Ich wasche <em class="h">mir</em> die Hände.</li></ul>
+  <div class="warn"><p>Nur bei <strong>ich</strong> und <strong>du</strong> sieht man den Unterschied.</p></div>
+
+  <h3>Zweiteilige Konnektoren</h3>
+  <div class="tw"><table>
+    <tr><th>Konnektor</th><th>Bedeutung</th><th>Beispiel</th></tr>
+    <tr><td>sowohl … als auch</td><td>das eine und das andere</td><td>Ich höre <span class="v">sowohl</span> Klassik <span class="v">als auch</span> Pop.</td></tr>
+    <tr><td>nicht nur …, sondern auch</td><td>das eine und das andere</td><td>Ella spielt <span class="v">nicht nur</span> Flöte, <span class="v">sondern auch</span> Klavier.</td></tr>
+    <tr><td>entweder … oder</td><td>das eine oder das andere</td><td>Er hört <span class="v">entweder</span> Rock <span class="v">oder</span> Heavy Metal.</td></tr>
+    <tr><td>weder … noch</td><td>das eine nicht und das andere auch nicht</td><td>Sie hört <span class="v">weder</span> Pop <span class="v">noch</span> Jazz.</td></tr>
+    <tr><td>zwar …, aber</td><td>das eine mit Einschränkung</td><td>Ich höre <span class="v">zwar</span> gern Radio, <span class="v">aber</span> die Werbung nervt.</td></tr>
+    <tr><td>einerseits …, andererseits</td><td>eine Sache hat zwei Seiten</td><td><span class="v">Einerseits</span> höre ich gern laute Musik, <span class="v">andererseits</span> stört sie mich manchmal.</td></tr>
+  </table></div>
+  <div class="warn"><p><strong>weder … noch</strong> ist schon negativ, also kein <em>nicht</em> und kein <em>kein</em> dazu.</p></div>
+</div></details>
+
+<!-- ============ K9 ============ -->
+<details class="chapter" id="k9" open>
+<summary><span class="knum">K9</span><span class="ktitle"><h2>Kunststücke</h2><span class="ktopics">Stellung von nicht im Satz · Adjektive ohne Artikel</span></span></summary>
+<div class="body">
+  <h3>Stellung von nicht</h3>
+  <div class="rule"><p><strong>Ganzer Satz verneint:</strong> <em>nicht</em> steht möglichst am Ende: <em>Das Bild gefällt mir <em class="h">nicht</em>.</em></p></div>
+  <p>Aber <em>nicht</em> steht <strong>vor</strong>:</p>
+  <div class="tw"><table>
+    <tr><td>dem zweiten Verbteil</td><td>Wir konnten <em class="h">nicht</em> kommen.</td></tr>
+    <tr><td>Adjektiven und Adverbien</td><td>Das Bild war <em class="h">nicht</em> teuer.</td></tr>
+    <tr><td>Präpositionalergänzungen</td><td>Sie interessiert sich <em class="h">nicht</em> für Kunst.</td></tr>
+    <tr><td>Ortsangaben</td><td>Sie waren <em class="h">nicht</em> dort.</td></tr>
+  </table></div>
+  <div class="rule"><p><strong>Nur ein Wort verneint:</strong> <em>nicht</em> steht direkt davor, oft folgt <em>sondern</em>: <em>Ich war <em class="h">nicht heute</em> im Museum, <span class="v">sondern</span> gestern.</em></p></div>
+
+  <h3>Adjektive ohne Artikel</h3>
+  <div class="rule"><p>Ohne Artikel zeigt das Adjektiv den Kasus: Es hat die <strong>Endung des bestimmten Artikels</strong>. der → groß<em class="h">er</em> Spaß, das → klein<em class="h">es</em> Projekt.</p></div>
+  <div class="warn"><p><strong>Ausnahme Genitiv maskulin/neutrum:</strong> <em>-en</em>: wegen schlecht<em class="h">en</em> Wetters, trotz lang<em class="h">en</em> Wartens.</p></div>
+
+  <h3>Alle Adjektivendungen auf einen Blick</h3>
+  <div class="tw"><table>
+    <tr><th></th><th>maskulin</th><th>neutrum</th><th>feminin</th><th>Plural</th></tr>
+    <tr><th colspan="5">nach dem bestimmten Artikel (der, dieser, jeder)</th></tr>
+    <tr><td class="k">Nom.</td><td>der schwarz<em class="h">e</em> Rock</td><td>das weiß<em class="h">e</em> Hemd</td><td>die weiß<em class="h">e</em> Bluse</td><td>die bequem<em class="h">en</em> Schuhe</td></tr>
+    <tr><td class="k">Akk.</td><td>den schwarz<em class="h">en</em> Rock</td><td>das weiß<em class="h">e</em> Hemd</td><td>die weiß<em class="h">e</em> Bluse</td><td>die bequem<em class="h">en</em> Schuhe</td></tr>
+    <tr><td class="k">Dat.</td><td>dem schwarz<em class="h">en</em> Rock</td><td>dem weiß<em class="h">en</em> Hemd</td><td>der weiß<em class="h">en</em> Bluse</td><td>den bequem<em class="h">en</em> Schuhen</td></tr>
+    <tr><td class="k">Gen.</td><td>des schwarz<em class="h">en</em> Rocks</td><td>des weiß<em class="h">en</em> Hemdes</td><td>der weiß<em class="h">en</em> Bluse</td><td>der bequem<em class="h">en</em> Schuhe</td></tr>
+    <tr><th colspan="5">nach dem unbestimmten Artikel (ein, kein, mein …)</th></tr>
+    <tr><td class="k">Nom.</td><td>ein schön<em class="h">er</em> Abend</td><td>ein aktuell<em class="h">es</em> Thema</td><td>eine groß<em class="h">e</em> Sängerin</td><td>keine günstig<em class="h">en</em> Preise</td></tr>
+    <tr><td class="k">Akk.</td><td>einen schön<em class="h">en</em> Abend</td><td>ein aktuell<em class="h">es</em> Thema</td><td>eine groß<em class="h">e</em> Sängerin</td><td>keine günstig<em class="h">en</em> Preise</td></tr>
+    <tr><td class="k">Dat.</td><td>einem schön<em class="h">en</em> Abend</td><td>einem aktuell<em class="h">en</em> Thema</td><td>einer groß<em class="h">en</em> Sängerin</td><td>keinen günstig<em class="h">en</em> Preisen</td></tr>
+    <tr><td class="k">Gen.</td><td>eines schön<em class="h">en</em> Abends</td><td>eines aktuell<em class="h">en</em> Themas</td><td>einer groß<em class="h">en</em> Sängerin</td><td>keiner günstig<em class="h">en</em> Preise</td></tr>
+    <tr><th colspan="5">ohne Artikel</th></tr>
+    <tr><td class="k">Nom.</td><td>groß<em class="h">er</em> Spaß</td><td>klein<em class="h">es</em> Projekt</td><td>nett<em class="h">e</em> Person</td><td>bunt<em class="h">e</em> Stifte</td></tr>
+    <tr><td class="k">Akk.</td><td>groß<em class="h">en</em> Spaß</td><td>klein<em class="h">es</em> Projekt</td><td>nett<em class="h">e</em> Person</td><td>bunt<em class="h">e</em> Stifte</td></tr>
+    <tr><td class="k">Dat.</td><td>groß<em class="h">em</em> Spaß</td><td>klein<em class="h">em</em> Projekt</td><td>nett<em class="h">er</em> Person</td><td>bunt<em class="h">en</em> Stiften</td></tr>
+    <tr><td class="k">Gen.</td><td>groß<em class="h">en</em> Spaßes</td><td>klein<em class="h">en</em> Projekts</td><td>nett<em class="h">er</em> Person</td><td>bunt<em class="h">er</em> Stifte</td></tr>
+  </table></div>
+  <div class="warn"><p><strong>Plural nach einem Artikelwort</strong> (die, keine, meine …) immer <em>-en</em>. Ohne Artikel im Plural: <em>bunte Stifte</em>.</p></div>
+</div></details>
+
+<!-- ============ K10 ============ -->
+<details class="chapter" id="k10" open>
+<summary><span class="knum">K10</span><span class="ktitle"><h2>Miteinander</h2><span class="ktopics">Passiv Präsens, Präteritum und Perfekt · Passiv mit Modalverb</span></span></summary>
+<div class="body">
+  <h3>Aktiv und Passiv</h3>
+  <div class="rule"><p><strong>Aktiv:</strong> Wer tut etwas? <strong>Passiv:</strong> Was passiert? Das Akkusativobjekt aus dem Aktiv wird im Passiv zum Subjekt (Nominativ).</p></div>
+  <ul class="ex">
+    <li>Aktiv: Die Tafel verteilt <em class="h">die Lebensmittel</em>.</li>
+    <li>Passiv: <em class="h">Die Lebensmittel</em> werden (<span class="v">von der Tafel</span>) verteilt.</li>
+  </ul>
+  <p>Wer etwas tut, sagt man im Passiv mit <strong>von + Dativ</strong>, oft lässt man es weg.</p>
+  <div class="tw"><table>
+    <tr><th>Zeit</th><th>Bildung</th><th>Beispiel</th></tr>
+    <tr><td>Präsens</td><td><em class="h">werden</em> + Partizip II</td><td>Die Feuerwehr <em class="h">wird</em> alarmiert.</td></tr>
+    <tr><td>Präteritum</td><td><em class="h">wurde</em> + Partizip II</td><td>Die Feuerwehr <em class="h">wurde</em> alarmiert.</td></tr>
+    <tr><td>Perfekt</td><td><em class="h">sein</em> + Partizip II + <em class="h">worden</em></td><td>Die Feuerwehr <em class="h">ist</em> alarmiert <em class="h">worden</em>.</td></tr>
+    <tr><td>mit Modalverb</td><td>Modalverb + Partizip II + <em class="h">werden</em></td><td>Das Geld <em class="h">kann</em> in der Bank abgeholt <em class="h">werden</em>.</td></tr>
+  </table></div>
+  <div class="warn"><p><strong>Perfekt Passiv:</strong> <em>worden</em>, nicht <em>geworden</em>. In der Vergangenheit verwendet man meistens das <strong>Präteritum</strong>: <em>wurde gebaut</em>.</p></div>
+  <div class="warn"><p><strong>werden</strong> hat drei Funktionen: Vollverb (<em>Sie wird Ärztin.</em>), Futur (<em>Sie wird kommen.</em>), Passiv (<em>Das Haus wird gebaut.</em>).</p></div>
+</div></details>
+
+<!-- ============ K11 ============ -->
+<details class="chapter" id="k11" open>
+<summary><span class="knum">K11</span><span class="ktitle"><h2>Stadt, Land, Fluss</h2><span class="ktopics">Artikelwörter als Pronomen · irgendein/-eine/-welche · Adjektive als Nomen · Relativsätze mit was und wo</span></span></summary>
+<div class="body">
+  <h3>Artikelwörter als Pronomen</h3>
+  <div class="tw"><table>
+    <tr><th></th><th>der</th><th>das</th><th>die</th><th>Plural</th></tr>
+    <tr><td class="k">Nom.</td><td>ein<em class="h">er</em> / kein<em class="h">er</em> / mein<em class="h">er</em></td><td>ein<em class="h">s</em> / kein<em class="h">s</em> / mein<em class="h">s</em></td><td>eine / keine / meine</td><td><em class="h">welche</em> / keine / meine</td></tr>
+    <tr><td class="k">Akk.</td><td>einen / keinen / meinen</td><td>ein<em class="h">s</em> / kein<em class="h">s</em> / mein<em class="h">s</em></td><td>eine / keine / meine</td><td><em class="h">welche</em> / keine / meine</td></tr>
+    <tr><td class="k">Dat.</td><td>einem / keinem / meinem</td><td>einem / keinem / meinem</td><td>einer / keiner / meiner</td><td><em class="h">welchen</em> / keinen / meinen</td></tr>
+  </table></div>
+  <ul class="ex"><li>Ist das dein Haus? – Ja, das ist <em class="h">meins</em>.</li><li>Brauchst du einen Stift? – Nein, ich habe <em class="h">einen</em>.</li><li>Interessante Leute? Hier trifft man immer <em class="h">welche</em>.</li></ul>
+  <div class="warn"><p>Unterschied zum Artikel nur bei <strong>maskulin Nominativ</strong> (ein → ein<em>er</em>) und <strong>neutrum Nom./Akk.</strong> (ein → ein<em>s</em>).</p></div>
+
+  <h3>irgendein / irgendeine / irgendwelche</h3>
+  <ul class="ex"><li>Wir finden schon <em class="h">irgendein</em> Café. (Singular wie <em>ein/eine</em>)</li><li>Gibt es hier <em class="h">irgendwelche</em> Cafés? (Plural)</li><li>Café? Wir finden schon <em class="h">irgendeins</em>. (als Pronomen)</li></ul>
+  <p>Ebenso: irgendwo, irgendwann, irgendwer, irgendwas, irgendwie.</p>
+
+  <h3>Adjektive als Nomen</h3>
+  <div class="rule"><p>Adjektive als Nomen haben die gleiche Endung wie Adjektive vor einem Nomen.</p></div>
+  <div class="tw"><table>
+    <tr><td>der Obdachlos<em class="h">e</em></td><td>ein Obdachlos<em class="h">er</em></td></tr>
+    <tr><td>die Angestellt<em class="h">e</em></td><td>eine Angestellt<em class="h">e</em></td></tr>
+    <tr><td>die Verletzt<em class="h">en</em> (Plural)</td><td>Verletzt<em class="h">e</em> (ohne Artikel)</td></tr>
+  </table></div>
+  <p>Ebenso: der/die Angehörige, Arbeitslose, Auszubildende, Bekannte, Deutsche, Erwachsene, Jugendliche, Kranke, Verwandte.</p>
+
+  <h3>Relativsätze mit was und wo</h3>
+  <div class="tw"><table>
+    <tr><td><strong>was</strong> nach einem ganzen Satz</td><td>Hier gibt es viele Parks, <span class="v">was</span> ich toll finde.</td></tr>
+    <tr><td><strong>was</strong> nach alles, etwas, nichts, das</td><td>Die Stadt hat alles, <span class="v">was</span> ich mag. · Ist es das, <span class="v">was</span> du gesucht hast?</td></tr>
+    <tr><td><strong>wo</strong> nach Ortsangaben</td><td>Hamburg ist eine Stadt, <span class="v">wo</span> ich gern wohnen würde.</td></tr>
+  </table></div>
+</div></details>
+
+<!-- ============ K12 ============ -->
+<details class="chapter" id="k12" open>
+<summary><span class="knum">K12</span><span class="ktitle"><h2>Geld regiert die Welt?</h2><span class="ktopics">Sätze mit je …, desto/umso … · Partizip II als Adjektiv · Partizip I als Adjektiv</span></span></summary>
+<div class="body">
+  <h3>je …, desto/umso …</h3>
+  <div class="rule"><p><strong>je</strong> + Komparativ … Verb am Ende (Nebensatz), <strong>desto/umso</strong> + Komparativ + Verb (Hauptsatz).</p></div>
+  <ul class="ex">
+    <li><span class="v">Je</span> öft<em class="h">er</em> man Online-Banking <em class="h">macht</em>, <span class="v">desto</span> leicht<em class="h">er</em> <em class="h">wird</em> es.</li>
+    <li><span class="v">Je</span> größ<em class="h">er</em> der Kredit <em class="h">ist</em>, <span class="v">umso</span> günstig<em class="h">er</em> <em class="h">sind</em> die Zinsen.</li>
+  </ul>
+
+  <h3>Partizipien als Adjektiv</h3>
+  <div class="rule"><p>Partizipien vor einem Nomen werden wie Adjektive dekliniert.</p></div>
+  <div class="cols">
+    <div><p><strong>Partizip II</strong> (passiv, abgeschlossen)</p><div class="tw"><table>
+      <tr><td>die gespeichert<em class="h">e</em> PIN</td><td>= die PIN, die gespeichert wurde</td></tr>
+      <tr><td>ein ausgefüllt<em class="h">es</em> Formular</td><td>= ein Formular, das ausgefüllt wurde</td></tr>
+      <tr><td>die übernommen<em class="h">en</em> Daten</td><td>= die Daten, die übernommen wurden</td></tr></table></div></div>
+    <div><p><strong>Partizip I</strong> = Infinitiv + <em class="h">d</em> (aktiv, gleichzeitig)</p><div class="tw"><table>
+      <tr><td>steigen<em class="h">d</em>e Preise</td><td>= Preise, die steigen</td></tr>
+      <tr><td>auf dem wachsen<em class="h">d</em>en Weltmarkt</td><td>= auf dem Weltmarkt, der wächst</td></tr>
+      <tr><td>ein überzeugen<em class="h">d</em>es Argument</td><td>= ein Argument, das überzeugt</td></tr></table></div></div>
+  </div>
+</div></details>
+
+<footer>Grundlage: Netzwerk neu B1, Kursbuch, „kurz und klar“ und Grammatikübersicht (S. 152–169). Listen mit unregelmäßigen Verben, Verben mit Präposition und reflexiven Verben stehen im Kursbuch ab S. 170.</footer>
+</div>
+<script>
+(function(){
+  var all=document.querySelectorAll('details.chapter');
+  document.getElementById('openAll').addEventListener('click',function(){all.forEach(function(d){d.open=true})});
+  document.getElementById('closeAll').addEventListener('click',function(){all.forEach(function(d){d.open=false})});
+  document.querySelectorAll('nav.chips a').forEach(function(a){a.addEventListener('click',function(){
+    var t=document.querySelector(a.getAttribute('href')); if(t && t.tagName==='DETAILS') t.open=true;});});
+})();
+</script>
+</html>
